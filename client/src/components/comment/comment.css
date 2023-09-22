@@ -1,0 +1,44 @@
+.commentContent {
+    width: 60%;
+    margin: 0 auto 20px;
+    padding: 10px;
+    border-radius: 10px;
+}
+@media (max-width: 767px) {
+    .commentContent {
+    width: 95%;
+    }
+}
+.commentContent .center {
+    justify-content: flex-start;
+    gap: 10px;
+}
+.commentContent .center.header-comment {
+    justify-content: space-between;
+}
+.commentContent .center.header-comment svg {
+    width: 40px;
+    height: 40px;
+    background-color: var(--body-bg);
+    border-radius: 50%;
+    color: var(--text-color);
+    padding: 4px;
+    cursor: pointer;
+}
+.commentContent .center img {
+    width: 40px;
+    border-radius: 50%;
+    height: 40px;
+}
+.commentContent .center p {
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--text-color);
+    margin: 0;
+}
+.commentContent .textComment {
+    padding: 10px;
+    background-color: var(--body-bg);
+    margin-top: 20px;
+    color: var(--text-color);
+}

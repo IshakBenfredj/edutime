@@ -1,0 +1,220 @@
+.page {
+    padding: 65px 0 30px 0;
+}
+a{ 
+    text-decoration: none;
+    color: #fff;
+}
+.page .details .image {
+    width: 100%;
+    height: 160px;
+    user-select: none;
+}
+.page .details .image::before{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0, .6);
+    z-index: 1;
+}
+.page .details .image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+}
+.page .details .image h1 {
+    font-weight: bold;
+    z-index: 2;
+    text-align: center;
+}
+.page .details .info {
+    justify-content: space-between;
+    align-items: inherit;
+    margin-top: 20px;
+}
+.page .details .info img{
+    width: 30%;
+    border: 2px solid var(--sec-color);
+}
+.page .details .coll {
+    width: 65%;
+    gap: 10px;
+}
+.page .details .info .info-card {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    gap: 2%;
+}
+.page .details .info .info-card .child {
+    width: 49%;
+    justify-content: space-between;
+}
+.page .details .info .info-card .child.u {
+    width: 99% !important;
+}
+@media (max-width: 767px) {
+    .page .details .info{
+        gap: 20px;
+    }
+    .page .details .info img{
+        width: 99%;
+    }
+    .page .details .coll {
+        width: 99% !important;
+        padding: 10px;
+        border-radius: 10px;
+    }
+    .page .details .coll .child {
+        width: 100% !important;
+    }
+}
+.page .details .info .info-card div {
+    margin-bottom: 10px;
+    justify-content: space-between;
+}
+.page .details .info .info-card div .title {
+    font-weight: 600;
+    color: var(--text-color);
+}
+.page .details .info .info-card div .value {
+    padding: 4px;
+    background-color: var(--sec-color);
+    color: #fff;
+    border-radius: 7px;
+}
+.page .details .info .info-card div .value.green {
+    background-color: green;
+}
+.page .details .info .info-card div .value.red {
+    background-color: red;
+}
+.page .details pre {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    white-space: pre-wrap;
+    overflow: inherit;
+    font-size: 18px;
+    font-family: 'Cairo', sans-serif;
+    line-height: 1.7;
+}
+.page .details .counts {
+    gap: 15px;
+    margin-top: 20px;
+    width: 100%;
+}
+.page .details .counts .count {
+    justify-content: space-around;
+    width: 20%;
+    padding: 10px;
+    border-radius: 10px;
+}
+@media (max-width: 767px) {
+    .page .details .counts {
+        gap: 2%;
+    }
+    .page .details .counts .count {
+        width: 32%;
+        justify-content: space-between;
+    }
+}
+.page .details .counts .count svg{
+    font-size: 20px;
+}
+.page .details .counts .count svg.people {
+    color: var(--main-color);
+}
+.page .details .counts .count svg.like {
+    color: red ;
+}
+.page .details .counts .count svg.comment {
+    color: green;
+}
+.page .details .counts .count p{
+    margin: 0;
+    font-weight: 700;
+    font-size: 17px;
+}
+@media (max-width: 767px) {
+    .page .details .counts .count p{
+        font-size: 15px;
+    }
+}
+.page .details .react {
+    margin-top: 20px;
+    gap: 20px;
+    align-items: initial;
+}
+.page .details .react .like {
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 40%;
+    text-align: center;
+}
+.page .details .react .like.green-bg {
+    border: 2px solid green;
+}
+.page .details .react .like.red-bg {
+    border: 2px solid red;
+}
+.page .details .react .like p {
+    font-size: 20px;
+    font-weight: bold;
+}
+.page .details .react .like svg {
+    font-size: 40px;
+    width: 100%;
+    color: red;
+}
+
+.page .details .react .buttons {
+    width: 30%;
+}
+.page .details .react .buttons .reserve-btn {
+    width: 100%;
+    height: 100%;
+    font-size: 35px;
+}
+
+@media (max-width: 767px) {
+    .page .details .react .like ,
+    .page .details .react .buttons {
+        width: 95%;
+    }
+}
+
+.page section {
+    margin-top: 30px;
+}
+
+.page .courseworks .cards {
+    gap: 15px;
+}
+
+.page .details .comments {
+    margin-top: 30px;
+}
+.page .details .comments form {
+    width: 50%;
+    margin: auto;
+    padding: 10px;
+    border-radius: 10px;
+}
+@media (max-width: 767px) {
+    .page .details .comments form {
+        width: 95%;
+        margin: auto;
+    }
+}
+.page .details .comments form textarea {
+    margin-bottom: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.page .details .comments .all-comments {
+    margin: 40px auto;
+}

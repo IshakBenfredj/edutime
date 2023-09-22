@@ -1,0 +1,210 @@
+.auth {
+    min-height: 850px;
+    padding-top: 80px;
+    padding-bottom: 50px;
+}
+.auth .container {
+    position: relative;
+    max-width: 850px;
+    width: 100%;
+    background: var(--body-bg);
+    padding: 40px 30px;
+    perspective: 2700px;
+    min-height: 690px;
+}
+.auth .container .cover {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    height: 100%;
+    width: 50%;
+    z-index: 98;
+    transition: all 1s ease;
+    transform-origin: left;
+    transform-style: preserve-3d;
+}
+.auth .container .cover .overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: var(--main-color);
+    z-index: 2;
+    opacity: .6;
+}
+.auth .container #flip:checked ~ .cover {
+    transform: rotateY(-180deg);
+}
+.auth .container .cover .front,
+.auth .container .cover .back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 2;
+}
+.cover .back {
+    transform: rotateY(180deg);
+    backface-visibility: hidden;
+}
+.auth .container .cover img {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+.auth .container .cover .text {
+    position: absolute;
+    z-index: 130;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+}
+.cover .text .text-1,
+.cover .text .text-2 {
+    font-size: 26px;
+    font-weight: 600;
+    color: #fff;
+    text-align: center;
+}
+.cover .text .text-2 {
+    font-size: 15px;
+    font-weight: 500;
+}
+.auth .container .forms {
+    height: 100%;
+    width: 100%;
+}
+.auth .container .form-content {
+    justify-content: space-between;
+    background: var(--body-bg);
+}
+.form-content .login-form,
+.form-content .signup-form {
+    width: calc(100% / 2 - 25px);
+}
+.forms .form-content .title {
+    position: relative;
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+.forms .form-content .title:before {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    height: 3px;
+    width: 30px;
+    background: var(--main-color);
+}
+.forms .signup-form  .title:before {
+    width: 30px;
+}
+.auth .user-type{
+    justify-content: space-around;
+}
+.auth .user-type div{
+    gap: 10px;
+    flex-wrap: nowrap;
+}
+.auth .user-type div label{
+    text-wrap: nowrap;
+    color: var(--text-color);
+    font-size: 18px;
+}
+.forms .form-content .input-boxes {
+    margin-top: 30px;
+}
+.forms .form-content .input-box {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    width: 100%;
+    margin: 10px 0;
+    position: relative;
+}
+.form-content .input-box input {
+    padding: 0 40px 0 30px; 
+}
+.form-content .input-box input:focus,
+.form-content .input-box input:valid {
+    border-color: var(--main-color);
+}
+.form-content .input-box svg {
+    position: absolute;
+    color: #666666;
+    font-size: 17px;
+    right: 7px;
+    width: 30px;
+    height: 100%;
+    padding: 6px;
+}
+.forms .form-content .text {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+}
+.forms .form-content .text a {
+text-decoration: none;
+}
+.forms .form-content .text a:hover {
+text-decoration: underline;
+}
+.forms .form-content .button {
+color: #fff;
+margin-top: 40px;
+}
+.forms .form-content .button input {
+color: #fff;
+background: var(--main-color);
+border-radius: 6px;
+padding: 0;
+cursor: pointer;
+transition: all 0.4s ease;
+}
+.forms .form-content .button input:hover {
+background: var(--main-color);
+}
+.forms .form-content label {
+color: var(--main-color);
+cursor: pointer;
+}
+.forms .form-content label:hover {
+text-decoration: underline;
+}
+.forms .form-content .login-text,
+.forms .form-content .sign-up-text {
+    text-align: center;
+    margin-top: 25px;
+    color: var(--text-color);
+}
+.auth .container #flip {
+    display: none;
+}
+@media (max-width: 767px)  {
+    .auth {
+        height: 70vh;
+        margin-top: 70px
+    }
+    .auth .container {
+        max-width: 850px;
+        width: 95%;
+    }
+    .auth .container .cover {
+        display: none;
+    }
+    .form-content .login-form,
+    .form-content .signup-form {
+        width: 100%;
+    }
+    .form-content .signup-form {
+        display: none;
+    }
+    .auth .container #flip:checked ~ .forms .signup-form {
+        display: block;
+    }
+    .auth .container #flip:checked ~ .forms .login-form {
+        display: none;
+    }
+}

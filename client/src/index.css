@@ -1,0 +1,162 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+    font-family: 'Cairo', sans-serif;
+    text-decoration: none;
+}
+
+:root {
+    --main-color : #29459f;
+    --main-hover : #4563c5;
+    --sec-color: #d78553;
+    --sec-hover: #cb8a62;
+    --body-bg : white;
+    --text-color: #555;
+    --title-color: #000;
+    --transition: .3s;
+    --boxShadow: 3px 2px 9px -3px #888;
+    --gray-bg : #f1f5f9;
+}
+
+body.night {
+    --body-bg : black;
+    --gray-bg : #222;
+    --text-color: #eee;
+    --title-color: #fff;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    direction: rtl;
+    background-color: var(--body-bg) !important;
+}
+
+::selection {
+    background-color: var(--main-color);
+    color: #fff;
+}
+
+.main-btn {
+    padding: 10px;
+    background-color: var(--sec-color);
+    border-radius: 6px;
+    color: #fff;
+    font-weight: 700;
+    text-decoration: none;
+    transition: var(--transition);
+    display: block;
+    outline: none;
+    border: none;
+    text-align: center;
+    cursor: pointer;
+}
+.main-btn.outline {
+    background-color: transparent;
+    border: 2px solid var(--sec-color);
+}
+.main-btn:hover {
+    background-color: var(--sec-hover);
+}
+.main-btn.ft {
+    width: fit-content;
+}
+.main-btn.full {
+    width: 100%;
+}
+.main-btn.danger {
+    background-color: red;
+}
+.main-btn.danger:hover {
+    background-color: red;
+    opacity: .6;
+}
+
+.gray-bg {
+    background-color: var(--gray-bg);
+}
+
+.white {
+    color: #fff;
+}
+
+.text-color {
+    color: var(--text-color);
+}
+
+.box-shadow {
+    box-shadow: 3px 2px 9px -3px #888;
+}
+
+.text {
+    color: var(--text-color);
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.relative {
+    position: relative;
+}
+
+.container {
+    height: 100%;
+}
+
+textarea,
+select,
+label.input,
+input {
+    display: block;
+    width: 100%;
+    background: #eee;
+    line-height: 1.5;
+    color: #444;
+    font-size: 17px;
+    font-weight: 600;
+    height: 50px;
+    border-radius: 25px;
+    padding: 0 30px;
+}
+label.input {
+    color: #444 !important;
+    display: flex;
+    justify-content: flex-start;
+    padding: 0 40px 0 0;
+    border: 2px solid;
+}
+
+textarea {
+    min-height: 150px;
+    resize: none;
+}
+
+section {
+    padding: 50px 0;
+}
+.section {
+    padding-top: 65px;
+    padding-bottom: 30px;
+    position: relative;
+}
+
+@media (max-width: 767px) {
+    section {
+        padding: 20px 0;
+    }
+}
+
+.remark {
+    padding: 10px;
+    color: #fff;
+    background-color: #dc3545;
+    border-radius: 10px;
+}

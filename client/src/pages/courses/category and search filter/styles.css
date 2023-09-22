@@ -1,0 +1,17 @@
+.page {
+    padding-top: 75px;
+    min-height: 72vh;
+}
+.page .filter {
+    min-height: 50vh;
+    gap: 20px;
+}
+.btns {
+    align-items: initial;
+}
+.btns button.outline {
+    color: var(--sec-color);
+}
+.btns button.outline:hover {
+    color: #fff;
+}

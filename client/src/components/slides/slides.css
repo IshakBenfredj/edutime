@@ -1,0 +1,16 @@
+.swiper-slide {
+    margin: 0;
+    height: 350px;
+    width: 300px !important;
+}
+.swiper-slide.white-bg {
+    background-color: var(--body-bg);
+}
+.swiper-pagination-fraction {
+    margin-top: 25px;
+    position: relative;
+}
+.append-buttons {
+    gap: 10px;
+    flex-wrap: nowrap;
+}

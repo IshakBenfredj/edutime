@@ -1,0 +1,25 @@
+.conditions {
+    padding: 80px 0 30px;
+}
+.conditions .text{
+    padding: 20px;
+    border-radius: 10px;
+    line-height: 2;
+    white-space: pre-wrap;
+    overflow: inherit;
+    font-size: 17px;
+    font-weight: 600;
+    font-family: var(--font-family);
+}
+.conditions .text span ,
+.conditions .text a {
+    font-weight: bold;
+}
+.conditions .text a {
+    color: var(--text-color);
+}
+.img-barid {
+    width: 200px;
+    margin: 0 auto 30px;
+    display: block;
+}

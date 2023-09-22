@@ -1,0 +1,26 @@
+#about .info {
+    justify-content: space-around;
+    /* gap: 40px; */
+}
+#about .info img {
+    width: 300px;
+}
+#about .info div {
+    flex-basis: calc(100% - 500px);
+    line-height: 2;
+    font-size: 18px;
+}
+#about .info div span {
+    color: var(--main-color);
+    font-weight: bold;
+}
+
+@media (max-width: 991px) {
+    #about .info div {
+        flex-basis: 100%;
+        margin-bottom: 30px;
+    }
+    #about .info img {
+        order: 2;
+    }
+}
