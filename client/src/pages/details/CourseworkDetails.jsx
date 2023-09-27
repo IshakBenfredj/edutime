@@ -40,8 +40,8 @@ const CourseworkDetails = () => {
     useEffect(() => {
         const getCourseworks = async () => {
             if (!loading && !usersLoading) {
-                const coursework = await courseworks.find(e => e._id === id && e.activation);
-                if (coursework) {
+                const coursework = await courseworks.find(e => e._id === id);
+                if (coursework && (coursework.userId === user._id || coursework.activation ) ) {
                     const ownReservations = await reservations.filter(e => e.courseworkId === coursework._id)
                     setReservationsLength(ownReservations.length)
                     setCoursework(coursework);
@@ -142,7 +142,7 @@ const CourseworkDetails = () => {
                                 { user && user._id === coursework.userId &&
                                  <div className='center'>
                                     <span className="title">الحالة</span>
-                                    {center.activation ? <span className="value green">مفعل</span> :
+                                    { coursework.activation ? <span className="value green">مفعل</span> :
                                     <span className="value red">غير مفعل</span> }
                                 </div>
                                 }

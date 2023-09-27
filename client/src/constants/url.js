@@ -1,3 +1,4 @@
 // const url = 'https://edutimeserver.onrender.com/' ;
-const url = 'http://localhost:4000/' ;
+// const url = 'http://localhost:4000/' ;
+const url = 'http://193.203.165.205/' ;
 export default url
