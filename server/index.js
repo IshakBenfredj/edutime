@@ -59,7 +59,7 @@ const fileFilter = (req,file,cb) => {
 let upload = multer({storage,fileFilter});
 
 // Routes
-app.use('/', upload.single('image'), Routers)
+app.use('/api', upload.single('image'), Routers)
 // app.use('/', requireRouters)
 
 
