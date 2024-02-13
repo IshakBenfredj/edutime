@@ -12,7 +12,11 @@ import  Routers  from './routes/Routers.js'
 // import  requireRouters  from './routes/requireRouters.js'
 
 const app = express();
+<<<<<<< HEAD
 const PORT = process.env.PORT || 3000;
+=======
+const PORT = process.env.PORT || 8800;
+>>>>>>> 6fe4d57ccf89c24e5e567f3578048ed9efc1df5a
 
 dotenv.config();
 
@@ -40,7 +44,7 @@ import path from "path";
 
 const storage = multer.diskStorage({
     destination : function(req,file,cb){
-        cb(null,'./uploads');
+        cb(null,'/var/www/uploads');
     },
     filename: function(req,file,cb){
         cb(null,uuidv4()+'-'+Date.now()+path.extname(file.originalname));
@@ -59,7 +63,7 @@ const fileFilter = (req,file,cb) => {
 let upload = multer({storage,fileFilter});
 
 // Routes
-app.use('/', upload.single('image'), Routers)
+app.use('/api', upload.single('image'), Routers)
 // app.use('/', requireRouters)
 
 

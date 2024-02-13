@@ -24,8 +24,8 @@ const CenterCard = ({data,white,student,setId}) => {
         const getCommentsLength = async () => {
             const ownComments = await comments.filter(e => e.id === data._id)
             setCommentsLength(ownComments.length)
-            const ownReservations = await courseworks.filter(e => e.userId === data._id)
-            setCourseworksLength(ownReservations.length)
+            const ownCourses = await courseworks.filter(e => e.userId === data._id && e.activation )
+            setCourseworksLength(ownCourses.length)
         }
         getCommentsLength()
     }, [comments, courseworks, data._id]);
