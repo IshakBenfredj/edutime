@@ -51,7 +51,6 @@ export const likeCenter = async (req, res) => {
 export const updateUser = async (req, res) => {
     const { info, type }  = req.body;
     const { id }  = req.params;
-    
     try {
         if (!info) {
             return res.status(404).json({ error: 'يجب ملئ الحقل' });
@@ -62,9 +61,10 @@ export const updateUser = async (req, res) => {
             case 'name':
                 user.name  = info
                 await user.save()
-            break;
-            case 'email':
-                const exist = await User.find({email : info})
+                break;
+                case 'email':
+                    const exist = await User.findOne({email : info})
+                    console.log(exist);
                 if (exist) {
                     return res.status(400).json({ error: 'إيميل موجود بالفعل' });
                 }

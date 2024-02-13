@@ -1,25 +1,20 @@
 import React, { useState } from 'react'
-import {FaMapMarkedAlt, FaUserAlt} from 'react-icons/fa'
-import {AiFillLock, AiFillPhone} from 'react-icons/ai'
+import { FaUserAlt} from 'react-icons/fa'
+import {AiFillLock} from 'react-icons/ai'
 import {MdPassword} from 'react-icons/md'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import url from '../../constants/url'
 import {HiMail} from 'react-icons/hi'
-import {BsImageFill} from 'react-icons/bs'
 
 const SignupForm = () => {
 
 const [signupStep, setSignupStep] = useState('signup')
   const [signupDone, setSignupDone] = useState(false)
-  const [label , setLabel] = useState('إضافة صور')
   const [signupInfo, setSignupInfo] = useState({
     type: '',
     name: '',
     email: '',
-    phone: '',
-    image: '',
-    address: '',
     password: ''
   })
   const handleSignupInfo = (e) => {
@@ -28,33 +23,12 @@ const [signupStep, setSignupStep] = useState('signup')
         [e.target.name]: e.target.value,
     }))
 }
-
-  const isValidImageType = (file) => {
-    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-    return allowedTypes.includes(file.type);
-  };
-
-  const handleImage = (e) => {
-    const file = e.target.files[0];
-    if (file && isValidImageType(file)) {
-        setSignupInfo((prev) => ({
-            ...prev,
-            image: file
-        }));
-        setLabel('تم إضافة صورة الدورة');
-    } else {
-        setLabel('يجب تحميل صورة من نوع JPEG, JPG, PNG, أو WEBP فقط');
-    }
-  };
   const [responseCode, setResponseCode] = useState()
   const [inputCode, setInputCode] = useState()
   const [emptyName, setEmptyName] = useState(false)
   const [emptyEmail, setEmptyEmail] = useState(false)
   const [emptyPassword, setEmptyPassword] = useState(false)
   const [emptyType, setEmptyType] = useState(false)
-  const [emptyPhone, setEmptyPhone] = useState(false)
-  const [emptyAddress, setEmptyAddress] = useState(false)
-  const [emptyImage, setEmptyImage] = useState(false)
 
   const confirmMail = async (e) => {
     e.preventDefault()
@@ -63,9 +37,6 @@ const [signupStep, setSignupStep] = useState('signup')
       setEmptyEmail( signupInfo.email.length === 0 )
       setEmptyPassword( signupInfo.password.length === 0 )
       setEmptyType( signupInfo.type.length === 0 )
-      setEmptyPhone( signupInfo.phone.length === 0 )
-      setEmptyAddress( signupInfo.address.length === 0 )
-      setEmptyImage( signupInfo.image.length === 0 )
       toast.error('يجب ملئ جميع الحقول', {
         position: toast.POSITION.TOP_LEFT,
       })
@@ -94,15 +65,7 @@ const [signupStep, setSignupStep] = useState('signup')
     })
     } else {
       try {
-        const formData = new FormData();
-        formData.append('type', signupInfo.type);
-        formData.append('name', signupInfo.name);
-        formData.append('email', signupInfo.email);
-        formData.append('phone', signupInfo.phone);
-        formData.append('image', signupInfo.image);
-        formData.append('address', signupInfo.address);
-        formData.append('password', signupInfo.password);
-        const response = await axios.post(`${url}signup`, formData)
+        const response = await axios.post(`${url}signup`, {signupInfo})
         toast.success(response.data.message, {
           position: toast.POSITION.TOP_LEFT,
         })
@@ -138,19 +101,6 @@ const [signupStep, setSignupStep] = useState('signup')
                 <div className="input-box">
                   <HiMail />
                   <input type="email" value={signupInfo.email} onChange={handleSignupInfo} name='email' className={`${emptyEmail ? 'border-danger' : 'border-0'}`} placeholder="البريد الإلكتروني" />
-                </div>
-                <div className="input-box">
-                  <AiFillPhone />
-                  <input type="text" value={signupInfo.phone} onChange={handleSignupInfo} name='phone' className={`${emptyPhone ? 'border-danger' : 'border-0'}`} placeholder="رقم الهاتف" />
-                </div>
-                <div className="input-box">
-                  <FaMapMarkedAlt />
-                  <input type="text" value={signupInfo.address} onChange={handleSignupInfo} name='address' className={`${emptyAddress ? 'border-danger' : 'border-0'}`} placeholder="العنوان بالتفصيل" />
-                </div>
-                <div className="input-box">
-                  <BsImageFill />
-                  <label htmlFor="image" className={`input center ${emptyImage ? 'border-danger' : 'border-0'}`}>{label}</label>
-                  <input type="file" id='image' onChange={handleImage} name='image' className='d-none'/>
                 </div>
                 <div className="input-box">
                   <AiFillLock />

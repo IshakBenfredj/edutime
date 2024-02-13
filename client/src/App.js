@@ -2,10 +2,8 @@ import { Routes, Route } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 import { UserContextProvider } from "./context/userContext.js";
 import 'react-toastify/dist/ReactToastify.css';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/js/bootstrap.js';
 import Home from "./pages/home/Home";
-import Navbare from "./components/navbar/Navbare";
+import Navbare from "./components/Navbare.jsx";
 import ModeContextProvider from "./context/modeContext";
 import Footer from "./components/footer/Footer";
 import Auth from "./pages/auth/Auth";
@@ -45,11 +43,11 @@ function App() {
   return (
     <>
       <ToastContainer/>
-      <ModeContextProvider>
+      {/* <ModeContextProvider>
       <UserContextProvider>
       <CourseworkContextProvider>
       <CommentsContextProvider>
-      <ReservationsProvider>
+      <ReservationsProvider> */}
         <Navbare />
         <Routes>
           <Route path="/" element={<Home setId={setId} />} />
@@ -75,12 +73,12 @@ function App() {
           <Route path="/addPayment" element={<PrivateRoute Element={AddPayment} />} />
           <Route path="/payments" element={<PrivateRoute Element={Payments} />} />
         </Routes>
-        <Footer />
-      </ReservationsProvider>
+        {/* <Footer /> */}
+      {/* </ReservationsProvider>
       </CommentsContextProvider>
       </CourseworkContextProvider>
       </UserContextProvider>
-      </ModeContextProvider>
+      </ModeContextProvider> */}
     </>
   );
 }

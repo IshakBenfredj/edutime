@@ -1,5 +1,5 @@
 .auth {
-    min-height: 850px;
+    min-height: 500px;
     padding-top: 80px;
     padding-bottom: 50px;
 }
@@ -10,7 +10,7 @@
     background: var(--body-bg);
     padding: 40px 30px;
     perspective: 2700px;
-    min-height: 690px;
+    min-height: 500px;
 }
 .auth .container .cover {
     position: absolute;

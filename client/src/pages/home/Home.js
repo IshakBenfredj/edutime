@@ -1,5 +1,5 @@
 import React from 'react'
-import Landing from './landing/Landing'
+import Landing from './Landing'
 import Categories from './categories/Categories'
 import About from './about/About'
 import Contact from './contact/Contact'
@@ -11,12 +11,12 @@ const Home = ({setId}) => {
 return (
     <>
         <Landing />
-        <Categories />
+        {/* <Categories />
         <CourseworksSugg />
         <CentersSugg setId={setId} />
         <About />
         <WhyUs />
-        <Contact />
+        <Contact /> */}
     </>
 )
 }

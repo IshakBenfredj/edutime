@@ -18,7 +18,7 @@ const AllCenters = ({setId}) => {
         </div>}
         <div className="center filter">
             {
-                usersLoading ? <Loading /> : type === 'centers' ? centers.length !== 0 ?
+                usersLoading ? <Loading /> : type === 'centers' ? centers && centers.length !== 0 ?
                 centers.map(e => (
                     <CenterCard setId={setId} data={e} white={false}  />
                 ))

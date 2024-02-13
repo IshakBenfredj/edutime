@@ -1,16 +1,15 @@
-import React from 'react'
+import axios from 'axios'
 import {HiMail} from 'react-icons/hi'
 import {AiFillLock} from 'react-icons/ai'
-import axios from 'axios'
-import { useContext, useEffect, useState } from 'react'
+import {MdPassword} from 'react-icons/md'
+import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import url from '../../constants/url'
-import UserContext from '../../context/userContext'
-import {MdPassword} from 'react-icons/md'
+import { useDispatch, useSelector } from "react-redux";
+import { login } from '../../toolkit/slices/user'
 
 const LoginForm = () => {
-  const { user, setUser } = useContext(UserContext)
   const [emptyLoginEmail, setEmptyLoginEmail] = useState(false)
   const [emptyLoginPassword, setEmptyLoginPassword] = useState(false)
   const [emptyCode, setEmptyCode] = useState(false)
@@ -22,6 +21,9 @@ const LoginForm = () => {
     email: '',
     password: ''
   })
+  const dispatch = useDispatch(); 
+  const user = useSelector((state) => state.user);
+  console.log(user);
 
   const location = useLocation();
   const navigate = useNavigate()
@@ -107,10 +109,8 @@ const LoginForm = () => {
       })
     } else {
       try {
-        const response = await axios.post(`${url}login`, { email : loginUser.email, password : loginUser.password });
-        localStorage.setItem('userId', response.data.user._id);
-        localStorage.setItem('token', response.data.token);
-        setUser(response.data.user)
+        const {data} = await axios.post(`${url}login`, { email : loginUser.email, password : loginUser.password });
+        dispatch(login(data))
         navigate('/')
         setEmptyLoginEmail(false)
         setEmptyLoginPassword(false)

@@ -12,7 +12,7 @@ import  Routers  from './routes/Routers.js'
 // import  requireRouters  from './routes/requireRouters.js'
 
 const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 3000;
 
 dotenv.config();
 
