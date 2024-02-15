@@ -1,6 +1,6 @@
 .auth {
     min-height: 500px;
-    padding-top: 80px;
+    padding-top: 40px;
     padding-bottom: 50px;
 }
 .auth .container {
@@ -185,7 +185,7 @@ text-decoration: underline;
 @media (max-width: 767px)  {
     .auth {
         height: 70vh;
-        margin-top: 70px
+        /* margin-top: 70px */
     }
     .auth .container {
         max-width: 850px;

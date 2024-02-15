@@ -44,6 +44,10 @@ body.nav::before {
   z-index: 41;
 }
 
+.category:hover img {
+  transform: scale(1.3, 1.3) rotate(-10deg);
+}
+
 @layer components {
     .navbar {
       @apply md:flex md:relative fixed md:p-0 p-3 md:w-fit w-4/5

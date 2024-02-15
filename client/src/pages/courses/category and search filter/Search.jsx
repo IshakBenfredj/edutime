@@ -5,7 +5,7 @@ import UserContext from '../../../context/userContext'
 import { CourseworkContext } from '../../../context/courseworkContext'
 import Loading from '../../../components/loading/Loading'
 import CenterCard from '../../../components/main cards/CenterCard'
-import CourseworkCard from '../../../components/main cards/CourseworkCard'
+import CourseworkCard from '../../../components/CourseworkCard'
 
 import './styles.css'
 import NotFound from '../../../components/not found/NotFound'

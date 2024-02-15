@@ -1,11 +1,7 @@
-import { useContext } from 'react';
 import images from '../../constants/images';
 import './footer.css'
 import { Link } from 'react-router-dom'
-import UserContext from '../../context/userContext';
-
 const Footer = () => {
-	const { user } = useContext(UserContext)
 
 	const thisYear = ()=>{
 		let thisDate = new Date();
@@ -13,7 +9,7 @@ const Footer = () => {
 	}
 	return (
 		<footer>
-			<div className="container">
+			{/* <div className="container">
 				<div className="logo m-auto">
 					<img src={images.whiteLogo} alt="Logo" />
 				</div>
@@ -34,7 +30,7 @@ const Footer = () => {
 						<Link className='text-left d-block' to={'tel:0556488809'}>0556 48 88 09</Link><br/>
 					</div>
 				</div>
-			</div>
+			</div> */}
 			<div className="copyright">
 				جميع الحقوق محفوظة <span>EduTime</span> &copy;<span>{thisYear()}</span>
 			</div>

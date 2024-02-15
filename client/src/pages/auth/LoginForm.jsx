@@ -8,6 +8,8 @@ import { toast } from 'react-toastify'
 import url from '../../constants/url'
 import { useDispatch, useSelector } from "react-redux";
 import { login } from '../../toolkit/slices/user'
+import Axios from '../../api'
+import { useCookies } from 'react-cookie'
 
 const LoginForm = () => {
   const [emptyLoginEmail, setEmptyLoginEmail] = useState(false)
@@ -23,18 +25,16 @@ const LoginForm = () => {
   })
   const dispatch = useDispatch(); 
   const user = useSelector((state) => state.user);
-  console.log(user);
-
   const location = useLocation();
   const navigate = useNavigate()
 
   useEffect(() => {
-      if (location.pathname === '/auth' && user) {
+      if ( location.pathname === '/auth' && user ) {
           navigate('/')
       }
   }, [location.pathname, navigate, user]);
 
-  const handleChangeUser = ( e )=> {
+  const handleChangeUser = ( e ) => {
     setLoginUser(prev => ({
         ...prev,
         [e.target.name] : e.target.value
@@ -50,7 +50,7 @@ const LoginForm = () => {
       })
     } else {
       try {
-        const response = await axios.post(`${url}emailVerify`, { email : loginUser.email });
+        const response = await Axios.post(`/auth/emailVerify`, { email : loginUser.email });
         setLoginStep('confirmEmail')
         setResponseCode(response.data.code)
         setUserReset(response.data.user)
@@ -84,7 +84,7 @@ const LoginForm = () => {
       })
     } else {
       try {
-        const response = await axios.post(`${url}resetPassword`, { password: loginUser.password, id: userReset._id });
+        const response = await Axios.post(`/auth/resetPassword`, { password: loginUser.password, id: userReset._id });
         toast.success(response.data.message, {
             position: toast.POSITION.TOP_LEFT
         })
@@ -109,8 +109,9 @@ const LoginForm = () => {
       })
     } else {
       try {
-        const {data} = await axios.post(`${url}login`, { email : loginUser.email, password : loginUser.password });
-        dispatch(login(data))
+        const { data } = await Axios.post('/auth/login', { email : loginUser.email, password: loginUser.password });
+        dispatch(login(data.user))
+        localStorage.setItem('token',data.token)
         navigate('/')
         setEmptyLoginEmail(false)
         setEmptyLoginPassword(false)

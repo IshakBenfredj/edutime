@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import { CourseworkContext } from '../../../context/courseworkContext'
 import Title from '../../../components/title/Title'
 import Loading from '../../../components/loading/Loading'
-import CourseworkCard from '../../../components/main cards/CourseworkCard'
+import CourseworkCard from '../../../components/CourseworkCard'
 
 const CategoryCourses = () => {
     const { category } = useParams()

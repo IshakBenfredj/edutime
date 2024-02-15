@@ -1,33 +1,31 @@
 import { useEffect, useState } from "react";
 // import { toast } from "react-toastify";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 // import { ModeContext } from "../context/modeContext";
 // import { IoMdCloseCircleOutline } from "react-icons/io";
 // import { FaUserCircle } from "react-icons/fa";
 // import { GiHamburgerMenu } from "react-icons/gi";
 // import { BsFillArrowUpCircleFill, BsSunFill } from "react-icons/bs";
 // import { BiSolidMoon } from "react-icons/bi";
-// import axios from "axios";
-// import url from "../constants/url";
 // import { FaUserGraduate } from "react-icons/fa";
 // import { AiFillPlusCircle } from "react-icons/ai";
-// import { useDispatch, useSelector } from "react-redux";
-// import { login, logout } from "../toolkit/slices/user";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../toolkit/slices/user";
 import images from "../constants/images";
 import Search from "./Search";
 import { HiMiniBars3BottomLeft } from "react-icons/hi2";
+import { handleError } from "../functions/toastifyFunctions";
 
 const Navbare = () => {
-  // const dispatch = useDispatch();
-  // const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
   const [openNav, setOpenNav] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   // const [scrollPosition, setScrollPosition] = useState(0);
   // const location = useLocation();
   // const [bg, setBg] = useState(false);
   // const [auth, setAuth] = useState(true);
-  // const navigate = useNavigate();
-  // const { mode, setReloadMode } = useContext(ModeContext);
+  const navigate = useNavigate();
 
   // useEffect(() => {
   //   if (location.pathname === "/auth") {
@@ -53,14 +51,12 @@ const Navbare = () => {
   // const scrollToTop = () => {
   //   window.scrollTo({ top: 0, behavior: "smooth" });
   // };
-
-  // const handleLogOut = () => {
-  //   dispatch(logout());
-  //   navigate("/");
-  //   toast.success("تم تسجيل الخروج بنجاح", {
-  //     position: toast.POSITION.TOP_CENTER,
-  //   });
-  // };
+  const handleLogOut = () => {
+    dispatch(logout());
+    localStorage.removeItem('token')
+    navigate("/");
+    handleError("تم تسجيل الخروج بنجاح")
+  };
 
   // const resetNotify = async () => {
   //   localStorage.setItem("notifyCount", user.notifyCount);
@@ -131,16 +127,17 @@ const Navbare = () => {
         </NavLink>
       </nav>
       <Search showSearch={showSearch} setShowSearch={setShowSearch} />
-      <Link className="p-2 bg-secondary rounded font-bold md:order-4 order-2">
-        تسجيل الدخول
-      </Link>
+      {!user ? (
+        <Link to={'/auth'} className="p-2 bg-secondary rounded font-bold md:order-4 order-2">تسجيل الدخول</Link>
+      ) : (
+        <button onClick={handleLogOut} className="p-2 bg-secondary rounded font-bold md:order-4 order-2">تسجيل الخروج</button>
+      )}
       <button
         onClick={openNavFunc}
         className="p-1 bg-gray-800 rounded-lg text-white flex justify-center items-center md:hidden order-4 relative z-50"
       >
         <HiMiniBars3BottomLeft size={28} />
       </button>
-      {/* {!user ? <Link className="p-2 bg-secondary rounded font-bold">تسجيل الدخول</Link> : <div></div>} */}
     </div>
   );
 };

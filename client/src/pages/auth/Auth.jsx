@@ -5,7 +5,7 @@ import LoginForm from './LoginForm'
 
 const Auth = () => {
   return (
-    <div className="auth center gray-bg">
+    <div className="auth mt-0 center gray-bg">
       <div className="container relative box-shadow">
         <input type="checkbox" id="flip" />
         <div className="cover">

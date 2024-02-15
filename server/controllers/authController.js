@@ -85,9 +85,9 @@ export const signup = async (req, res) => {
   }
 };
 
-export const login = async (req, res) => {
+export const login = async (req, res,next) => {
   try {
-    const user = await User.findOne({ email : req.body.email });
+    const user = await User.findOne({ email: req.body.email });
     if (!user) {
       return res.status(400).json({ error: "مستخدم غير موجود" });
     }
@@ -100,15 +100,10 @@ export const login = async (req, res) => {
     }
 
     const token = createToken(user._id);
-    const { password, ...others } = user._doc;
-    console.log(others);
-    // delete user.password;
-    res
-      .cookie("access_token", token, {
-        httpOnly: true,
-      })
-      .status(200)
-      .json(others);
+    delete user.password;
+    
+    res.status(201).json({user,token});
+    next()
   } catch (error) {
     return res.status(500).json({ error: "خطأ بالسيرفر,حاول مجددا" });
   }

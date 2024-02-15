@@ -17,7 +17,7 @@ import axios from 'axios';
 import Title from '../../components/title/Title';
 import { CommentsContext } from '../../context/commentsContext';
 import Comment from '../../components/comment/Comment';
-import CourseworkCard from '../../components/main cards/CourseworkCard';
+import CourseworkCard from '../../components/CourseworkCard';
 import Popup from '../../components/popup/Popup';
 
 const CenterDetails = ({id}) => {

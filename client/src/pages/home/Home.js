@@ -1,22 +1,20 @@
 import React from 'react'
 import Landing from './Landing'
-import Categories from './categories/Categories'
-import About from './about/About'
+import Categories from './Categories'
+import About from '../About'
 import Contact from './contact/Contact'
-import CourseworksSugg from './sugg/CourseworksSugg'
-import CentersSugg from './sugg/CentersSugg'
+import CourseworksSugg from './CourseworksSugg'
 import WhyUs from './why/WhyUs'
 
-const Home = ({setId}) => {
+const Home = () => {
 return (
     <>
         <Landing />
-        {/* <Categories />
+        <Categories />
         <CourseworksSugg />
-        <CentersSugg setId={setId} />
         <About />
         <WhyUs />
-        <Contact /> */}
+        <Contact />
     </>
 )
 }

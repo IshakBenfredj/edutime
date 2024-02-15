@@ -1,5 +1,10 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import userReducer from "./slices/user";
+import usersReducer from "./slices/users";
+import coursesReducer from "./slices/courses";
+import commentsReducer from "./slices/comments";
+import reservationsReducer from "./slices/reservations";
+import articlesReducer from "./slices/articles";
 import {
   persistStore,
   persistReducer,
@@ -19,7 +24,14 @@ const persistConfig = {
   storage,
 };
 
-const rootReducer = combineReducers({ user: userReducer});
+const rootReducer = combineReducers({
+  user: userReducer,
+  users: usersReducer,
+  courses: coursesReducer,
+  comments: commentsReducer,
+  reservations: reservationsReducer,
+  articles: articlesReducer,
+});
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
@@ -33,4 +45,4 @@ export const store = configureStore({
     }),
 });
 
-export const persistor = persistStore(store)
+export const persistor = persistStore(store);
