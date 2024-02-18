@@ -17,7 +17,7 @@ const Categories = () => {
           <Link
             to={`/courseworks/${e.name}`}
             key={e.name}
-            className={`category cursor-pointer bg-black overflow-hidden md:h-48 h-20 relative before:absolute before:w-full before:h-full
+            className={`category rounded-lg cursor-pointer bg-black overflow-hidden md:h-48 h-20 relative before:absolute before:w-full before:h-full
              before:z-10 before:bg-black/60 ${index === data.length-1 && 'col-start-1 lg:col-start-5 lg:col-end-6 col-end-4'}`}
           >
             <img

@@ -12,7 +12,7 @@ import CenterDetails from "./pages/details/CenterDetails";
 import CategoryCourses from "./pages/courses/category and search filter/CategoryCourses";
 import AllCenters from "./pages/courses/category and search filter/AllCenters";
 import Search from "./pages/courses/category and search filter/Search";
-import Profile from "./pages/profile/Profile";
+import Profile from "./pages/Profile";
 import Edit from "./pages/courses/add coursework/Edit";
 import Reservations from "./pages/reserve/Reservations";
 import TermsAndConditions from "./pages/conditions/TermsAndConditions";
@@ -24,30 +24,73 @@ import Articles from "./pages/articles/Articles";
 import Article from "./pages/articles/Article.jsx";
 import AddPayment from "./pages/payments/AddPayment.jsx";
 import Payments from "./pages/payments/Payments.jsx";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import PrivateRoute from "./PrivateRoute.js";
 import { Navigate } from "react-router-dom";
-import Axios from "./api.js";
-import { TbRuler } from "react-icons/tb";
 import { useDispatch } from "react-redux";
 import { getUsers } from "./toolkit/slices/users.js";
 import { getComments } from "./toolkit/slices/comments.js";
 import { getArticles } from "./toolkit/slices/articles.js";
 import { getReservations } from "./toolkit/slices/reservations.js";
+import { logout, update } from "./toolkit/slices/user.js";
+import { axiosGetWithoutHeader } from "./functions/axiosFunctions.js";
+import { handleError } from "./functions/toastifyFunctions.js";
 
 export const setTitle = (newTitle) => {
   document.title = newTitle;
 };
 
 function App() {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  useEffect(()=>{
-    dispatch(getUsers())
-    dispatch(getComments())
-    dispatch(getArticles())
-    dispatch(getReservations())
-  },[dispatch])
+
+  useEffect(() => {
+    dispatch(getUsers());
+    dispatch(getComments());
+    dispatch(getArticles());
+    dispatch(getReservations());
+  }, [dispatch]);
+
+  useEffect(() => {
+    const verifyToken = async () => {
+      const tokenStorage = localStorage.getItem("token");
+
+      if (!tokenStorage) {
+        navigate("/");
+        dispatch(logout());
+        return;
+      }
+
+      try {
+        const data = await axiosGetWithoutHeader(`/auth/${tokenStorage}`);
+
+        if (data.success) {
+          dispatch(update(data.user));
+        } else {
+          handleErrorInToken();
+        }
+      } catch (error) {
+        handleErrorInToken();
+      }
+    };
+
+    const handleErrorInToken = () => {
+      dispatch(logout());
+      localStorage.removeItem("token");
+      handleError("جلسة منتهية الصلاحية");
+      navigate("/");
+    };
+
+    verifyToken();
+  }, []);
+
+  // useEffect(() => {
+  //   console.log("%cتوقف", "color: red; font-weight: bold; font-size: 4rem;");
+  //   console.log(
+  //     '%cهذه ميزة متصفح مخصصة للمطورين. إذا طلب منك شخص ما نسخ شيء ما ولصقه هنا لتمكين ميزة أودوتايم أو "اختراق" حساب شخص ما، فهذه عملية احتيال وستمنحه حق الوصول إلى حساب أودوتايم الخاص بك.',
+  //     "font-size: 2rem;"
+  //   );
+  // }, []);
 
   return (
     <>
@@ -87,7 +130,10 @@ function App() {
         <Route path="/users" element={<AllCenters />} />
         <Route path="/centers" element={<AllCenters />} />
         <Route path="/search/:type/:searchText" element={<Search />} />
-        <Route path="/profile" element={<PrivateRoute Element={Profile} />} />
+        <Route
+          path="/profile/:id"
+          element={<PrivateRoute Element={Profile} />}
+        />
         <Route
           path="/orders"
           element={<PrivateRoute Element={Reservations} />}

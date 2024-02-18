@@ -11,7 +11,7 @@ const Search = ({showSearch, setShowSearch}) => {
     <>
       <button
         onClick={showSearchFunc}
-        className="p-2 bg-gray-800 rounded-lg text-white z-40 flex justify-center items-center lg:hidden order-3"
+        className="p-2 bg-gray-800 rounded-lg text-white z-40 flex justify-center items-center lg:hidden"
       >
         {
             showSearch ? <IoClose size={20} /> : <IoSearch size={20} />

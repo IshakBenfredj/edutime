@@ -8,12 +8,11 @@ import ReserveForm from './pages/reserve/ReserveForm.jsx';
 import Reservations from './pages/reserve/Reservations.jsx';
 import AddPayment from './pages/payments/AddPayment.jsx';
 import Payments from './pages/payments/Payments.jsx';
+import { useSelector } from 'react-redux';
 
 const PrivateRoute = ({Element}) => {
-    const { user, userLoading } = useContext(UserContext)
+    const user = useSelector((state) => state.user);
     
-    if (userLoading) return <Loading /> ;
-
     if (!user) return <Navigate to='/auth' /> ;
     
     if (user.type !== 'center'  && (Element === AddCoursework || Element === Edit || Element === Reservations || Element === AddPayment )) return <Navigate to='/' /> ;

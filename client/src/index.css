@@ -23,11 +23,7 @@
   --gray-bg: #f1f5f9;
 }
 
-body.open ,
-body.nav {
-  overflow: hidden;
-}
-body.open::before ,
+body.open::before,
 body.nav::before {
   content: "";
   position: absolute;
@@ -38,10 +34,10 @@ body.nav::before {
   right: 0;
   bottom: 0;
   backdrop-filter: blur(3px);
-  z-index: 39;
+  z-index: 31;
 }
 body.nav::before {
-  z-index: 41;
+  z-index: 40;
 }
 
 .category:hover img {
@@ -49,13 +45,27 @@ body.nav::before {
 }
 
 @layer components {
-    .navbar {
-      @apply md:flex md:relative fixed md:p-0 p-3 md:w-fit w-4/5
-      md:bg-transparent bg-white shadow md:shadow-none text-center md:translate-x-0 -translate-x-1/2 md:left-auto left-1/2 
-      justify-center items-center gap-4 md:top-auto md:space-y-0 space-y-2 md:border-none border-b-2 border-primary
-      transition-all duration-300 rounded-lg md:opacity-100 md:z-50
-    }
+  .navbar {
+    @apply md:flex md:relative fixed md:p-0 p-3 md:w-fit w-4/5
+      md:bg-transparent bg-white shadow md:shadow-none 
+      text-center md:translate-x-0 -translate-x-1/2 md:left-auto left-1/2 
+      justify-center items-center gap-4 md:top-auto md:space-y-0 
+      space-y-2 md:border-none border-b-2 border-primary
+      transition-all duration-300 rounded-lg md:opacity-100 md:z-50;
   }
+}
+
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
 
 html {
   scroll-behavior: smooth;

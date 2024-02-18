@@ -17,7 +17,7 @@ export default function CourseworkCard({ data }) {
           className="w-[100%] h-full object-cover"
           alt={data.name}
         />
-        <div className="absolute top-2 right-2 flex items-center gap-2 w-full">
+        <div className="absolute top-2 right-2 flex items-center gap-1 w-full">
           <span className="bg-green-700 text-white p-1 rounded-md lg:text-xs text-[9px]">
             حضوري
           </span>
@@ -32,7 +32,7 @@ export default function CourseworkCard({ data }) {
       </div>
       {/* Link For User That Publish this Course */}
       <Link
-        to={`/profile/${data._id}`}
+        to={`/profile/${user._id}`}
         className="flex items-center lg:gap-2 gap-1 mt-3 text-gray-800"
       >
         {/* <FaCircleUser className="text-2xl" /> */}
