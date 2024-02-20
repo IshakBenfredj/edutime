@@ -1,6 +1,6 @@
 import React from 'react'
 import './styles.css'
-import Title from '../../components/title/Title'
+import Title from '../../components/Title'
 import Offers from '../../components/offers/Offers'
 
 const SubscriptionDetails = () => {

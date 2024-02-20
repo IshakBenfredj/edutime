@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Title from "../../components/title/Title";
+import Title from "../../components/Title";
 import CourseworkCard from "../../components/CourseworkCard";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,7 +24,7 @@ const CourseworksSugg = () => {
       </div>
       <Link
         to={"/courseworks/allCourseworks"}
-        className="flex items-center gap-1 p-1 mt-4 lg:text-lg bg-secondary rounded-md w-fit mx-auto"
+        className="flex items-center gap-1 p-1 mt-4 lg:text-lg bg-secondary text-white rounded-md w-fit mx-auto"
       >
         <span>إكتشف أكثر</span>
         <FaArrowLeft />

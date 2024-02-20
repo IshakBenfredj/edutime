@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import Title from '../../../components/title/Title'
+import Title from '../../../components/Title'
 import UserContext from '../../../context/userContext'
 import { CourseworkContext } from '../../../context/courseworkContext'
 import Loading from '../../../components/loading/Loading'

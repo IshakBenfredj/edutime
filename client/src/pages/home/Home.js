@@ -1,22 +1,21 @@
-import React from 'react'
-import Landing from './Landing'
-import Categories from './Categories'
-import About from './About'
-import Contact from './contact/Contact'
-import CourseworksSugg from './CourseworksSugg'
-import WhyUs from './why/WhyUs'
-
+import React from "react";
+import Landing from "./Landing";
+import Categories from "./Categories";
+import About from "./About";
+import Contact from "./contact/Contact";
+import CourseworksSugg from "./CourseworksSugg";
+import WhyUs from "./WhyUs";
 const Home = () => {
-return (
+  return (
     <>
-        <Landing />
-        <Categories />
-        <CourseworksSugg />
-        <About />
-        <WhyUs />
-        <Contact />
+      <Landing />
+      <Categories />
+      <CourseworksSugg />
+      <About />
+      <WhyUs />
+      <Contact />
     </>
-)
-}
+  );
+};
 
-export default Home
+export default Home;

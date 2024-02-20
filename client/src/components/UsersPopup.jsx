@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaHeartCircleCheck } from "react-icons/fa6";
 import { FaRegHeart } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { axiosPutWithHeader } from "../functions/axiosFunctions";
 import { handleError } from "../functions/toastifyFunctions";
 import { getUser } from "../functions/getFunctions";
 import { IoCloseSharp } from "react-icons/io5";
+import { getUsers } from "../toolkit/slices/users";
 
 export default function UsersPopup({ usersLikesId, setPopup }) {
   return (
@@ -20,7 +21,7 @@ export default function UsersPopup({ usersLikesId, setPopup }) {
           />
         </div>
         {usersLikesId.map((id) => (
-          <User id={id} setPopup={setPopup} />
+          <User id={id} key={id} setPopup={setPopup} />
         ))}
       </div>
     </div>
@@ -30,11 +31,13 @@ export default function UsersPopup({ usersLikesId, setPopup }) {
 const User = ({ id, setPopup }) => {
   const [user, setUser] = useState();
   const me = useSelector((s) => s.user);
+  const dispatch = useDispatch();
 
   const handleLike = async () => {
     try {
       const data = await axiosPutWithHeader(`/users/like/${id}`);
       setUser(data);
+      dispatch(getUsers());
     } catch (error) {
       handleError(error.response.data.error);
     }
@@ -55,7 +58,7 @@ const User = ({ id, setPopup }) => {
           <Link
             to={`/profile/${user._id}`}
             onClick={() => setPopup(false)}
-            className="w-4/5 p-2 flex items-center gap-2 text-gray-900 hover:text-secondary text-lg font-bold"
+            className="w-4/5 p-2 flex items-center gap-2 text-primary hover:text-secondary text-lg font-bold"
           >
             <img
               src={user && user.image}

@@ -1,5 +1,5 @@
 import './styles.css'
-import Title from '../../components/title/Title'
+import Title from '../../components/Title'
 import { Link } from 'react-router-dom'
 
 const TermsAndConditions = () => {

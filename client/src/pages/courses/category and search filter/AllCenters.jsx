@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react'
 import './styles.css'
-import Title from '../../../components/title/Title'
+import Title from '../../../components/Title'
 import Loading from '../../../components/loading/Loading'
 import CenterCard from '../../../components/main cards/CenterCard'
 import UserContext from '../../../context/userContext'

@@ -28,7 +28,7 @@ const Search = ({showSearch, setShowSearch}) => {
           type="search"
           name=""
           id=""
-          className="h-full bg-white rounded-none outline-none"
+          className="h-full input bg-white rounded-none outline-none"
           placeholder="بحث"
         />
         <button

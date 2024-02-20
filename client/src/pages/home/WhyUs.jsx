@@ -1,12 +1,12 @@
 import React from "react";
-import Title from "../../../components/title/Title";
+import Title from "../../components/Title";
 
 const WhyUs = () => {
   return (
     <section>
       <Title title={"لماذا EduTime ؟"} />
       <p
-        className="container text-gray-800 lg:leading-10 leading-7 lg:text-xl text-base"
+        className="container text-color lg:leading-10 leading-7 lg:text-xl text-base"
       >
         بفضل منصة EduTime، أصبحت العملية بسيطة وميسرة للمتدربين الذين يبحثون عن
         الدورات التدريبية التي تتناسب مع اهتماماتهم ومتطلباتهم الشخصية والمهنية.

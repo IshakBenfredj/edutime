@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Masonry from 'react-masonry-css'
-import Title from '../../components/title/Title'
+import Title from '../../components/Title'
 import Publish from './Publish'
 import UserContext from '../../context/userContext';
 import axios from 'axios';

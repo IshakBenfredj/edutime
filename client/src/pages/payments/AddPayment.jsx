@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import Title from "../../components/title/Title"
+import Title from "../../components/Title"
 import axios from "axios";
 import url from "../../constants/url.js";
 import './styles.css'

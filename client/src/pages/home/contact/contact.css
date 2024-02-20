@@ -157,7 +157,7 @@ textarea.input1 + .shadow-input1 {
 
 @media (max-width: 768px) {
     .container-contact {
-    padding: 90px 80px 88px 80px;
+    padding: 30px 10px;
     }
 
     .contact-pic {
@@ -166,11 +166,5 @@ textarea.input1 + .shadow-input1 {
 
     .contact-form {
     width: 100%;
-    }
-}
-
-@media (max-width: 576px) {
-    .container-contact {
-    padding: 90px 15px 88px 15px;
     }
 }

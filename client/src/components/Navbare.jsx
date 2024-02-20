@@ -1,78 +1,19 @@
 import { useEffect, useState } from "react";
 // import { toast } from "react-toastify";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-// import { ModeContext } from "../context/modeContext";
-// import { IoMdCloseCircleOutline } from "react-icons/io";
-// import { FaUserCircle } from "react-icons/fa";
-// import { GiHamburgerMenu } from "react-icons/gi";
-// import { BsFillArrowUpCircleFill, BsSunFill } from "react-icons/bs";
-// import { BiSolidMoon } from "react-icons/bi";
-// import { FaUserGraduate } from "react-icons/fa";
-// import { AiFillPlusCircle } from "react-icons/ai";
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../toolkit/slices/user";
+import { Link, NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+// import { logout } from "../toolkit/slices/user";
 import images from "../constants/images";
 import Search from "./Search";
 import { HiMiniBars3BottomLeft } from "react-icons/hi2";
-import { handleError } from "../functions/toastifyFunctions";
+// import { handleError } from "../functions/toastifyFunctions";
 import NavDropdown from "./NavDropdown";
 
 const Navbare = () => {
-  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const [openNav, setOpenNav] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(false);
-  // const [auth, setAuth] = useState(true);
-  const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   if (location.pathname === "/auth") {
-  //     setAuth(true);
-  //   } else {
-  //     setAuth(false);
-  //   }
-  //   if (location.pathname === "/") {
-  //     setBg(false);
-  //   } else {
-  //     setBg(true);
-  //   }
-  // }, [location.pathname, setBg]);
-
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     let position = window.pageYOffset;
-  //     setScrollPosition(position);
-  //   };
-  //   window.addEventListener("scroll", handleScroll);
-  // }, []);
-
-  // const scrollToTop = () => {
-  //   window.scrollTo({ top: 0, behavior: "smooth" });
-  // };
-
-  // const resetNotify = async () => {
-  //   localStorage.setItem("notifyCount", user.notifyCount);
-  //   const { data } = await axios.patch(`${url}resetNotify/${user._id}`);
-  //   user.notifyCount = 0;
-  //   // setUser(data.user)
-  //   dispatch(login(data.user));
-  // };
-
-  // function removeNotifyCountFromLocalStorage() {
-  //   localStorage.removeItem("notifyCount");
-  // }
-
-  // useEffect(() => {
-  //   window.addEventListener("beforeunload", removeNotifyCountFromLocalStorage);
-
-  //   return () => {
-  //     window.removeEventListener(
-  //       "beforeunload",
-  //       removeNotifyCountFromLocalStorage
-  //     );
-  //   };
-  // }, []);
 
   // Scroll Position to put shadow for header
   useEffect(() => {
@@ -119,7 +60,7 @@ const Navbare = () => {
       >
         <NavLink
           className={
-            "text-gray-800 px-2 md:py-1 py-2 rounded font-semibold text-lg transition-all hover:bg-primary hover:text-white block"
+            "text-color px-2 md:py-1 py-2 rounded font-semibold text-lg transition-all hover:text-primary block"
           }
           to={"/"}
           onClick={closeAll}
@@ -128,7 +69,7 @@ const Navbare = () => {
         </NavLink>
         <NavLink
           className={
-            "text-gray-800 px-2 md:py-1 py-2 rounded font-semibold text-lg transition-all hover:bg-primary hover:text-white block"
+            "text-color px-2 md:py-1 py-2 rounded font-semibold text-lg transition-all hover:text-primary block"
           }
           to={"/"}
           onClick={closeAll}
@@ -137,7 +78,7 @@ const Navbare = () => {
         </NavLink>
         <NavLink
           className={
-            "text-gray-800 px-2 md:py-1 py-2 rounded font-semibold text-lg transition-all hover:bg-primary hover:text-white block"
+            "text-color px-2 md:py-1 py-2 rounded font-semibold text-lg transition-all hover:text-primary block"
           }
           to={"/"}
           onClick={closeAll}
@@ -156,7 +97,7 @@ const Navbare = () => {
         </button>
       </div>
       {!user && (
-        <Link to={"/auth"} className="p-2 bg-secondary rounded font-bold">
+        <Link to={"/auth"} className="p-2 bg-secondary rounded font-bold text-white">
           تسجيل الدخول
         </Link>
       )}

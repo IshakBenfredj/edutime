@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Title from "../../components/title/Title";
+import Title from "../../components/Title";
 import { toast } from "react-toastify";
 import url from "../../constants/url";
 import PaymentCard from "./PaymentCard";

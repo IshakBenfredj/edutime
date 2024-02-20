@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import Title from '../../components/title/Title'
+import Title from '../../components/Title'
 import UserContext from '../../context/userContext'
 import { ReservationsContext } from '../../context/reservationContext'
 import Loading from '../../components/loading/Loading'

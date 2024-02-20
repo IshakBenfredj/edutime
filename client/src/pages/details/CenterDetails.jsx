@@ -14,7 +14,7 @@ import './details.css';
 import UserContext from '../../context/userContext';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import Title from '../../components/title/Title';
+import Title from '../../components/Title';
 import { CommentsContext } from '../../context/commentsContext';
 import Comment from '../../components/comment/Comment';
 import CourseworkCard from '../../components/CourseworkCard';

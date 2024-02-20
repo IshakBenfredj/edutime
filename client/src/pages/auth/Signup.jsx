@@ -126,7 +126,7 @@ const SignupForm = () => {
                   value={signupInfo.name}
                   onChange={handleSignupInfo}
                   name="name"
-                  className={`${
+                  className={`input ${
                     emptyInput && !signupInfo.name && "border-red-500 border-2"
                   }`}
                   placeholder="الإسم الكامل"
@@ -139,7 +139,7 @@ const SignupForm = () => {
                   value={signupInfo.email}
                   onChange={handleSignupInfo}
                   name="email"
-                  className={`${
+                  className={`input ${
                     emptyInput && !signupInfo.email && "border-red-500 border-2"
                   }`}
                   placeholder="البريد الإلكتروني"
@@ -152,7 +152,7 @@ const SignupForm = () => {
                   value={signupInfo.phone}
                   onChange={handleSignupInfo}
                   name="phone"
-                  className={`${
+                  className={`input ${
                     emptyInput && !signupInfo.phone && "border-red-500 border-2"
                   }`}
                   placeholder="رقم الهاتف"
@@ -165,7 +165,7 @@ const SignupForm = () => {
                   value={signupInfo.password}
                   onChange={handleSignupInfo}
                   name="password"
-                  className={`${
+                  className={`input ${
                     emptyInput &&
                     !signupInfo.password &&
                     "border-red-500 border-2"
@@ -174,7 +174,7 @@ const SignupForm = () => {
                 />
               </div>
               <div className="button input-box">
-                <input type="submit" value="إنشاء" />
+                <input type="submit" className="input" value="إنشاء" />
               </div>
               <div className="text sign-up-text">
                 لديك حساب بالفعل ؟ <label htmlFor="flip">تسجيل الدخول</label>
@@ -198,13 +198,14 @@ const SignupForm = () => {
                   value={inputCode}
                   onChange={(e) => setInputCode(e.target.value)}
                   placeholder="الرمز"
+                  className="input"
                 />
               </div>
               <div className="flex items-center mt-6 gap-3 justify-center">
                 <input
                   type="submit"
                   value="تأكيد"
-                  className="bg-primary w-1/2 text-white p-2 rounded-md font-bold text-lg"
+                  className="bg-primary input w-1/2 text-white p-2 rounded-md font-bold text-lg"
                 />
                 <div
                   className="bg-secondary text-white p-2 rounded-md font-bold text-lg"

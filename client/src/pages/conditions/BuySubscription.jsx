@@ -1,5 +1,5 @@
 import React from 'react'
-import Title from '../../components/title/Title'
+import Title from '../../components/Title'
 import images from '../../constants/images'
 import './styles.css'
 import ccp from '../../constants/ccp'

@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react'
 import './styles.css'
 import { useParams } from 'react-router-dom'
 import { CourseworkContext } from '../../../context/courseworkContext'
-import Title from '../../../components/title/Title'
+import Title from '../../../components/Title'
 import Loading from '../../../components/loading/Loading'
 import CourseworkCard from '../../../components/CourseworkCard'
 

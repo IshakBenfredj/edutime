@@ -72,7 +72,7 @@ const LoginForm = ({ setLoginStep }) => {
               type="email"
               onChange={handleChangeUser}
               name="email"
-              className={`${
+              className={`input ${
                 emptyInput &&
                 !loginUser.email.length &&
                 "border-2 border-red-500"
@@ -86,7 +86,7 @@ const LoginForm = ({ setLoginStep }) => {
               type="password"
               onChange={handleChangeUser}
               name="password"
-              className={`${
+              className={`input ${
                 emptyInput &&
                 !loginUser.password.length &&
                 "border-2 border-red-500"
@@ -103,7 +103,7 @@ const LoginForm = ({ setLoginStep }) => {
             </Link>
           </div>
           <div className="button input-box">
-            <input type="submit" value="دخول" />
+            <input type="submit" className="input" value="دخول" />
           </div>
           <div className="text sign-up-text">
             ليس لديك حساب ؟ <label htmlFor="flip">إنشاء حساب</label>

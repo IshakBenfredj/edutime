@@ -1,6 +1,6 @@
 import "./contact.css";
 import images from "../../../constants/images";
-import Title from "../../../components/title/Title";
+import Title from "../../../components/Title";
 import { toast } from "react-toastify";
 import url from "../../../constants/url";
 import axios from "axios";
@@ -70,7 +70,7 @@ const Contact = () => {
   };
 
   return (
-    <section className="contact center gray-bg" id="contact">
+    <section className="contact center bg-bgcolor" id="contact">
       <div className="container-contact box-shadow center">
         <div className="contact-pic" data-tilt>
           <img src={images.contact} alt="IMG" />

@@ -23,12 +23,12 @@ const Landing = () => {
       <div className="bg-bgcolor md:py-24 py-20">
         <div className="container grid md:grid-cols-2 grid-cols-1 items-center">
           <div className="">
-            <h1 className="leading-[2] md:mb-0 -mb-3 md:leading-[2] md:text-4xl text-[28px] font-bold">
+            <h1 className="leading-[2] md:mb-0 -mb-3 md:leading-[2] md:text-4xl text-[28px] text-primary font-bold">
               اهلا بك في{""}
               <span className="font-black text-secondary"> اودوتايم</span> وجهتك
               التعليمية الرائدة في الجزائر
             </h1>
-            <p className="mb-6 leading-8 text-xl text-gray-800">
+            <p className="mb-6 leading-8 text-xl text-color">
               <br /> اكتشف افضل الدورات التعليمية ومراكز التدريب لتطوير مهاراتك{" "}
               <br />
               كل ما تحتاجه في مكان واحد

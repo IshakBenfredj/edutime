@@ -33,44 +33,44 @@ export default function CourseworkCard({ data }) {
       {/* Link For User That Publish this Course */}
       <Link
         to={`/profile/${user._id}`}
-        className="flex items-center lg:gap-2 gap-1 mt-3 text-gray-800"
+        className="flex items-center lg:gap-2 gap-1 mt-3 text-primary"
       >
         {/* <FaCircleUser className="text-2xl" /> */}
         <img
           src={user.image}
-          className="lg:w-8 w-6 lg:h-8 h-6 border-[1px] border-gray-800 rounded-full"
+          className="lg:w-8 w-6 lg:h-8 h-6 border-[1px] border-primary rounded-full"
           alt=""
         />
         <span className="lg:text-sm text-xs font-bold">{user.name}</span>
       </Link>
       {/* Title of course */}
-      <h1 className="lg:my-3 my-2 font-bold lg:text-lg text-xs">
+      <h1 className="lg:my-3 my-2 font-bold lg:text-lg text-xs text-primary">
         {data.name.length >= 22 ? `${data.name.slice(0, 22)} ...` : data.name}
       </h1>
       {/* Date of Course & number of hours */}
       <div className="flex items-center justify-between lg:mt-3">
-        <div className="flex items-center lg:gap-2 gap-1 text-gray-800">
+        <div className="flex items-center lg:gap-2 gap-1 text-color">
           <FaCalendarDays className="lg:text-base text-xs" />
           <span className="lg:text-sm text-[10px] font-bold">
             {data.dateStart}
           </span>
         </div>
-        <div className="flex items-center lg:gap-2 gap-1 text-gray-800">
+        <div className="flex items-center lg:gap-2 gap-1 text-color">
           <FaRegClock className="lg:text-base text-xs" />
           <span className="lg:text-sm text-[10px] font-bold">
             {data.hours} ساعة
           </span>
         </div>
       </div>
-      <span className="w-full h-[1px] bg-gray-800 block my-2 opacity-70"></span>
+      <span className="w-full h-[1px] bg-color block my-2 opacity-70"></span>
       {/* Contact Informations */}
       <div className="flex items-center justify-between">
-        <div className="lg:text-xl cursor-pointer">
+        <div className="lg:text-xl cursor-pointer text-primary">
           <MdOutlineMessage />
         </div>
         <Link
           to={`tel:${user.phone}`}
-          className="flex items-center lg:gap-2 gap-1 text-gray-800"
+          className="flex items-center lg:gap-2 gap-1 text-primary"
         >
           <span className="lg:text-sm text-xs font-bold">{user.phone}</span>
           <FaPhone className="lg:text-base text-xs" />
@@ -80,7 +80,7 @@ export default function CourseworkCard({ data }) {
       <div className="flex items-center lg:gap-2 gap-1 mt-2">
         <Link
           to={"/"}
-          className="p-1 lg:text-base text-xs bg-primary border-primary border-2 w-2/3 text-center rounded-md"
+          className="p-1 lg:text-base text-xs text-white bg-title border-title border-2 w-2/3 text-center rounded-md"
         >
           أحجز الآن
         </Link>

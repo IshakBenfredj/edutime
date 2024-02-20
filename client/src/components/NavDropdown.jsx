@@ -45,12 +45,16 @@ export default function NavDropdown({ closeAll }) {
   }, [openDD]);
 
   return (
-    <div className="relative" ref={ddRef} onClick={openDD ? closeDDFunc : openDDFunc}>
+    <div
+      className="relative"
+      ref={ddRef}
+      onClick={openDD ? closeDDFunc : openDDFunc}
+    >
       <div
         onClick={openDD ? closeDDFunc : openDDFunc}
         className="w-10 h-10 rounded-md cursor-pointer overflow-hidden border-[1px] border-gray-800"
       >
-        <img src={user && user.image} alt=""  />
+        <img src={user && user.image} alt="" className="w-[100%] h-[100%]" />
       </div>
       {openDD && (
         <div className="absolute shadow-md -translate-x-1/2 left-1/2 bg-bgcolor p-2 top-14 rounded-md w-36">
@@ -63,7 +67,7 @@ export default function NavDropdown({ closeAll }) {
           </Link>
           <Link
             onClick={closeDDFunc}
-            to={"/"}
+            to={"/settings"}
             className="p-2 w-[100%] text-center rounded-md text-black font-semibold hover:bg-primary hover:text-white transition-all block"
           >
             الإعدادات

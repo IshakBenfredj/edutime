@@ -17,6 +17,7 @@ import coursework from "../assets/coursework.jpg";
 import video from "../assets/video.jpg";
 import barid from "../assets/barid.png";
 import google from "../assets/google.png";
+import checkmark from "../assets/checkmark.png";
 
 const images = {
   whiteLogo,
@@ -38,6 +39,7 @@ const images = {
   video,
   barid,
   google,
+  checkmark,
 };
 
 export default images;
