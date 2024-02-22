@@ -30,6 +30,7 @@ export default function UsersPopup({ usersLikesId, setPopup }) {
 
 const User = ({ id, setPopup }) => {
   const [user, setUser] = useState();
+  const [loading, setLoading] = useState(false);
   const me = useSelector((s) => s.user);
   const dispatch = useDispatch();
 
@@ -45,15 +46,25 @@ const User = ({ id, setPopup }) => {
 
   useEffect(() => {
     const getUserProfile = async () => {
-      const user = await getUser(id);
-      setUser(user);
+      setLoading(true);
+      try {
+        const user = await getUser(id);
+        setUser(user);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+      }
     };
     getUserProfile();
   }, [id]);
 
   return (
     <>
-      {user ? (
+      {loading ? (
+        <div className="animate-pulse p-3">
+          <span className="w-[90%] block h-6 bg-slate-300 mx-auto"></span>
+        </div>
+      ) : user ? (
         <div className="flex items-center">
           <Link
             to={`/profile/${user._id}`}
@@ -73,7 +84,7 @@ const User = ({ id, setPopup }) => {
           >
             {user._id === me._id ? (
               <></>
-            ) : user.likes.includes(me._id) ? (
+            ) : user.followers.includes(me._id) ? (
               <FaHeartCircleCheck />
             ) : (
               <FaRegHeart />
@@ -81,9 +92,7 @@ const User = ({ id, setPopup }) => {
           </div>
         </div>
       ) : (
-        <div className="animate-pulse p-3">
-          <span className="w-[90%] block h-6 bg-slate-300 mx-auto"></span>
-        </div>
+        <></>
       )}
     </>
   );

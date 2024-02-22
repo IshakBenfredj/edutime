@@ -30,7 +30,7 @@ export default function Profile() {
     const getUserProfile = async () => {
       const user = await getUser(id);
       setUser(user);
-      setFollowers(user.likes);
+      setFollowers(user.followers);
     };
     getUserProfile();
   }, [id]);
@@ -39,7 +39,7 @@ export default function Profile() {
     const getFollowing = async () => {
       const following = [];
       for (let i = 0; i < users.length; i++) {
-        if (users[i].likes.includes(user._id)) {
+        if (users[i].followers.includes(user._id)) {
           following.push(users[i]._id);
         }
       }
@@ -70,24 +70,24 @@ export default function Profile() {
               alt=""
               className="md:w-1/3 w-2/5 mx-auto rounded-full"
             />
-            <h1 className="my-3 text-center text-2xl text-primary font-bold">
+            <h1 className="my-3 text-center text-2xl text-gray-900 font-bold">
               {user.name}
             </h1>
             <div className="flex gap-4 justify-center mb-3">
               {isCenter && (
-                <div className="bg-white border-2 border-primary rounded-md px-2 py-1 text-center">
+                <div className="bg-white border-2 border-gray-900 rounded-md px-2 py-1 text-center">
                   <p className="font-bold text-xl">{courses.length}</p>
                   <p className="font-semibold text-sm">دورة</p>
                 </div>
               )}
               <div
                 onClick={() =>
-                  user.likes.length > 0 &&
+                  user.followers.length > 0 &&
                   (setUsersLikes(followers), setPopup(true))
                 }
-                className="bg-white cursor-pointer border-2 border-primary rounded-md px-2 py-1 text-center"
+                className="bg-white cursor-pointer border-2 border-gray-900 rounded-md px-2 py-1 text-center"
               >
-                <p className="font-bold text-xl">{user.likes.length}</p>
+                <p className="font-bold text-xl">{user.followers.length}</p>
                 <p className="font-semibold text-sm">توصية</p>
               </div>
               <div
@@ -95,7 +95,7 @@ export default function Profile() {
                   following.length > 0 &&
                   (setUsersLikes(following), setPopup(true))
                 }
-                className="bg-white cursor-pointer border-2 border-primary rounded-md px-2 py-1 text-center"
+                className="bg-white cursor-pointer border-2 border-gray-900 rounded-md px-2 py-1 text-center"
               >
                 <p className="font-bold text-xl">{following.length}</p>
                 <p className="font-semibold text-sm">موصى بهم</p>
@@ -103,34 +103,34 @@ export default function Profile() {
             </div>
             {userAuth && userAuth._id !== id && (
               <div className="flex justify-center gap-3 mb-3">
-                {user.likes.includes(userAuth._id) ? (
+                {user.followers.includes(userAuth._id) ? (
                   <div
                     onClick={handleLike}
-                    className="flex cursor-pointer gap-2 items-center p-2 bg-white text-primary rounded-md text-lg"
+                    className="flex cursor-pointer gap-2 items-center p-2 bg-white text-gray-900 rounded-md text-lg"
                   >
                     <FaHeartCircleCheck className="text-red-600 text-2xl" />
                   </div>
                 ) : (
                   <div
                     onClick={handleLike}
-                    className="flex cursor-pointer gap-2 items-center p-2 bg-white text-primary rounded-md text-lg"
+                    className="flex cursor-pointer gap-2 items-center p-2 bg-white text-gray-900 rounded-md text-lg"
                   >
                     <FaRegHeart />
                     <span>توصية</span>
                   </div>
                 )}
-                <div className="flex gap-2 items-center p-2 bg-white text-primary rounded-md text-lg">
+                <div className="flex gap-2 items-center p-2 bg-white text-gray-900 rounded-md text-lg">
                   <BsSendPlus />
                   <span>رسالة</span>
                 </div>
               </div>
             )}
-            <p className="text-center mb-4 text-primary">{user.bio}</p>
+            <p className="text-center mb-4 text-gray-800">{user.bio}</p>
             <div className="grid grid-cols-1 gap-2">
               {user.phone && (
                 <Link
                   to={`tel:${user.phone}`}
-                  className="flex font-semibold text-lg items-center justify-center gap-2 text-primary"
+                  className="flex font-semibold text-lg items-center justify-center gap-2 text-gray-800"
                 >
                   <FaPhone />
                   <span>{user.phone}</span>
@@ -138,13 +138,13 @@ export default function Profile() {
               )}
               <Link
                 to={`mailto:${user.email}`}
-                className="flex font-semibold text-lg items-center justify-center gap-2 text-primary"
+                className="flex font-semibold text-lg items-center justify-center gap-2 text-gray-800"
               >
                 <MdEmail />
                 <span>{user.email}</span>
               </Link>
               {user.address && (
-                <div className="flex font-semibold text-lg items-center justify-center gap-2 text-primary">
+                <div className="flex font-semibold text-lg items-center justify-center gap-2 text-gray-800">
                   <FaMapMarkerAlt />
                   <span>{user.address}</span>
                 </div>

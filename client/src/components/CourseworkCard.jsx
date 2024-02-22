@@ -2,11 +2,10 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { FaCalendarDays, FaPhone, FaRegClock } from "react-icons/fa6";
 import { MdOutlineMessage } from "react-icons/md";
-import { findEle } from "../functions/filter";
 
 export default function CourseworkCard({ data }) {
   const users = useSelector((state) => state.users);
-  const user = findEle(users, data.userId);
+  const user = users.find((user) => data.userId === user._id);
 
   return (
     <div className="bg-bgcolor shadow rounded-xl p-2">
@@ -62,7 +61,7 @@ export default function CourseworkCard({ data }) {
           </span>
         </div>
       </div>
-      <span className="w-full h-[1px] bg-color block my-2 opacity-70"></span>
+      <span className="w-full h-[1px] bg-primary block my-2 opacity-70"></span>
       {/* Contact Informations */}
       <div className="flex items-center justify-between">
         <div className="lg:text-xl cursor-pointer text-primary">

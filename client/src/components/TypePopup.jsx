@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { handleError, handleSuccess } from "../functions/toastifyFunctions";
-import Axios from "../api";
-import { update } from "../toolkit/slices/user";
+import { logout, update } from "../toolkit/slices/user";
+import { axiosPutWithHeader } from "../functions/axiosFunctions";
 
 export default function TypePopup() {
   const [type, setType] = useState("");
@@ -17,20 +17,21 @@ export default function TypePopup() {
       setEmptyInput(true);
       return;
     }
+    console.log(type);
     try {
-      const { data } = await Axios.put(
-        `/users/updateType/${user._id}`,
-        { type },
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
-      );
+      const data = await axiosPutWithHeader(`/users/update/${user._id}`, {
+        field: "type",
+        value: type,
+        isPrivate: "null",
+      });
       console.log(data);
       dispatch(update(data));
       setLoading(false);
       handleSuccess("تم التحديث بنجاح");
     } catch (error) {
       handleError(error.response.data.error);
+      dispatch(logout());
+      localStorage.removeItem("token");
     }
   };
 

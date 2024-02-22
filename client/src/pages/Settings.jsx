@@ -6,29 +6,96 @@ import { FaUserEdit, FaUserTie, FaMapMarkerAlt, FaPhone } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { FaHeartCircleCheck } from "react-icons/fa6";
 import images from "../constants/images";
+import { axiosPutWithHeader } from "../functions/axiosFunctions";
+import { handleError, handleSuccess } from "../functions/toastifyFunctions";
+import { logout, update } from "../toolkit/slices/user";
 
 export default function Settings() {
   const user = useSelector((s) => s.user);
   const [image, setImage] = useState("");
   const [name, setName] = useState(user && user.name);
-  const [bio, setBio] = useState(user && user?.bio);
-  const [phone, setPhone] = useState(user && user?.phone);
-  const [phonePrivate, setPhonePrivate] = useState(false);
-  const [address, setAddress] = useState(user && user?.address);
-  const [addressPrivate, setAddressPrivate] = useState(false);
-  const [privateFollowers, setPrivateFollowers] = useState(false);
-  const [privateFollowing, setPrivateFollowing] = useState(false);
+  const [bio, setBio] = useState(user?.bio ?? "");
+  const [phone, setPhone] = useState(user?.phone ?? "");
+  const [address, setAddress] = useState(user?.address ?? "");
+  const [privatePhone, setPrivatePhone] = useState(user && user.private.phone);
+  const [privateAddress, setPrivateAddress] = useState(
+    user && user.private.address
+  );
+  const [privateFollowers, setPrivateFollowers] = useState(
+    user && user.private.followers
+  );
+  const [privateFollowing, setPrivateFollowing] = useState(
+    user && user.private.following
+  );
+
   const [prevPassword, setPrevPassword] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConf, setPasswordConf] = useState("");
   const [imageCheck, setImageCheck] = useState("");
+  const [loading, setLoading] = useState({
+    name: false,
+    imageProfile: false,
+    bio: false,
+    password: false,
+    phone: false,
+    address: false,
+    following: false,
+    followers: false,
+    imageCheck: false,
+  });
 
-  // eslint-disable-next-line no-unused-vars
   const dispatch = useDispatch();
 
+  const updateUser = async (field, value, isPrivate, loading) => {
+    setLoading((prev) => ({
+      ...prev,
+      [loading]: true,
+    }));
+    try {
+      const data = await axiosPutWithHeader(`/users/update/${user._id}`, {
+        field,
+        value,
+        isPrivate,
+      });
+      dispatch(update(data));
+      setLoading((prev) => ({
+        ...prev,
+        [loading]: false,
+      }));
+      handleSuccess("تم التحديث بنجاح");
+    } catch (error) {
+      handleError(error.response.data.error);
+      dispatch(logout());
+      localStorage.removeItem("token");
+    }
+  };
+
+  const updatePhotoProfile = async () => {
+    setLoading((prev) => ({
+      ...prev,
+      imageProfile: true,
+    }));
+    try {
+      const data = await axiosPutWithHeader("/users/updatePhotoProfile", {
+        image,
+      });
+      dispatch(update(data.user));
+      handleSuccess(data.message);
+      setImage("");
+    } catch (error) {
+      dispatch(logout());
+      localStorage.removeItem("token");
+      handleError(error.response.data.error);
+    }
+    setLoading((prev) => ({
+      ...prev,
+      imageProfile: false,
+    }));
+  };
+
   return (
-    <div className="py-20 md:px-10 px-4 bg-bgcolor min-h-screen grid md:grid-cols-3 md:gap-0 gap-4 grid-cols-1">
-      <div className="col-span-1 bg-white md:w-4/5 w-[100%] h-fit shadow rounded-lg p-4">
+    <div className="py-20 lg:px-10 px-4 bg-bgcolor min-h-screen grid lg:grid-cols-3 lg:gap-0 gap-4 grid-cols-1">
+      <div className="col-span-1 bg-white lg:w-4/5 w-[100%] h-fit shadow rounded-lg p-4">
         <div className="w-44 h-44 lg:w-60 lg:h-60 mx-auto overflow-hidden">
           <img
             src={image ? image : user.image}
@@ -37,13 +104,13 @@ export default function Settings() {
           />
         </div>
         <UploadImage image={image} setImage={setImage} />
-        <button
-          className={`mt-4 rounded-lg mx-auto block ${
-            image ? "bg-title" : "bg-gray-400 cursor-not-allowed"
-          } text-white p-2`}
-        >
-          تحديث الصورة
-        </button>
+        <div className="flex justify-center">
+          <Button
+            text={image}
+            loading={loading.imageProfile}
+            handleSubmit={updatePhotoProfile}
+          />
+        </div>
       </div>
       <div className="col-span-1 space-y-4">
         <DropSettings title={"الإسم الكامل"} Icon={FaUserEdit}>
@@ -53,12 +120,17 @@ export default function Settings() {
               value={name}
               placeholder="الإسم الكامل"
               onChange={(e) => setName(e.target.value)}
-              className="bg-bgcolor p-2 w-full text-lg rounded-md border-[1px] border-gray-200"
+              className="bg-bgcolor p-2 w-full text-lg rounded-lg border-[1px] border-gray-200"
             />
             {name && name.length <= 7 && (
               <p className="text-red-400 mt-1 text-sm">الإسم يتجاوز 7 أحرف</p>
             )}
-            <Button text={name && name.length > 7 && name !== user.name} />
+            <Button
+              text={name && name.length > 7 && name !== user.name}
+              handleSubmit={() =>
+                updateUser("name", name, "null", loading.name)
+              }
+            />
           </div>
         </DropSettings>
         <DropSettings title={"السيرة الذاتية"} Icon={FaUserTie}>
@@ -67,7 +139,7 @@ export default function Settings() {
               placeholder="صف نفسك وأعمالك"
               value={bio}
               onChange={(e) => setBio(e.target.value)}
-              className="bg-bgcolor p-2 w-full text-lg rounded-md border-[1px] border-gray-200"
+              className="bg-bgcolor p-2 w-full text-lg rounded-lg border-[1px] border-gray-200"
             ></textarea>
             {bio && bio.length > 120 && (
               <p className="text-red-400 mt-1 text-sm">
@@ -78,6 +150,7 @@ export default function Settings() {
               text={
                 bio && bio.length > 0 && bio.length <= 120 && bio !== user.bio
               }
+              handleSubmit={() => updateUser("bio", bio, "null", loading.bio)}
             />
           </div>
         </DropSettings>
@@ -89,19 +162,21 @@ export default function Settings() {
               placeholder="رقم الهاتف"
               name="phone"
               onChange={(e) => setPhone(e.target.value)}
-              className="bg-bgcolor p-2 w-full text-lg rounded-md border-[1px] border-gray-200"
+              className="bg-bgcolor p-2 w-full text-lg rounded-lg border-[1px] border-gray-200"
             />
             {phone && phone.length !== 10 && (
               <p className="text-red-400 mt-1 text-sm">
                 رقم الهاتف من عشرة أرقام
               </p>
             )}
-            <PrivateOrPublic change={setPhonePrivate} state={phonePrivate} />
+            <PrivateOrPublic change={setPrivatePhone} state={privatePhone} />
             <Button
               text={
-                phone && phone.length === 10 && phone !== user.phone
-                //  ||
-                // phonePrivate !== user.phone.private
+                (phone && phone.length === 10 && phone !== user.phone) ||
+                privatePhone !== user.private.phone
+              }
+              handleSubmit={() =>
+                updateUser("phone", phone, privatePhone, loading.phone)
               }
             />
           </div>
@@ -114,20 +189,22 @@ export default function Settings() {
               placeholder="العنوان"
               name="address"
               onChange={(e) => setAddress(e.target.value)}
-              className="bg-bgcolor p-2 w-full text-lg rounded-md border-[1px] border-gray-200"
+              className="bg-bgcolor p-2 w-full text-lg rounded-lg border-[1px] border-gray-200"
             />
             {address && address.length < 3 && (
               <p className="text-red-400 mt-1 text-sm">العنوان يتجاوز 3 أحرف</p>
             )}
             <PrivateOrPublic
-              change={setAddressPrivate}
-              state={addressPrivate}
+              change={setPrivateAddress}
+              state={privateAddress}
             />
             <Button
               text={
-                address && address.length >= 3 && address !== user.address
-                //  ||
-                // addressPrivate !== user.address.private
+                (address && address.length >= 3 && address !== user.address) ||
+                privateAddress !== user.private.address
+              }
+              handleSubmit={() =>
+                updateUser("address", address, privateAddress, loading.address)
               }
             />
           </div>
@@ -139,14 +216,14 @@ export default function Settings() {
               value={prevPassword}
               placeholder="كلمة السر القديمة"
               onChange={(e) => setPrevPassword(e.target.value)}
-              className="bg-bgcolor p-2 w-full text-lg rounded-md border-[1px] border-gray-200"
+              className="bg-bgcolor p-2 w-full text-lg rounded-lg border-[1px] border-gray-200"
             />
             <input
               type="password"
               value={password}
               placeholder="كلمة السر الجديدة"
               onChange={(e) => setPassword(e.target.value)}
-              className="bg-bgcolor p-2 w-full text-lg rounded-md border-[1px] border-gray-200"
+              className="bg-bgcolor p-2 w-full text-lg rounded-lg border-[1px] border-gray-200"
             />
             {password && password.length <= 6 && (
               <p className="text-red-400 mt-1 text-sm">
@@ -158,7 +235,7 @@ export default function Settings() {
               value={passwordConf}
               placeholder="تأكيد كلمة السر الجديدة"
               onChange={(e) => setPasswordConf(e.target.value)}
-              className="bg-bgcolor p-2 w-full text-lg rounded-md border-[1px] border-gray-200"
+              className="bg-bgcolor p-2 w-full text-lg rounded-lg border-[1px] border-gray-200"
             />
             {passwordConf && password !== passwordConf && (
               <p className="text-red-400 mt-1 text-sm">
@@ -168,14 +245,24 @@ export default function Settings() {
             <Button text={password.length > 6 && password === passwordConf} />
           </div>
         </DropSettings>
-        <div className="flex items-start md:gap-4 gap-1">
+        <div className="flex items-start lg:gap-4 gap-1">
           <div className="w-1/2">
             <DropSettings title="توصياتك" Icon={FaHeartCircleCheck}>
               <PrivateOrPublic
                 change={setPrivateFollowers}
                 state={privateFollowers}
               />
-              <Button text={user.privateFollowers !== privateFollowers} />
+              <Button
+                text={user.private.followers !== privateFollowers}
+                handleSubmit={() =>
+                  updateUser(
+                    "followers",
+                    "null",
+                    privateFollowers,
+                    loading.followers
+                  )
+                }
+              />
             </DropSettings>
           </div>
           <div className="w-1/2">
@@ -184,12 +271,22 @@ export default function Settings() {
                 change={setPrivateFollowing}
                 state={privateFollowing}
               />
-              <Button text={user.privateFollowing !== privateFollowing} />
+              <Button
+                text={user.private.following !== privateFollowing}
+                handleSubmit={() =>
+                  updateUser(
+                    "following",
+                    "null",
+                    privateFollowing,
+                    loading.following
+                  )
+                }
+              />
             </DropSettings>
           </div>
         </div>
       </div>
-      <div className="col-span-1 md:w-4/5 w-[100%] mx-auto bg-white rounded-lg h-fit p-4">
+      <div className="col-span-1 lg:w-4/5 w-[100%] mx-auto bg-white rounded-lg h-fit p-4">
         <img src={images.checkmark} alt="" className="w-1/3 mx-auto" />
         <p className="text-color mt-4 leading-8">
           أحصل على التوثيق الخاص بحسابك من أجل زيادة مصداقيتك على منصتنا, وجعل
@@ -202,26 +299,27 @@ export default function Settings() {
             imageCheck ? "bg-title" : "bg-gray-400 cursor-not-allowed"
           } text-white p-2`}
         >
-          طلب التوثيق
+          {loading.imageCheck ? "جاري الطلب ..." : "طلب التوثيق"}
         </button>
       </div>
     </div>
   );
 }
 
-const Button = ({ loading, text }) => {
+const Button = ({ loading, text, handleSubmit }) => {
   return (
     <>
       {text ? (
         <button
-          className={"bg-title p-2 text-white font-semibold rounded-md mt-2"}
+          onClick={handleSubmit}
+          className={"bg-title p-2 text-white font-semibold rounded-lg mt-2"}
         >
           {!loading ? "تحديث" : "جاري التحديث ..."}
         </button>
       ) : (
         <button
           className="bg-gray-400 cursor-not-allowed
-           p-2 text-white font-semibold rounded-md mt-2"
+           p-2 text-white font-semibold rounded-lg mt-2"
         >
           تحديث
         </button>

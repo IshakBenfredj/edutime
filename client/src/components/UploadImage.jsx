@@ -1,7 +1,7 @@
 import { BiEdit, BiSolidImageAdd } from "react-icons/bi";
 import Dropzone from "react-dropzone";
 import { MdDelete } from "react-icons/md";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { handleError } from "../functions/toastifyFunctions";
 
 export default function UploadImage({ image, setImage,multiple }) {
@@ -34,10 +34,6 @@ export default function UploadImage({ image, setImage,multiple }) {
       handleError("نوع الملف غير صالح. يرجى تحميل صورة.");
     }
   };
-
-  useEffect(() => {
-    console.log(image);
-  }, [image]);
 
   return (
     <div className="relative">
