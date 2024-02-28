@@ -38,14 +38,14 @@ export default function UploadImage({ image, setImage,multiple }) {
   return (
     <div className="relative">
       {isImage && (
-        <div className="flex mt-5 gap-2">
+        <div className="flex mt-5 gap-2 bg-white">
           <Dropzone multiple={false} onDrop={convertToBase64} accept="image/*">
             {({ getRootProps, getInputProps }) => (
               <div {...getRootProps()} className="cursor-pointer w-full">
                 <input {...getInputProps()} accept="image/*" />
                 <label
                   htmlFor="image"
-                  className="flex items-center gap-3 p-2 border-primary border-2 font-semibold text-primary rounded-md"
+                  className="flex items-center gap-3 p-2 border-title border-2 font-semibold text-title rounded-md"
                 >
                   {!image ? (
                     <>
