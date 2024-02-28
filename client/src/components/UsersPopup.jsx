@@ -8,8 +8,9 @@ import { handleError } from "../functions/toastifyFunctions";
 import { getUser } from "../functions/getFunctions";
 import { IoCloseSharp } from "react-icons/io5";
 import { getUsers } from "../toolkit/slices/users";
+import images from "../constants/images";
 
-export default function UsersPopup({ usersLikesId, setPopup }) {
+export default function UsersPopup({ usersLikesId, setPopup, showUsers }) {
   return (
     <div className="fixed z-50 h-screen top-0 right-0 left-0 bg-black/70 flex justify-center items-center">
       <div className="bg-white max-h-96 no-scrollbar overflow-auto lg:w-1/4 md:w-2/5 w-4/5 rounded-lg">
@@ -20,9 +21,23 @@ export default function UsersPopup({ usersLikesId, setPopup }) {
             onClick={() => setPopup(false)}
           />
         </div>
-        {usersLikesId.map((id) => (
-          <User id={id} key={id} setPopup={setPopup} />
-        ))}
+        {showUsers ? (
+          usersLikesId.map((id) => (
+            <User id={id} key={id} setPopup={setPopup} />
+          ))
+        ) : (
+          <div className="p-4">
+            <img
+              src={images.listPrivate}
+              alt=""
+              className="w-1/3 mx-auto mb-4"
+            />
+            <p className="text-color text-lg leading-8 text-center mb-3">
+              نعتذر !! هذه القائمة خاصة ولا يمكن التطلع عليها , نشكرك على تفهمك
+              ❤️
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

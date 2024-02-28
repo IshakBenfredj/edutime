@@ -20,11 +20,10 @@ export default function TypePopup() {
     console.log(type);
     try {
       const data = await axiosPutWithHeader(`/users/update/${user._id}`, {
-        field: "type",
-        value: type,
-        isPrivate: "null",
+        field: "isCenter",
+        value: type === "center" ? true : false,
+        isPublic: "null",
       });
-      console.log(data);
       dispatch(update(data));
       setLoading(false);
       handleSuccess("تم التحديث بنجاح");
@@ -35,7 +34,12 @@ export default function TypePopup() {
     }
   };
 
-  if (user && user.fromGoogle && !user.type) {
+  if (
+    user &&
+    user.fromGoogle &&
+    !(user.isCenter === true || user.isCenter === false) &&
+    !user.isAdmin
+  ) {
     return (
       <div className="fixed top-0 h-screen left-0 right-0 z-[51] bg-black/70 flex justify-center items-center">
         <div className="md:w-1/3 w-11/12 bg-white p-4 rounded-md">
@@ -52,7 +56,7 @@ export default function TypePopup() {
               checked={type === "user"}
               onChange={(e) => setType(e.target.value)}
               name="type"
-              value={"user"}
+              value="user"
               id="user"
               className="w-6"
             />
@@ -69,7 +73,7 @@ export default function TypePopup() {
               checked={type === "center"}
               onChange={(e) => setType(e.target.value)}
               name="type"
-              value={"center"}
+              value="center"
               id="center"
               className="w-6"
             />

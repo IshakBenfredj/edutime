@@ -17,18 +17,18 @@ export default function Settings() {
   const [bio, setBio] = useState(user?.bio ?? "");
   const [phone, setPhone] = useState(user?.phone ?? "");
   const [address, setAddress] = useState(user?.address ?? "");
-  const [privatePhone, setPrivatePhone] = useState(user && user.private.phone);
-  const [privateAddress, setPrivateAddress] = useState(
-    user && user.private.address
+  const [publicPhone, setPublicPhone] = useState(user && user.public.phone);
+  const [publicAddress, setPublicAddress] = useState(
+    user && user.public.address
   );
-  const [privateFollowers, setPrivateFollowers] = useState(
-    user && user.private.followers
+  const [publicFollowers, setPublicFollowers] = useState(
+    user && user.public.followers
   );
-  const [privateFollowing, setPrivateFollowing] = useState(
-    user && user.private.following
+  const [publicFollowing, setPublicFollowing] = useState(
+    user && user.public.following
   );
 
-  const [prevPassword, setPrevPassword] = useState("");
+  const [oldPassword, setOldPassword] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConf, setPasswordConf] = useState("");
   const [imageCheck, setImageCheck] = useState("");
@@ -46,7 +46,7 @@ export default function Settings() {
 
   const dispatch = useDispatch();
 
-  const updateUser = async (field, value, isPrivate, loading) => {
+  const updateUser = async (field, value, isPublic, loading) => {
     setLoading((prev) => ({
       ...prev,
       [loading]: true,
@@ -55,7 +55,7 @@ export default function Settings() {
       const data = await axiosPutWithHeader(`/users/update/${user._id}`, {
         field,
         value,
-        isPrivate,
+        isPublic,
       });
       dispatch(update(data));
       setLoading((prev) => ({
@@ -68,6 +68,34 @@ export default function Settings() {
       dispatch(logout());
       localStorage.removeItem("token");
     }
+  };
+
+  const changePassowrd = async () => {
+    setLoading((prev) => ({
+      ...prev,
+      password: true,
+    }));
+    try {
+      const data = await axiosPutWithHeader(
+        `/users/changePassword/${user._id}`,
+        {
+          oldPassword,
+          password,
+        }
+      );
+      dispatch(update(data));
+      handleSuccess("تم تحديث كلمة السر بنجاح");
+    } catch (error) {
+      handleError(error.response.data.error);
+      if (error.response.data.failed) {
+        dispatch(logout());
+        localStorage.removeItem("token");
+      }
+    }
+    setLoading((prev) => ({
+      ...prev,
+      password: false,
+    }));
   };
 
   const updatePhotoProfile = async () => {
@@ -169,14 +197,14 @@ export default function Settings() {
                 رقم الهاتف من عشرة أرقام
               </p>
             )}
-            <PrivateOrPublic change={setPrivatePhone} state={privatePhone} />
+            <PrivateOrPublic change={setPublicPhone} state={publicPhone} />
             <Button
               text={
                 (phone && phone.length === 10 && phone !== user.phone) ||
-                privatePhone !== user.private.phone
+                publicPhone !== user.public.phone
               }
               handleSubmit={() =>
-                updateUser("phone", phone, privatePhone, loading.phone)
+                updateUser("phone", phone, publicPhone, loading.phone)
               }
             />
           </div>
@@ -194,71 +222,74 @@ export default function Settings() {
             {address && address.length < 3 && (
               <p className="text-red-400 mt-1 text-sm">العنوان يتجاوز 3 أحرف</p>
             )}
-            <PrivateOrPublic
-              change={setPrivateAddress}
-              state={privateAddress}
-            />
+            <PrivateOrPublic change={setPublicAddress} state={publicAddress} />
             <Button
               text={
                 (address && address.length >= 3 && address !== user.address) ||
-                privateAddress !== user.private.address
+                publicAddress !== user.public.address
               }
               handleSubmit={() =>
-                updateUser("address", address, privateAddress, loading.address)
+                updateUser("address", address, publicAddress, loading.address)
               }
             />
           </div>
         </DropSettings>
-        <DropSettings title={"كلمة السر"} Icon={RiLockPasswordFill}>
-          <div className="pt-3 space-y-2">
-            <input
-              type="password"
-              value={prevPassword}
-              placeholder="كلمة السر القديمة"
-              onChange={(e) => setPrevPassword(e.target.value)}
-              className="bg-bgcolor p-2 w-full text-lg rounded-lg border-[1px] border-gray-200"
-            />
-            <input
-              type="password"
-              value={password}
-              placeholder="كلمة السر الجديدة"
-              onChange={(e) => setPassword(e.target.value)}
-              className="bg-bgcolor p-2 w-full text-lg rounded-lg border-[1px] border-gray-200"
-            />
-            {password && password.length <= 6 && (
-              <p className="text-red-400 mt-1 text-sm">
-                كلمة السر تتجاوز 6 أحرف
-              </p>
-            )}
-            <input
-              type="password"
-              value={passwordConf}
-              placeholder="تأكيد كلمة السر الجديدة"
-              onChange={(e) => setPasswordConf(e.target.value)}
-              className="bg-bgcolor p-2 w-full text-lg rounded-lg border-[1px] border-gray-200"
-            />
-            {passwordConf && password !== passwordConf && (
-              <p className="text-red-400 mt-1 text-sm">
-                كلمتي السر غير متطابقتين
-              </p>
-            )}
-            <Button text={password.length > 6 && password === passwordConf} />
-          </div>
-        </DropSettings>
+        {!user.fromGoogle && (
+          <DropSettings title={"كلمة السر"} Icon={RiLockPasswordFill}>
+            <div className="pt-3 space-y-2">
+              <input
+                type="password"
+                value={oldPassword}
+                placeholder="كلمة السر القديمة"
+                onChange={(e) => setOldPassword(e.target.value)}
+                className="bg-bgcolor p-2 w-full text-lg rounded-lg border-[1px] border-gray-200"
+              />
+              <input
+                type="password"
+                value={password}
+                placeholder="كلمة السر الجديدة"
+                onChange={(e) => setPassword(e.target.value)}
+                className="bg-bgcolor p-2 w-full text-lg rounded-lg border-[1px] border-gray-200"
+              />
+              {password && password.length <= 6 && (
+                <p className="text-red-400 mt-1 text-sm">
+                  كلمة السر تتجاوز 6 أحرف
+                </p>
+              )}
+              <input
+                type="password"
+                value={passwordConf}
+                placeholder="تأكيد كلمة السر الجديدة"
+                onChange={(e) => setPasswordConf(e.target.value)}
+                className="bg-bgcolor p-2 w-full text-lg rounded-lg border-[1px] border-gray-200"
+              />
+              {passwordConf && password !== passwordConf && (
+                <p className="text-red-400 mt-1 text-sm">
+                  كلمتي السر غير متطابقتين
+                </p>
+              )}
+              <Button
+                text={password.length > 6 && password === passwordConf}
+                loading={loading.password}
+                handleSubmit={changePassowrd}
+              />
+            </div>
+          </DropSettings>
+        )}
         <div className="flex items-start lg:gap-4 gap-1">
           <div className="w-1/2">
             <DropSettings title="توصياتك" Icon={FaHeartCircleCheck}>
               <PrivateOrPublic
-                change={setPrivateFollowers}
-                state={privateFollowers}
+                change={setPublicFollowers}
+                state={publicFollowers}
               />
               <Button
-                text={user.private.followers !== privateFollowers}
+                text={user.public.followers !== publicFollowers}
                 handleSubmit={() =>
                   updateUser(
                     "followers",
                     "null",
-                    privateFollowers,
+                    publicFollowers,
                     loading.followers
                   )
                 }
@@ -268,16 +299,16 @@ export default function Settings() {
           <div className="w-1/2">
             <DropSettings title="موصى بهم" Icon={FaHeartCircleCheck}>
               <PrivateOrPublic
-                change={setPrivateFollowing}
-                state={privateFollowing}
+                change={setPublicFollowing}
+                state={publicFollowing}
               />
               <Button
-                text={user.private.following !== privateFollowing}
+                text={user.public.following !== publicFollowing}
                 handleSubmit={() =>
                   updateUser(
                     "following",
                     "null",
-                    privateFollowing,
+                    publicFollowing,
                     loading.following
                   )
                 }
@@ -332,23 +363,6 @@ const PrivateOrPublic = ({ change, state }) => {
   return (
     <div className="flex items-center gap-4 mt-3">
       <div
-        onClick={() => change(false)}
-        className={"flex items-center gap-2 cursor-pointer"}
-      >
-        <span
-          className={`w-5 h-5 flex justify-center items-center rounded-full border-2 ${
-            !state ? "border-primary text-primary" : "border-color text-color"
-          }`}
-        >
-          <span
-            className={`rounded-full bg-primary transition-all duration-300 ${
-              !state ? "w-3 h-3" : "max-w-0 max-h-0"
-            }`}
-          ></span>
-        </span>
-        <span>عام</span>
-      </div>
-      <div
         onClick={() => change(true)}
         className={"flex items-center gap-2 cursor-pointer"}
       >
@@ -360,6 +374,23 @@ const PrivateOrPublic = ({ change, state }) => {
           <span
             className={`rounded-full bg-primary transition-all duration-300 ${
               state ? "w-3 h-3" : "max-w-0 max-h-0"
+            }`}
+          ></span>
+        </span>
+        <span>عام</span>
+      </div>
+      <div
+        onClick={() => change(false)}
+        className={"flex items-center gap-2 cursor-pointer"}
+      >
+        <span
+          className={`w-5 h-5 flex justify-center items-center rounded-full border-2 ${
+            !state ? "border-primary text-primary" : "border-color text-color"
+          }`}
+        >
+          <span
+            className={`rounded-full bg-primary transition-all duration-300 ${
+              !state ? "w-3 h-3" : "max-w-0 max-h-0"
             }`}
           ></span>
         </span>

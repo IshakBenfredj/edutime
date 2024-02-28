@@ -18,6 +18,8 @@ import video from "../assets/video.jpg";
 import barid from "../assets/barid.png";
 import google from "../assets/google.png";
 import checkmark from "../assets/checkmark.png";
+import listPrivate from "../assets/listPrivate.png";
+import addAd from "../assets/addAd.jpg";
 
 const images = {
   whiteLogo,
@@ -40,6 +42,8 @@ const images = {
   barid,
   google,
   checkmark,
+  listPrivate,
+  addAd ,
 };
 
 export default images;

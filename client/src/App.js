@@ -2,17 +2,15 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Home from "./pages/home/Home";
-import Navbare from "./components/Navbare.jsx";
 // import Footer from "./components/footer/Footer";
 import Auth from "./pages/auth/Auth";
-// import AddCoursework from "./pages/courses/add coursework/AddCoursework";
+import AddCoursework from "./pages/AddCoursework.jsx";
 // import CourseworkDetails from "./pages/details/CourseworkDetails";
 // import ReserveForm from "./pages/reserve/ReserveForm";
 // import CenterDetails from "./pages/details/CenterDetails";
 // import CategoryCourses from "./pages/courses/category and search filter/CategoryCourses";
 // import AllCenters from "./pages/courses/category and search filter/AllCenters";
 // import Search from "./pages/courses/category and search filter/Search";
-// import Edit from "./pages/courses/add coursework/Edit";
 // import Reservations from "./pages/reserve/Reservations";
 // import TermsAndConditions from "./pages/conditions/TermsAndConditions";
 // import PrivacyPolicy from "./pages/conditions/PrivacyPolicy";
@@ -36,6 +34,7 @@ import { logout, update } from "./toolkit/slices/user.js";
 import { axiosGetWithoutHeader } from "./functions/axiosFunctions.js";
 import { handleError } from "./functions/toastifyFunctions.js";
 import Settings from "./pages/Settings.jsx";
+import Navbar from "./components/navbar/Navbar.jsx";
 
 export const setTitle = (newTitle) => {
   document.title = newTitle;
@@ -58,7 +57,6 @@ function App() {
       const tokenStorage = localStorage.getItem("token");
 
       if (!tokenStorage) {
-        navigate("/");
         dispatch(logout());
         return;
       }
@@ -84,7 +82,7 @@ function App() {
     };
 
     verifyToken();
-  }, []);
+  }, [dispatch, navigate]);
 
   // useEffect(() => {
   //   console.log("%cتوقف", "color: red; font-weight: bold; font-size: 4rem;");
@@ -97,7 +95,7 @@ function App() {
   return (
     <>
       <ToastContainer />
-      <Navbare />
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/auth" element={user ? <Navigate to={"/"} /> : <Auth />} />
@@ -106,14 +104,10 @@ function App() {
           path="/profile/:id"
           element={<PrivateRoute Element={Profile} />}
         />
-        {/* <Route
-          path="/addCoursework"
+        <Route
+          path="/add_announcement"
           element={<PrivateRoute Element={AddCoursework} />}
-        /> */}
-        {/* <Route
-          path="/editCoursework/:id"
-          element={<PrivateRoute Element={Edit} />}
-        /> */}
+        />
         {/* <Route
           path="/courseworkDetails/:courseworkname/:id"
           element={<CourseworkDetails />}

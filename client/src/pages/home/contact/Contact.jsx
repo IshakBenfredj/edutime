@@ -7,6 +7,12 @@ import axios from "axios";
 
 import { RiArrowLeftLine } from "react-icons/ri";
 import { useState } from "react";
+import {
+  handleError,
+  handleSuccess,
+} from "../../../functions/toastifyFunctions";
+import Axios from "../../../api";
+import { axiosPostWithoutHeader } from "../../../functions/axiosFunctions";
 
 const Contact = () => {
   const [message, setMessage] = useState({
@@ -41,15 +47,11 @@ const Contact = () => {
       setIsEmptySubject(message.subject.length === 0);
       setIsEmptyMessage(message.message.length === 0);
 
-      toast.error("يجب ملئ جميع الحقول", {
-        position: toast.POSITION.TOP_LEFT,
-      });
+      handleError("جميع الحقول مطلوبة");
     } else {
       try {
-        const response = await axios.post(`${url}sendEmail`, message);
-        toast.success(response.data.message, {
-          position: toast.POSITION.TOP_LEFT,
-        });
+        const data = await axiosPostWithoutHeader("/mail/send", {message});
+        handleSuccess(data.message);
         setMessage({
           name: "",
           email: "",
@@ -57,14 +59,7 @@ const Contact = () => {
           message: "",
         });
       } catch (error) {
-        if (
-          error.response &&
-          error.response.status >= 400 &&
-          error.response.status <= 500
-        )
-          toast.error(error.response.data.error, {
-            position: toast.POSITION.TOP_LEFT,
-          });
+        handleError(error.response.data.error);
       }
     }
   };

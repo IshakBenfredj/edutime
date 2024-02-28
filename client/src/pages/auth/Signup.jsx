@@ -13,7 +13,7 @@ const SignupForm = () => {
   const [signupStep, setSignupStep] = useState("signup");
   const [signupDone, setSignupDone] = useState(false);
   const [signupInfo, setSignupInfo] = useState({
-    type: "",
+    isCenter: "",
     name: "",
     email: "",
     password: "",
@@ -38,7 +38,7 @@ const SignupForm = () => {
       signupInfo.name.length === 0 ||
       signupInfo.email.length === 0 ||
       signupInfo.password.length === 0 ||
-      signupInfo.type.length === 0
+      signupInfo.isCenter.length === 0
     ) {
       setEmptyInput(true);
       handleError("جميع الحقول مطلوبة");
@@ -85,15 +85,15 @@ const SignupForm = () => {
                 <div className="center">
                   <input
                     type="radio"
-                    checked={signupInfo.type === "user"}
+                    checked={signupInfo.isCenter === "user"}
                     onChange={handleSignupInfo}
-                    name="type"
+                    name="isCenter"
                     value={"user"}
                     id="user"
                   />
                   <label
                     className={`${
-                      emptyInput && !signupInfo.type && "text-red-500"
+                      emptyInput && !signupInfo.isCenter && "text-red-500"
                     }`}
                     htmlFor="user"
                   >
@@ -103,15 +103,15 @@ const SignupForm = () => {
                 <div className="center">
                   <input
                     type="radio"
-                    checked={signupInfo.type === "center"}
+                    checked={signupInfo.isCenter === "center"}
                     onChange={handleSignupInfo}
-                    name="type"
+                    name="isCenter"
                     value={"center"}
                     id="center"
                   />
                   <label
                     className={`${
-                      emptyInput && !signupInfo.type && "text-red-500"
+                      emptyInput && !signupInfo.isCenter && "text-red-500"
                     }`}
                     htmlFor="center"
                   >

@@ -26,15 +26,16 @@
 body.open::before,
 body.nav::before {
   content: "";
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
+  height: 100%;
   backdrop-filter: blur(3px);
-  z-index: 31;
+  z-index: 22;
 }
 body.nav::before {
   z-index: 40;
@@ -42,6 +43,14 @@ body.nav::before {
 
 .category:hover img {
   transform: scale(1.3, 1.3) rotate(-10deg);
+}
+
+a.active {
+  color: #4563c5;
+}
+a.activeBtn.active {
+  background-color: #4563c5;
+  color: #fff;
 }
 
 @layer components {
@@ -59,6 +68,9 @@ body.nav::before {
   }
   .input-label {
     @apply 
+  }
+  .active {
+    @apply text-title
   }
 }
 
