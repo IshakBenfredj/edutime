@@ -22,6 +22,13 @@ const coursesSlice = createSlice({
       );
       return coursesWithoutdeletedCourse;
     },
+    updateCourse: (state, action) => {
+      const { id, data } = action.payload;
+      const index = state.findIndex((course) => course._id === id);
+      if (index !== -1) {
+        state[index] = { ...state[index], ...data };
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getCourses.fulfilled, (state, action) => {
@@ -30,5 +37,5 @@ const coursesSlice = createSlice({
   },
 });
 
-export const { addCourse, deleteCourse } = coursesSlice.actions;
+export const { addCourse, deleteCourse,updateCourse } = coursesSlice.actions;
 export default coursesSlice.reducer;

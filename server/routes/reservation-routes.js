@@ -4,13 +4,15 @@ const {
   accpetRefuseRes,
   addReservation,
   deleteReservation,
-  getReservations,
+  getClientReservations,
+  getUserReservations,
 } = require("../controllers/reservationController.js");
 
 const router = express.Router();
 
-router.get("/", getReservations);
 router.post("/add", requireAuth, addReservation);
+router.get("/client",requireAuth, getClientReservations);
+router.get("/user",requireAuth, getUserReservations);
 router.delete("/delete/:id", requireAuth, deleteReservation);
 router.put("/accpetRefuseRes/:etat", requireAuth, accpetRefuseRes);
 

@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Home from "./pages/home/Home";
 // import Footer from "./components/footer/Footer";
 import Auth from "./pages/auth/Auth";
-import AddCoursework from "./pages/AddCoursework.jsx";
+import AddCourse from "./pages/AddCourse.jsx";
 // import CourseworkDetails from "./pages/details/CourseworkDetails";
 // import ReserveForm from "./pages/reserve/ReserveForm";
 // import CenterDetails from "./pages/details/CenterDetails";
@@ -29,12 +29,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUsers } from "./toolkit/slices/users.js";
 import { getComments } from "./toolkit/slices/comments.js";
 import { getArticles } from "./toolkit/slices/articles.js";
-import { getReservations } from "./toolkit/slices/reservations.js";
+import {
+  getClientReservations,
+  getReservations,
+  getUserReservations,
+} from "./toolkit/slices/reservations.js";
 import { logout, update } from "./toolkit/slices/user.js";
 import { axiosGetWithoutHeader } from "./functions/axiosFunctions.js";
 import { handleError } from "./functions/toastifyFunctions.js";
 import Settings from "./pages/Settings.jsx";
 import Navbar from "./components/navbar/Navbar.jsx";
+import EditCourse from "./pages/EditCourse.jsx";
+import ClientReservations from "./pages/ClientReservations.jsx";
+import UserReservations from "./pages/UserReservations.jsx";
 
 export const setTitle = (newTitle) => {
   document.title = newTitle;
@@ -47,10 +54,12 @@ function App() {
 
   useEffect(() => {
     dispatch(getUsers());
-    dispatch(getComments());
-    dispatch(getArticles());
-    dispatch(getReservations());
-  }, [dispatch]);
+    // dispatch(getComments());
+    // dispatch(getArticles());
+    user && user.isCenter
+      ? dispatch(getUserReservations())
+      : dispatch(getClientReservations());
+  }, [dispatch, user]);
 
   useEffect(() => {
     const verifyToken = async () => {
@@ -106,7 +115,19 @@ function App() {
         />
         <Route
           path="/add_announcement"
-          element={<PrivateRoute Element={AddCoursework} />}
+          element={<PrivateRoute Element={AddCourse} />}
+        />
+        <Route
+          path="/edit_course/:id"
+          element={<PrivateRoute Element={EditCourse} />}
+        />
+        <Route
+          path="/reservations"
+          element={<PrivateRoute Element={UserReservations} />}
+        />
+        <Route
+          path="/my_reservations"
+          element={<PrivateRoute Element={ClientReservations} />}
         />
         {/* <Route
           path="/courseworkDetails/:courseworkname/:id"
@@ -121,10 +142,6 @@ function App() {
         {/* <Route path="/users" element={<AllCenters />} /> */}
         {/* <Route path="/centers" element={<AllCenters />} /> */}
         {/* <Route path="/search/:type/:searchText" element={<Search />} /> */}
-        {/* <Route
-          path="/orders"
-          element={<PrivateRoute Element={Reservations} />}
-        /> */}
         {/* <Route path="/termsAndConditions" element={<TermsAndConditions />} />
         <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
         <Route path="/platformWork" element={<PlatformWork />} />

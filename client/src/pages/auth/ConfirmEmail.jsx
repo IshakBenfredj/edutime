@@ -29,7 +29,7 @@ const ConfirmEmail = ({ setLoginStep, userReset, responseCode }) => {
             <input
               type="text"
               value={inputCode}
-              className={`${emptyCode && "border-red-500"}`}
+              className={`input ${emptyCode && "border-red-500"}`}
               onChange={(e) => setInputCode(e.target.value)}
               placeholder="الرمز"
             />

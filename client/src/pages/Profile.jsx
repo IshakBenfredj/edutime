@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { FaMapMarkerAlt, FaPhone, FaRegHeart } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
-import CourseworkCard from "../components/CourseworkCard";
+import CourseCard from "../components/CourseCard";
 import { FaHeartCircleCheck } from "react-icons/fa6";
 import { BsSendPlus } from "react-icons/bs";
 import { IoCloseSharp } from "react-icons/io5";
@@ -181,7 +181,7 @@ export default function Profile() {
           <div className="col-span-3 grid lg:grid-cols-3 2xl:grid-cols-4 grid-cols-2 lg:gap-6 gap-2 p-4 h-fit">
             {courses &&
               courses.map((course) => (
-                <CourseworkCard data={course} key={course._id} />
+                <CourseCard data={course} key={course._id} />
               ))}
           </div>
         </div>

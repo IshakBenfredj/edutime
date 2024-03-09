@@ -48,7 +48,7 @@ const EmailVerify = ({ setLoginStep, setUserReset, setResponseCode }) => {
               type="email"
               name="email"
               value={loginUser.email}
-              className={`${emptyInput && "border-red-500"}`}
+              className={`input ${emptyInput && "border-red-500"}`}
               onChange={handleChangeUser}
               placeholder="البريد الإلكتروني"
             />

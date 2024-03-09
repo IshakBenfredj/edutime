@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { FaRegUserCircle, FaUserCircle } from "react-icons/fa";
 import { IoSettingsSharp, IoLogOut } from "react-icons/io5";
+import { deleteAllLogout } from "../../toolkit/slices/reservations";
 
 export default function NavDropdown({ closeAll }) {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ export default function NavDropdown({ closeAll }) {
 
   const handleLogOut = () => {
     dispatch(logout());
+    dispatch(deleteAllLogout());
     localStorage.removeItem("token");
     navigate("/");
     handleSuccess("تم تسجيل الخروج بنجاح");

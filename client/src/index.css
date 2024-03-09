@@ -53,6 +53,15 @@ a.activeBtn.active {
   color: #fff;
 }
 
+th,td {
+  text-align: right;
+  padding: 10px;
+}
+th {
+  background-color: rgb(20 184 166 / var(--tw-bg-opacity));
+  color: #fff;
+}
+
 @layer components {
   .navbar {
     @apply md:flex md:relative fixed md:p-0 p-3 md:w-fit w-4/5
@@ -71,6 +80,9 @@ a.activeBtn.active {
   }
   .active {
     @apply text-title
+  }
+  .ps {
+    @apply pt-20 lg:pb-6 pb-20
   }
 }
 

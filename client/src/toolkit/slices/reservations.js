@@ -1,29 +1,48 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import Axios from "../../api";
+import { axiosGetWithHeader } from "../../functions/axiosFunctions";
 
-export const getReservations = createAsyncThunk('reservationsSlice/getReservations', async () => {
-    const { data } = await Axios.get('/reservations')
-    return data
-})
+export const getClientReservations = createAsyncThunk(
+  "reservationsSlice/getClientReservations",
+  async () => {
+    const data = await axiosGetWithHeader(`/reservations/client`);
+    return data;
+  }
+);
+export const getUserReservations = createAsyncThunk(
+  "reservationsSlice/getUserReservations",
+  async () => {
+    const data = await axiosGetWithHeader(`/reservations/user`);
+    return data;
+  }
+);
 
 const reservationsSlice = createSlice({
-    initialState : [],
-    name : 'reservationsSlice',
-    reducers: {
-        addReservation : (state,action) => {
-            state.push(action.payload)
-        },
-        deleteReservation : (state,action) => {
-            const filterReservations = state.filter( reservation => reservation._id !== action.payload )
-            return filterReservations
-        }
+  initialState: [],
+  name: "reservationsSlice",
+  reducers: {
+    addReservation: (state, action) => {
+      state.push(action.payload);
     },
-    extraReducers : (builder) => {
-        builder.addCase(getReservations.fulfilled, (state, action) => {
-            return action.payload
-        })
+    deleteReservation: (state, action) => {
+      const filterReservations = state.filter(
+        (reservation) => reservation._id !== action.payload
+      );
+      return filterReservations;
     },
-})
+    deleteAllLogout: (state, action) => {
+      return [];
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(getClientReservations.fulfilled, (state, action) => {
+      return action.payload;
+    });
+    builder.addCase(getUserReservations.fulfilled, (state, action) => {
+      return action.payload;
+    });
+  },
+});
 
-export const { addReservation, deleteReservation } = reservationsSlice.actions
-export default reservationsSlice.reducer
+export const { addReservation, deleteReservation, deleteAllLogout } =
+  reservationsSlice.actions;
+export default reservationsSlice.reducer;

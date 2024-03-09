@@ -10,7 +10,12 @@ import { AiOutlinePlusCircle, AiFillPlusCircle } from "react-icons/ai";
 import Notifications from "./Notifications";
 import Messages from "./Messages";
 
-export default function LargeScreen({ showSearch, setShowSearch, closeAll }) {
+export default function LargeScreen({
+  showSearch,
+  setShowSearch,
+  closeAll,
+  setOpenNav,
+}) {
   const user = useSelector((s) => s.user);
   const path = useLocation().pathname;
 
@@ -48,30 +53,36 @@ export default function LargeScreen({ showSearch, setShowSearch, closeAll }) {
       <div className="flex items-center gap-4 z-40">
         {user && (
           <>
-            <Search setShowSearch={setShowSearch} showSearch={showSearch} />
+            <Search
+              setShowSearch={setShowSearch}
+              showSearch={showSearch}
+              setOpenNav={setOpenNav}
+            />
             <Notifications />
             <Messages />
+            <NavLink
+              to={user.isCenter ? `/reservations` : `/my_reservations`}
+              className="p-1 rounded-lg text-gray-500 transition-all hover:text-title font-bold flex justify-center items-center gap-1"
+            >
+              {path === "/reservations" || path === "/my_reservations" ? (
+                <PiStudentFill size={28} />
+              ) : (
+                <PiStudent size={28} />
+              )}
+              <span>{user.isCenter ? "الحجوزات" : "حجوزاتي"}</span>
+            </NavLink>
             {user.isCenter && (
-              <>
-                <NavLink
-                  to={`/reservations`}
-                  className="p-1 rounded-lg text-gray-500 transition-all hover:text-title font-bold flex justify-center items-center gap-1"
-                >
-                  <PiStudent size={28} />
-                  <span>الحجوزات</span>
-                </NavLink>
-                <NavLink
-                  to={`/add_announcement`}
-                  className="p-1 rounded-lg text-gray-500 transition-all hover:text-title font-bold flex justify-center items-center gap-1"
-                >
-                  {path === "/add_announcement" ? (
-                    <AiFillPlusCircle size={30} />
-                  ) : (
-                    <AiOutlinePlusCircle size={30} />
-                  )}
-                  <span>إضافة إعلان</span>
-                </NavLink>
-              </>
+              <NavLink
+                to={`/add_announcement`}
+                className="p-1 rounded-lg text-gray-500 transition-all hover:text-title font-bold flex justify-center items-center gap-1"
+              >
+                {path === "/add_announcement" ? (
+                  <AiFillPlusCircle size={30} />
+                ) : (
+                  <AiOutlinePlusCircle size={30} />
+                )}
+                <span>إضافة إعلان</span>
+              </NavLink>
             )}
           </>
         )}

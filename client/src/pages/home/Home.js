@@ -3,14 +3,14 @@ import Landing from "./Landing";
 import Categories from "./Categories";
 import About from "./About";
 import Contact from "./contact/Contact";
-import CourseworksSugg from "./CourseworksSugg";
+import CoursesSugg from "./CoursesSugg";
 import WhyUs from "./WhyUs";
 const Home = () => {
   return (
     <>
       <Landing />
       <Categories />
-      <CourseworksSugg />
+      <CoursesSugg />
       <About />
       <WhyUs />
       <Contact />

@@ -39,6 +39,7 @@ export default function Navbar() {
         showSearch={showSearch}
         setShowSearch={setShowSearch}
         closeAll={closeAll}
+        setOpenNav={setOpenNav}
       />
       <PhoneScreen
         openNav={openNav}

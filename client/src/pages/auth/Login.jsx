@@ -35,7 +35,7 @@ const Login = () => {
           <div className="title">تم تغيير كلمة السر بنجاح</div>
           <div className="text sign-up-text">
             {" "}
-            <Link className="text-primary" onClick={() => setLoginStep("login")}>تسجيل الدخول</Link>
+            <Link className="text-primary input" onClick={() => setLoginStep("login")}>تسجيل الدخول</Link>
           </div>
         </div>
       )}

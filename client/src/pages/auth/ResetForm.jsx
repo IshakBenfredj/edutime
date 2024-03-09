@@ -47,14 +47,14 @@ const ResetForm = ({ setLoginStep, userReset }) => {
             <input
               type="text"
               name="password"
-              className={`${emptyInput && "border-2 border-red-500"}`}
+              className={`input ${emptyInput && "border-2 border-red-500"}`}
               value={loginUser.password}
               onChange={handleChangeUser}
               placeholder="كلمة السر الجديدة"
             />
           </div>
           <div className="button input-box center">
-            <input type="submit" value="تغيير" />
+            <input type="submit" value="تغيير" className="input" />
           </div>
         </div>
       </form>
