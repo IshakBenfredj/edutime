@@ -18,7 +18,7 @@ export default function UserReservations() {
   return (
     <div className="ps bg-bgcolor min-h-screen">
       <div className="container">
-        <Title title={"الحجوزات"} />
+        <Title title={"طلبات الحجز"} />
         <div className="flex items-center justify-center gap-3">
           <button
             onClick={() => setIsWait(true)}
@@ -39,7 +39,9 @@ export default function UserReservations() {
         </div>
         <div className="space-y-4 mt-4">
           {myCourses &&
-            myCourses.map((c) => <ReservationsTable course={c} key={c._id} />)}
+            myCourses.map((c) => (
+              <ReservationsTable course={c} key={c._id} isWait={isWait} />
+            ))}
         </div>
       </div>
     </div>

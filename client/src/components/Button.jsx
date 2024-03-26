@@ -1,8 +1,15 @@
 import React from "react";
 
-export default function Button({ text, loadingText, loading, color }) {
+export default function Button({
+  text,
+  loadingText,
+  loading,
+  color,
+  clickFunc,
+}) {
   return (
     <button
+      onClick={() => !loading && clickFunc && clickFunc()}
       className={`py-1 px-3 w-fit md:text-base text-sm block mx-auto ${
         loading
           ? "bg-gray-500"

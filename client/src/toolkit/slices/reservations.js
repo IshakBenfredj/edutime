@@ -32,6 +32,13 @@ const reservationsSlice = createSlice({
     deleteAllLogout: (state, action) => {
       return [];
     },
+    updateReservation: (state, action) => {
+      const { id, data } = action.payload;
+      const index = state.findIndex((r) => r._id === id);
+      if (index !== -1) {
+        state[index] = { ...state[index], ...data };
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getClientReservations.fulfilled, (state, action) => {
@@ -43,6 +50,6 @@ const reservationsSlice = createSlice({
   },
 });
 
-export const { addReservation, deleteReservation, deleteAllLogout } =
+export const { addReservation, deleteReservation, deleteAllLogout,updateReservation } =
   reservationsSlice.actions;
 export default reservationsSlice.reducer;

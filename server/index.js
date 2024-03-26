@@ -5,7 +5,6 @@ const morgan = require("morgan");
 const mongoose = require("mongoose");
 const helmet = require("helmet");
 const bodyParser = require("body-parser");
-// import cron from "node-cron";
 
 // Import Routes
 const authRoutes = require("./routes/auth-routes.js");
@@ -13,7 +12,12 @@ const courseRoutes = require("./routes/course-routes.js");
 const commentRoutes = require("./routes/comment-routes.js");
 const reservationRoutes = require("./routes/reservation-routes.js");
 const userRoutes = require("./routes/user-routes.js");
-const articleRoutes = require("./routes/article-routes.js");
+const blogRoutes = require("./routes/blog-routes.js");
+const postRoutes = require("./routes/post-routes.js");
+const requestRoutes = require("./routes/request-routes.js");
+const conversationRoutes = require("./routes/conversations-routes.js");
+const messageRoutes = require("./routes/messages-routes.js");
+const notificationRoutes = require("./routes/notification-routes.js");
 const { sendMailFromUserToTeam } = require("./middlewares/nodemailer.js");
 
 const app = express();
@@ -41,8 +45,14 @@ app.use("/auth", authRoutes);
 app.use("/courses", courseRoutes);
 app.use("/users", userRoutes);
 app.use("/reservations", reservationRoutes);
-app.use("/articles", articleRoutes);
+app.use("/posts", postRoutes);
+app.use("/blogs", blogRoutes);
 app.use("/comments", commentRoutes);
+app.use("/conversations", conversationRoutes);
+app.use("/messages", messageRoutes);
+app.use("/requests", requestRoutes);
+app.use("/notifications", notificationRoutes);
+
 app.use("/mail/send", async (req, res) => {
   try {
     const { message } = req.body;

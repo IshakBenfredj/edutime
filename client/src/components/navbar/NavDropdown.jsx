@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { logout } from "../../toolkit/slices/user";
 import { handleSuccess } from "../../functions/toastifyFunctions";
 import { useEffect, useRef, useState } from "react";
@@ -8,17 +8,16 @@ import { FaRegUserCircle, FaUserCircle } from "react-icons/fa";
 import { IoSettingsSharp, IoLogOut } from "react-icons/io5";
 import { deleteAllLogout } from "../../toolkit/slices/reservations";
 
-export default function NavDropdown({ closeAll }) {
+export default function NavDropdown({
+  closeAll,
+  setPopupMessages,
+  setPopupNot,
+}) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
   const [openDD, setOpenDD] = useState(false);
   const ddRef = useRef(null);
-  const path = useLocation().pathname;
-
-  useEffect(() => {
-    console.log(path);
-  }, [path]);
 
   const handleLogOut = () => {
     dispatch(logout());
@@ -37,6 +36,8 @@ export default function NavDropdown({ closeAll }) {
   const openDDFunc = () => {
     closeAll();
     setOpenDD(true);
+    setPopupMessages(false);
+    setPopupNot(false);
     document.body.classList.add("nav");
   };
 

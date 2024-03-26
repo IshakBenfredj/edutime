@@ -1,7 +1,7 @@
 const express = require("express");
 const requireAuth = require("../middlewares/requireAuth.js");
 const {
-  accpetRefuseRes,
+  accpetRes,
   addReservation,
   deleteReservation,
   getClientReservations,
@@ -14,6 +14,6 @@ router.post("/add", requireAuth, addReservation);
 router.get("/client",requireAuth, getClientReservations);
 router.get("/user",requireAuth, getUserReservations);
 router.delete("/delete/:id", requireAuth, deleteReservation);
-router.put("/accpetRefuseRes/:etat", requireAuth, accpetRefuseRes);
+router.put("/accept/:id", requireAuth, accpetRes);
 
 module.exports = router;

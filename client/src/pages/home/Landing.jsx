@@ -1,5 +1,5 @@
 import images from "../../constants/images";
-import { MdClose, MdOutlineSlowMotionVideo } from "react-icons/md";
+import { MdClose, MdDownloading, MdOutlineSlowMotionVideo } from "react-icons/md";
 import landing_video from "../../assets/landing-video.mp4";
 import { useState } from "react";
 import TypePopup from "../../components/TypePopup";
@@ -33,13 +33,23 @@ const Landing = () => {
               <br />
               كل ما تحتاجه في مكان واحد
             </p>
-            <button
-              onClick={() => setShowVideo(true)}
-              className="flex items-center gap-3 text-secondary hover:underline w-fit"
-            >
-              <MdOutlineSlowMotionVideo size={40} />
-              <span className="text-xl font-bold">شاهد الفيديو</span>
-            </button>
+            <div className="flex md:flex-row flex-col md:items-center md:gap-5 gap-2">
+              <button
+                onClick={() => setShowVideo(true)}
+                className="flex items-center gap-3 text-secondary hover:underline w-fit"
+              >
+                <MdOutlineSlowMotionVideo size={40} />
+                <span className="text-xl font-bold">شاهد الفيديو</span>
+              </button>
+              <a
+                href={images.depliant}
+                download={true}
+                className="flex items-center gap-3 text-secondary hover:underline w-fit"
+              >
+                <MdDownloading size={40} />
+                <span className="text-xl font-bold">تحميل مطويتنا</span>
+              </a>
+            </div>
           </div>
           <div className="">
             <img src={images.landing} alt="landing" />

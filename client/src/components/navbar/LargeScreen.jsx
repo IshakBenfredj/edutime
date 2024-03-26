@@ -3,18 +3,23 @@ import images from "../../constants/images";
 import { useSelector } from "react-redux";
 import Search from "./Search";
 import NavDropdown from "./NavDropdown";
+import AddAnnDropdown from "./AddAnnDropdown";
+import Notifications from "./Notifications";
+import Messages from "./Messages";
 
 // Import Icons
 import { PiStudent, PiStudentFill } from "react-icons/pi";
-import { AiOutlinePlusCircle, AiFillPlusCircle } from "react-icons/ai";
-import Notifications from "./Notifications";
-import Messages from "./Messages";
+import RequestDropdown from "./RequestDropdown";
 
 export default function LargeScreen({
   showSearch,
   setShowSearch,
   closeAll,
   setOpenNav,
+  popupMessages,
+  setPopupMessages,
+  setPopupNot,
+  popupNot,
 }) {
   const user = useSelector((s) => s.user);
   const path = useLocation().pathname;
@@ -38,55 +43,73 @@ export default function LargeScreen({
           الدورات
         </NavLink>
         <NavLink
-          to={`/articles`}
+          to={`/blogs`}
           className={`p-2 text-lg text-gray-500 transition-all hover:text-title`}
         >
           المدونة
         </NavLink>
         <NavLink
-          to={`/articles`}
+          to={`/forum`}
           className={`p-2 text-lg text-gray-500 transition-all hover:text-title`}
         >
           المنتدى
         </NavLink>
       </nav>
       <div className="flex items-center gap-4 z-40">
+        <Search
+          setShowSearch={setShowSearch}
+          showSearch={showSearch}
+          setOpenNav={setOpenNav}
+          setPopupMessages={setPopupMessages}
+          setPopupNot={setPopupNot}
+        />
         {user && (
           <>
-            <Search
-              setShowSearch={setShowSearch}
-              showSearch={showSearch}
-              setOpenNav={setOpenNav}
+            <Notifications
+              closeAll={closeAll}
+              popup={popupNot}
+              setPopup={setPopupNot}
+              setPopupMessages={setPopupMessages}
             />
-            <Notifications />
-            <Messages />
-            <NavLink
-              to={user.isCenter ? `/reservations` : `/my_reservations`}
-              className="p-1 rounded-lg text-gray-500 transition-all hover:text-title font-bold flex justify-center items-center gap-1"
-            >
-              {path === "/reservations" || path === "/my_reservations" ? (
-                <PiStudentFill size={28} />
-              ) : (
-                <PiStudent size={28} />
-              )}
-              <span>{user.isCenter ? "الحجوزات" : "حجوزاتي"}</span>
-            </NavLink>
-            {user.isCenter && (
+            <Messages
+              popup={popupMessages}
+              setPopup={setPopupMessages}
+              closeAll={closeAll}
+              setPopupNot={setPopupNot}
+            />
+            {!user.isAdmin ? (
               <NavLink
-                to={`/add_announcement`}
+                to={user.isCenter ? `/reservations` : `/my_reservations`}
                 className="p-1 rounded-lg text-gray-500 transition-all hover:text-title font-bold flex justify-center items-center gap-1"
               >
-                {path === "/add_announcement" ? (
-                  <AiFillPlusCircle size={30} />
+                {path === "/reservations" || path === "/my_reservations" ? (
+                  <PiStudentFill size={28} />
                 ) : (
-                  <AiOutlinePlusCircle size={30} />
+                  <PiStudent size={28} />
                 )}
-                <span>إضافة إعلان</span>
+                <span>{user.isCenter ? "الحجوزات" : "حجوزاتي"}</span>
               </NavLink>
+            ) : (
+              <RequestDropdown
+                closeAll={closeAll}
+                setPopupMessages={setPopupMessages}
+                setPopupNot={setPopupNot}
+              />
+            )}
+            {(user.isCenter || user.isAdmin) && (
+              <AddAnnDropdown
+                closeAll={closeAll}
+                setPopupMessages={setPopupMessages}
+                setPopupNot={setPopupNot}
+              />
             )}
           </>
         )}
-        <NavDropdown closeAll={closeAll} />
+        <NavDropdown
+          closeAll={closeAll}
+          setPopupMessages={setPopupMessages}
+          setPopupNot={setPopupNot}
+        />
       </div>
     </div>
   );

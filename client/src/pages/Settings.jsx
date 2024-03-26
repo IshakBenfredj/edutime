@@ -5,10 +5,14 @@ import DropSettings from "../components/DropSettings";
 import { FaUserEdit, FaUserTie, FaMapMarkerAlt, FaPhone } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { FaHeartCircleCheck } from "react-icons/fa6";
-import images from "../constants/images";
-import { axiosPutWithHeader } from "../functions/axiosFunctions";
+import {
+  axiosDeleteWithHeader,
+  axiosPutWithHeader,
+} from "../functions/axiosFunctions";
 import { handleError, handleSuccess } from "../functions/toastifyFunctions";
 import { logout, update } from "../toolkit/slices/user";
+import { useNavigate } from "react-router-dom";
+import Request from "../components/Request";
 
 export default function Settings() {
   const user = useSelector((s) => s.user);
@@ -31,7 +35,7 @@ export default function Settings() {
   const [oldPassword, setOldPassword] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConf, setPasswordConf] = useState("");
-  const [imageCheck, setImageCheck] = useState("");
+  const navigate = useNavigate();
   const [loading, setLoading] = useState({
     name: false,
     imageProfile: false,
@@ -119,6 +123,23 @@ export default function Settings() {
       ...prev,
       imageProfile: false,
     }));
+  };
+
+  const handleDelete = async () => {
+    // eslint-disable-next-line no-restricted-globals
+    const confirmDelete = confirm("هل ترغب فعلا في حذف حسابك ؟");
+    if (confirmDelete) {
+      try {
+        const data = await axiosDeleteWithHeader(`/users/delete/${user._id}`);
+
+        handleSuccess(data.message);
+        navigate("/");
+        dispatch(logout());
+        localStorage.removeItem("token");
+      } catch (error) {
+        handleError(error.response.data.error);
+      }
+    }
   };
 
   return (
@@ -316,23 +337,14 @@ export default function Settings() {
             </DropSettings>
           </div>
         </div>
-      </div>
-      <div className="col-span-1 lg:w-4/5 w-[100%] mx-auto bg-white rounded-lg h-fit p-4">
-        <img src={images.checkmark} alt="" className="w-1/3 mx-auto" />
-        <p className="text-color mt-4 leading-8">
-          أحصل على التوثيق الخاص بحسابك من أجل زيادة مصداقيتك على منصتنا, وجعل
-          حسابك رسمي لتمييزه من بين الحسابات الزائفة , أرسل طلبك مرفوقا بصورة
-          لبطاقة التعريف الوطنية .
-        </p>
-        <UploadImage image={imageCheck} setImage={setImageCheck} />
         <button
-          className={`mt-4 rounded-lg mx-auto block ${
-            imageCheck ? "bg-title" : "bg-gray-400 cursor-not-allowed"
-          } text-white p-2`}
+          onClick={handleDelete}
+          className="w-full bg-red-500 text-white p-2 font-bold text-lg rounded-md"
         >
-          {loading.imageCheck ? "جاري الطلب ..." : "طلب التوثيق"}
+          حذف الحساب
         </button>
       </div>
+     <Request /> 
     </div>
   );
 }

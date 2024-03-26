@@ -20,6 +20,15 @@ import google from "../assets/google.png";
 import checkmark from "../assets/checkmark.png";
 import listPrivate from "../assets/listPrivate.png";
 import addAd from "../assets/addAd.jpg";
+import unavailable from "../assets/unavailable.png";
+import authenticationReq from "../assets/authenticationReq.png";
+import teacher from "../assets/teacher.png";
+import ads from "../assets/ads.png";
+import ads2 from "../assets/ads.jpg";
+import ads3 from "../assets/ads3.jpg";
+import ads4 from "../assets/ads4.png";
+import notfound from "../assets/notfound.png";
+import depliant from "../assets/pdf/depliant.pdf";
 
 const images = {
   whiteLogo,
@@ -43,7 +52,18 @@ const images = {
   google,
   checkmark,
   listPrivate,
-  addAd ,
+  addAd,
+  unavailable,
+  authenticationReq,
+  teacher,
+  depliant,
+  ads,
+  ads2,
+  ads3,
+  ads4,
+  notfound,
+  pProfile:
+    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
 };
 
 export default images;

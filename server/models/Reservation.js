@@ -14,7 +14,7 @@ const reservationSchema = new Schema(
     name: { type: String, required: true },
     phone: { type: String, required: true },
     address: { type: String, required: true },
-    state: { type: String, default: "wait" },
+    isAccept: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

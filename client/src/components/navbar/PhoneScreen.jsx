@@ -4,14 +4,15 @@ import NavDropdown from "./NavDropdown";
 import { NavLink, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Search from "./Search";
+import Messages from "./Messages";
+import Notifications from "./Notifications";
+import AddAnnDropdown from "./AddAnnDropdown";
 
 // Import Icons
 import { FaBars } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { PiStudent, PiStudentFill } from "react-icons/pi";
-import { AiOutlinePlusCircle, AiFillPlusCircle } from "react-icons/ai";
-import Messages from "./Messages";
-import Notifications from "./Notifications";
+import RequestDropdown from "./RequestDropdown";
 
 export default function PhoneScreen({
   openNav,
@@ -19,6 +20,10 @@ export default function PhoneScreen({
   showSearch,
   setShowSearch,
   setOpenNav,
+  popupMessages,
+  setPopupMessages,
+  setPopupNot,
+  popupNot,
 }) {
   const user = useSelector((s) => s.user);
   const path = useLocation().pathname;
@@ -26,11 +31,12 @@ export default function PhoneScreen({
   const openNavFunc = () => {
     setOpenNav(!openNav);
     setShowSearch(false);
+    setPopupMessages(false);
+    setPopupNot(false);
     document.querySelector("body").classList.remove("open");
     document.querySelector("body").classList.add("nav");
   };
 
-  console.log(path);
   return (
     <div className="px-3 lg:hidden relative flex items-center h-[100%] justify-between">
       <div className="flex items-center gap-3">
@@ -40,35 +46,39 @@ export default function PhoneScreen({
         >
           {openNav ? <IoClose size={24} /> : <FaBars size={24} />}
         </div>
-        <NavDropdown closeAll={closeAll} />
+        <NavDropdown
+          closeAll={closeAll}
+          setPopupMessages={setPopupMessages}
+          setPopupNot={setPopupNot}
+        />
         {user && (
           <>
             {user.isCenter && (
-              <>
-                <NavLink
-                  onClick={closeAll}
-                  to={`/add_announcement`}
-                  className="rounded-lg text-gray-500 transition-all hover:text-title font-bold flex justify-center items-center"
-                >
-                  {path === "/add_announcement" ? (
-                    <AiFillPlusCircle size={30} />
-                  ) : (
-                    <AiOutlinePlusCircle size={30} />
-                  )}
-                </NavLink>
-              </>
+              <AddAnnDropdown
+                closeAll={closeAll}
+                setPopupMessages={setPopupMessages}
+                setPopupNot={setPopupNot}
+              />
             )}
-            <NavLink
-              onClick={closeAll}
-              to={user.isCenter ? `/reservations` : `/my_reservations`}
-              className="rounded-lg text-gray-500 transition-all hover:text-title font-bold flex justify-center items-center"
-            >
-              {path === "/reservations" || path === "/my_reservations" ? (
-                <PiStudentFill size={30} />
-              ) : (
-                <PiStudent size={30} />
-              )}
-            </NavLink>
+            {!user.isAdmin ? (
+              <NavLink
+                onClick={closeAll}
+                to={user.isCenter ? `/reservations` : `/my_reservations`}
+                className="rounded-lg text-gray-500 transition-all hover:text-title font-bold flex justify-center items-center"
+              >
+                {path === "/reservations" || path === "/my_reservations" ? (
+                  <PiStudentFill size={30} />
+                ) : (
+                  <PiStudent size={30} />
+                )}
+              </NavLink>
+            ) : (
+              <RequestDropdown
+                closeAll={closeAll}
+                setPopupMessages={setPopupMessages}
+                setPopupNot={setPopupNot}
+              />
+            )}
           </>
         )}
         {!user && (
@@ -76,6 +86,8 @@ export default function PhoneScreen({
             setOpenNav={setOpenNav}
             showSearch={showSearch}
             setShowSearch={setShowSearch}
+            setPopupMessages={setPopupMessages}
+            setPopupNot={setPopupNot}
           />
         )}
       </div>
@@ -105,14 +117,14 @@ export default function PhoneScreen({
         </NavLink>
         <NavLink
           onClick={closeAll}
-          to={`/articles`}
+          to={`/blogs`}
           className={`p-2 text-lg text-gray-500 transition-all hover:text-title`}
         >
           المدونة
         </NavLink>
         <NavLink
           onClick={closeAll}
-          to={`/articles`}
+          to={`/forum`}
           className={`p-2 text-lg text-gray-500 transition-all hover:text-title`}
         >
           المنتدى
@@ -121,7 +133,12 @@ export default function PhoneScreen({
       {user && (
         <nav className="fixed bottom-0 flex justify-center items-center gap-9 w-screen right-0 h-14 bg-white border-[1px] border-gray-400">
           <div className="flex items-center flex-col justify-center py-2">
-            <Messages />
+            <Messages
+              popup={popupMessages}
+              setPopup={setPopupMessages}
+              closeAll={closeAll}
+              setPopupNot={setPopupNot}
+            />
             <span className="text-gray-500 text-[8px] font-bold">الرسائل</span>
           </div>
           <div className="flex items-center flex-col justify-center py-2">
@@ -129,11 +146,18 @@ export default function PhoneScreen({
               setOpenNav={setOpenNav}
               showSearch={showSearch}
               setShowSearch={setShowSearch}
+              setPopupMessages={setPopupMessages}
+              setPopupNot={setPopupNot}
             />
             <span className="text-gray-500 text-[8px] font-bold">البحث</span>
           </div>
           <div className="flex items-center flex-col justify-center py-2">
-            <Notifications />
+            <Notifications
+              closeAll={closeAll}
+              popup={popupNot}
+              setPopup={setPopupNot}
+              setPopupMessages={setPopupMessages}
+            />
             <span className="text-gray-500 text-[8px] font-bold">
               الإشعارات
             </span>

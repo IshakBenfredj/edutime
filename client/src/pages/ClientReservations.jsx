@@ -18,19 +18,19 @@ export default function ClientReservations() {
   return (
     <div className="ps bg-bgcolor min-h-screen">
       <div className="container">
-        <Title title={"الحجوزات"} />
+        <Title title={"حجوزاتي"} />
         <Remark
           text={
             "عند حذف أي إعلان من قبل المشرف عليه فإنه سيتم حذف جميع الحجوزات المتعلقة به تلقائيا"
           }
         />
         <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 justify-center lg:gap-6 md:gap-3 gap-1 mt-6">
-          {reservations ? (
+          {!reservations.length ? (
+            <Empty text={"لا يوجد أي حجوزات"} />
+          ) : (
             reservations.map((r) => (
               <ReservationCard key={r && r._id} data={r} />
             ))
-          ) : (
-            <Empty text={"لا يوجد أي حجوزات"} />
           )}
         </div>
       </div>

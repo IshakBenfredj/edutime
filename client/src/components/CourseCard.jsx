@@ -1,13 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { FaCalendarDays, FaPhone, FaRegClock } from "react-icons/fa6";
-import { MdOutlineMessage } from "react-icons/md";
+import { MdOutlineMessage, MdDeleteForever, MdEdit } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { PiCertificateFill } from "react-icons/pi";
 import { axiosDeleteWithHeader } from "../functions/axiosFunctions";
 import { handleSuccess } from "../functions/toastifyFunctions";
 import { deleteCourse } from "../toolkit/slices/courses";
 import ReservationPopup from "./ReservationPopup";
+import LoginPopup from "./LoginPopup";
+import Name from "./Name";
 
 export default function CourseCard({ data }) {
   const users = useSelector((state) => state.users);
@@ -45,9 +47,15 @@ export default function CourseCard({ data }) {
 
   return (
     <>
-      {reservation && !user.isCenter && (
-        <ReservationPopup course={data} setReservation={setReservation} />
-      )}
+      {reservation &&
+        (user ? (
+          !user.isCenter && (
+            <ReservationPopup course={data} setReservation={setReservation} />
+          )
+        ) : (
+          <LoginPopup set={setReservation} student />
+        ))}
+
       {userCourse && (
         <div className="bg-bgcolor shadow rounded-xl p-2 relative overflow-hidden">
           {data.certificate && (
@@ -93,7 +101,7 @@ export default function CourseCard({ data }) {
               alt=""
             />
             <span className="lg:text-sm text-xs font-bold">
-              {userCourse.name}
+              <Name name={userCourse.name} checkmark={userCourse.checkmark} width={"w-3"} />
             </span>
           </Link>
           {/* Title of course */}
@@ -132,39 +140,50 @@ export default function CourseCard({ data }) {
             </Link>
           </div>
           {/* Buttons */}
-          <div className="flex items-center lg:gap-2 gap-1 mt-2">
-            {!myCourse ? (
+          <div className="flex lg:gap-2 gap-1 mt-2">
+            {!user || (!myCourse && user && !user.isCenter) ? (
               <>
                 <button
                   onClick={() => setReservation(true)}
-                  className="p-1 lg:text-base text-xs text-white bg-title hover:bg-title/80 transition-all border-title border-2 w-2/3 text-center rounded-md"
+                  className="p-1 lg:text-base text-xs text-white bg-title hover:bg-title/80 transition-all border-title border-2 md:w-2/3 w-1/2 text-center rounded-md"
                 >
                   أحجز الآن
                 </button>
-                <Link
-                  to={`/course_details/${data._id}`}
-                  className="p-1 lg:text-base text-xs w-1/3 border-secondary transition-all hover:bg-secondary hover:text-white border-2 text-secondary rounded-md"
-                >
-                  التفاصيل
-                </Link>
               </>
             ) : (
-              <>
-                <Link
-                  to={`/edit_course/${data._id}`}
-                  className="p-1 lg:text-base text-xs text-white bg-title hover:bg-title/80 transition-all border-title border-2 w-2/3 text-center rounded-md"
-                >
-                  تعديل
-                </Link>
-                <button
-                  onClick={handleDelete}
-                  to={"/"}
-                  className="p-1 lg:text-base text-xs w-1/3 border-red-500 font-bold hover:bg-red-500 hover:text-white transition-all border-2 text-red-500 rounded-md"
-                >
-                  حذف
-                </button>
-              </>
+              myCourse && (
+                <>
+                  <Link
+                    to={`/edit_course/${data._id}`}
+                    className="p-1 lg:w-1/3 w-1/4 lg:text-2xl text-lg flex justify-center hover:text-white text-title hover:bg-title transition-all border-title border-2 rounded-md"
+                  >
+                    <MdEdit />
+                  </Link>
+                  <button
+                    onClick={handleDelete}
+                    to={"/"}
+                    className="p-1 lg:w-1/3 w-1/4 lg:text-2xl text-lg flex justify-center border-red-500 font-bold hover:bg-red-500 hover:text-white transition-all border-2 text-red-500 rounded-md"
+                  >
+                    <MdDeleteForever />
+                  </button>
+                </>
+              )
             )}
+            {user && user.isAdmin && (
+              <button
+                onClick={handleDelete}
+                to={"/"}
+                className="p-1 lg:w-1/3 w-1/4 lg:text-2xl text-lg flex justify-center border-red-500 font-bold hover:bg-red-500 hover:text-white transition-all border-2 text-red-500 rounded-md"
+              >
+                <MdDeleteForever />
+              </button>
+            )}
+            <Link
+              to={`/course_details/${data._id}`}
+              className="p-1 text-center lg:text-base text-xs md:w-1/3 w-1/2 border-secondary transition-all hover:bg-secondary hover:text-white border-2 text-secondary rounded-md"
+            >
+              التفاصيل
+            </Link>
           </div>
         </div>
       )}

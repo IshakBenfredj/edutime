@@ -15,7 +15,7 @@ const Categories = () => {
       <div className="container grid lg:grid-cols-5 grid-cols-3 gap-5">
         {data.map((e, index) => (
           <Link
-            to={`/courseworks/${e.name}`}
+            to={`/courses/${e.name}`}
             key={e.name}
             className={`category rounded-lg cursor-pointer bg-black overflow-hidden md:h-48 h-20 relative before:absolute before:w-full before:h-full
              before:z-10 before:bg-black/60 ${

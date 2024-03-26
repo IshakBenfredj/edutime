@@ -9,12 +9,13 @@ import { handleError, handleSuccess } from "../functions/toastifyFunctions";
 import { axiosPutWithHeader } from "../functions/axiosFunctions";
 import { useDispatch, useSelector } from "react-redux";
 import { updateCourse } from "../toolkit/slices/courses";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../components/loading/Loading";
 
 export default function EditCourse() {
   const dispatch = useDispatch();
   const courses = useSelector((s) => s.courses);
+  const user = useSelector((s) => s.user);
   const [course, setCourse] = useState("");
   const [image, setImage] = useState("");
   const [name, setName] = useState("");
@@ -33,11 +34,16 @@ export default function EditCourse() {
   const [loadingHandle, setLoadingHandle] = useState(false);
   const [empty, setEmpty] = useState(false);
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getCourseFunc = async () => {
       setLoading(true);
       const data = courses.find((c) => c._id === id);
+      if (!data || data.userId !== user._id) {
+        navigate("/404");
+        return;
+      }
       setCourse(data);
       setImage(data?.image ?? "");
       setName(data?.name ?? "");
@@ -55,7 +61,7 @@ export default function EditCourse() {
       setLoading(false);
     };
     getCourseFunc();
-  }, [id, courses]);
+  }, [id, courses, navigate]);
 
   useEffect(() => {
     if (

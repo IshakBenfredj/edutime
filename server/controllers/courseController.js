@@ -1,9 +1,8 @@
 const { sendMailPayment } = require("../middlewares/nodemailer.js");
-const uploadImage = require("../middlewares/uploadImage.js");
+const { uploadImage, deleteImage } = require("../middlewares/uploadImage.js");
 const Course = require("../models/Course.js");
 const Reservation = require("../models/Reservation.js");
 const User = require("../models/User.js");
-const cloudinary = require("cloudinary").v2;
 
 const addCourse = async (req, res) => {
   try {
@@ -24,9 +23,18 @@ const addCourse = async (req, res) => {
 
 const getCourses = async (req, res) => {
   try {
-    const allCourses = await Course.find();
-    const courses = allCourses.reverse();
+    const courses = await Course.find().sort({ createdAt: -1 });
+    res.status(201).json(courses);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "خطأ بالسيرفر" });
+  }
+};
 
+const getCoursesById = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const courses = await Course.find({ userId }).sort({ createdAt: -1 });
     res.status(201).json(courses);
   } catch (error) {
     console.error(error);
@@ -80,8 +88,7 @@ const updateCourse = async (req, res) => {
     }
 
     if (data.image && data.image !== course.image) {
-      const publicId = course.image.split("/").pop().split(".")[0];
-      await cloudinary.uploader.destroy(publicId);
+      await deleteImage(course.image);
       const url = await uploadImage(data.image);
       course = { ...data, userId: req.user._id, image: url };
     } else {
@@ -101,11 +108,8 @@ const deleteCourse = async (req, res) => {
   try {
     const { id } = req.params;
     const course = await Course.findByIdAndDelete(id);
-
-    // await Reservation.deleteMany({ courseId: course._id });
-
-    // await Course.findByIdAndDelete(id);
-
+    await deleteImage(course.image);
+    await Reservation.deleteMany({ courseId: course._id });
     res
       .status(201)
       .json({ message: "تم حذف الدورة وكل الحجوزات المرتبطة بها" });
@@ -118,6 +122,7 @@ const deleteCourse = async (req, res) => {
 module.exports = {
   addCourse,
   getCourses,
+  getCoursesById,
   getCourse,
   like,
   updateCourse,

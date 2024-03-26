@@ -227,8 +227,15 @@ export default function AddCourse() {
             state={description}
             textarea
             Icon={MdEditNote}
+            placeholder={
+              "قدم وصفا دقيقا لهذا الإعلان ليشمل كل تفاصيل الخدمة المقدمة"
+            }
           />
-          <Button loading={loading} text={'نشر الإعلان'} loadingText={'جاري النشر'} />
+          <Button
+            loading={loading}
+            text={"نشر الإعلان"}
+            loadingText={"جاري النشر"}
+          />
         </div>
       </form>
     </div>

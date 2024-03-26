@@ -1,7 +1,6 @@
 const { sendMailPayment } = require("../middlewares/nodemailer.js");
 const Course = require("../models/Course.js");
 const Reservation = require("../models/Reservation.js");
-const User = require("../models/User.js");
 
 const addReservation = async (req, res) => {
   try {
@@ -37,7 +36,9 @@ const addReservation = async (req, res) => {
 
 const getClientReservations = async (req, res) => {
   try {
-    const reservations = await Reservation.find({ client: req.user._id });
+    const reservations = await Reservation.find({ client: req.user._id }).sort({
+      createdAt: -1,
+    });
 
     res.status(201).json(reservations);
   } catch (error) {
@@ -48,7 +49,9 @@ const getClientReservations = async (req, res) => {
 
 const getUserReservations = async (req, res) => {
   try {
-    const reservations = await Reservation.find({ userId: req.user._id });
+    const reservations = await Reservation.find({ userId: req.user._id }).sort({
+      createdAt: -1,
+    });
 
     res.status(201).json(reservations);
   } catch (error) {
@@ -61,52 +64,45 @@ const deleteReservation = async (req, res) => {
   try {
     const { id } = req.params;
     await Reservation.findByIdAndDelete(id);
-    res.status(201).json({ message: "تم حذف الحجز" });
+    res.status(201).json({ message: "تم إلغاء الحجز" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "خطأ بالسيرفر" });
   }
 };
 
-const accpetRefuseRes = async (req, res) => {
+const accpetRes = async (req, res) => {
   try {
-    const { id, userId, courseId } = req.body;
-    const { etat } = req.params;
+    const { id } = req.params;
     const reservation = await Reservation.findById(id);
-    const course = await Course.findById(courseId);
 
-    reservation.etat = etat;
+    reservation.isAccept = true;
     await reservation.save();
+    res.status(200).json(reservation);
+    // async function sendPaymentConfirmationEmail() {
+    //   try {
+    //     const user = await User.findById(userId);
 
-    async function sendPaymentConfirmationEmail() {
-      try {
-        const user = await User.findById(userId);
+    // const titleAcc = "قبول طلب الحجز";
+    // const titleRef = "رفض طلب الحجز";
 
-        const titleAcc = "قبول طلب الحجز";
-        const titleRef = "رفض طلب الحجز";
+    // const messageAcc = `
+    //             يسرنا أن نعلمك أنه قد تم قبول طلب الحجز الخاص بك في دورة <b>${course.name}</b>
+    //         `;
+    // const messageRef = `
+    //             يؤسفنا أن نعلمك أنه قد تم رفض طلب الدفع الخاص بك في دورة <b>${course.name}</b> يمكنك الاتصال للاستفسار اكثر
+    //         `;
 
-        const messageAcc = `
-                    يسرنا أن نعلمك أنه قد تم قبول طلب الحجز الخاص بك في دورة <b>${course.name}</b>
-                `;
-        const messageRef = `
-                    يؤسفنا أن نعلمك أنه قد تم رفض طلب الدفع الخاص بك في دورة <b>${course.name}</b> يمكنك الاتصال للاستفسار اكثر
-                `;
+    // await sendMailPayment(user.email, titleAcc, messageAcc);
+    //       res.status(201).json({ message: "تم قبول الحجز" });
 
-        if (etat === "accept") {
-          await sendMailPayment(user.email, titleAcc, messageAcc);
-          res.status(201).json({ message: "تم قبول الحجز" });
-        } else {
-          await sendMailPayment(user.email, titleRef, messageRef);
-          res.status(201).json({ message: "تم رفض الحجز" });
-        }
+    // console.log("Email sent successfully");
+    //   } catch (error) {
+    //     console.error("Error sending email:", error);
+    //   }
+    // }
 
-        console.log("Email sent successfully");
-      } catch (error) {
-        console.error("Error sending email:", error);
-      }
-    }
-
-    await sendPaymentConfirmationEmail();
+    // await sendPaymentConfirmationEmail();
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "خطأ بالسيرفر" });
@@ -118,5 +114,5 @@ module.exports = {
   getClientReservations,
   getUserReservations,
   deleteReservation,
-  accpetRefuseRes,
+  accpetRes,
 };

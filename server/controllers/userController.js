@@ -1,8 +1,8 @@
 const Course = require("../models/Course.js");
+const Post = require("../models/Post.js");
 const Reservation = require("../models/Reservation.js");
 const User = require("../models/User.js");
-const uploadImage = require("../middlewares/uploadImage.js");
-const cloudinary = require("cloudinary").v2;
+const { uploadImage, deleteImage } = require("../middlewares/uploadImage.js");
 const bcrypt = require("bcrypt");
 
 const getUser = async (req, res) => {
@@ -11,7 +11,7 @@ const getUser = async (req, res) => {
   try {
     const user = await User.findById(id);
     if (!user) {
-      return res.status(404).json({ error: "user doesn't exist" });
+      return res.json(null);
     }
 
     res.status(200).json(user);
@@ -22,8 +22,7 @@ const getUser = async (req, res) => {
 
 const getUsers = async (req, res) => {
   try {
-    const usersFind = await User.find();
-    const users = usersFind.reverse();
+    const users = await User.find().sort({ createdAt: -1 });
 
     res.status(200).json(users);
   } catch (error) {
@@ -58,8 +57,7 @@ const updatePhotoProfile = async (req, res) => {
     const imageUrl = user.image;
     const url = await uploadImage(image);
     if (imageUrl.startsWith("https://res.cloudinary.com/")) {
-      const publicId = imageUrl.split("/").pop().split(".")[0];
-      await cloudinary.uploader.destroy(publicId);
+      await deleteImage(imageUrl);
     }
     user.image = url;
     await user.save();
@@ -116,7 +114,9 @@ const changePassword = async (req, res) => {
   const { _id } = req.user;
   try {
     if (_id != id) {
-      return res.status(403).json({ error: "محاولة تحديث غير آمنة", failed: true });
+      return res
+        .status(403)
+        .json({ error: "محاولة تحديث غير آمنة", failed: true });
     }
 
     const user = await User.findById(_id);
@@ -163,30 +163,48 @@ const resetNotify = async (req, res) => {
   }
 };
 
-const deleteCenter = async (req, res) => {
+const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const center = await User.findById(id);
-
-    await Reservation.deleteMany({ centerId: center._id });
-    await Course.deleteMany({ userId: center._id });
+    const user = await User.findById(id);
+    if (user.isCenter) {
+      await Reservation.deleteMany({ userId: id });
+      await Course.deleteMany({ userId: id });
+    } else {
+      await Reservation.deleteMany({ client: id });
+    }
+    await deleteImage(user.image);
+    await Post.deleteMany({ userId: id });
 
     await User.findByIdAndDelete(id);
 
-    res
-      .status(201)
-      .json({ message: "تم حذف المركز وكل الحجوزات والدورات المرتبطة به" });
+    res.status(200).json({ message: "تم حذف المستخدم بنجاح" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "خطأ بالسيرفر" });
   }
 };
 
-// Delete the image from Cloudinary
-//  if (imageUrl) {
-//   const publicId = imageUrl.split('/').pop().split('.')[0];
-//   await cloudinary.uploader.destroy(publicId);
-// }
+const getFriendsOfUser = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const following = await User.find({ _id: { $in: user.followers } });
+    const followers = await User.find({ followers: { $in: [user._id] } });
+    const friends = following.filter((followingUser) =>
+      followers.some((follower) => follower._id.equals(followingUser._id))
+    );
+
+    res.status(201).json(friends);
+  } catch (error) {
+    res.status(500).json({ error: "خطأ بالسيرفر" });
+  }
+};
+
 module.exports = {
   getUser,
   getUsers,
@@ -195,5 +213,6 @@ module.exports = {
   updatePhotoProfile,
   update,
   resetNotify,
-  deleteCenter,
+  deleteUser,
+  getFriendsOfUser,
 };
