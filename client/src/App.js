@@ -2,7 +2,7 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Home from "./pages/home/Home";
-import Footer from "./components/footer/Footer";
+import Footer from "./components/Footer";
 import Auth from "./pages/auth/Auth";
 import AddCourse from "./pages/AddCourse.jsx";
 import TermsAndConditions from "./pages/conditions/TermsAndConditions";
@@ -101,6 +101,10 @@ function App() {
     );
   }, []);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  });
+
   return (
     <>
       <SocketContextProvider>
@@ -150,14 +154,14 @@ function App() {
             <Route path="/documentation_requests" element={<DocRequests />} />
             <Route path="/change_requests" element={<ChangeRequests />} />
             <Route path="/messages" element={<MainPage />} />
-            <Route path="*" element={<NotFound />} />
-            <Route path="/404" element={<NotFound />} />
             <Route
               path="/termsAndConditions"
               element={<TermsAndConditions />}
             />
             <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
             <Route path="/platformWork" element={<PlatformWork />} />
+            <Route path="*" element={<NotFound />} />
+            <Route path="/404" element={<NotFound />} />
           </Routes>
         </MessagesContextProvider>
       </SocketContextProvider>

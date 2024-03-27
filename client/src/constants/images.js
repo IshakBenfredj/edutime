@@ -27,7 +27,10 @@ import ads from "../assets/ads.png";
 import ads2 from "../assets/ads.jpg";
 import ads3 from "../assets/ads3.jpg";
 import ads4 from "../assets/ads4.png";
+import ads5 from "../assets/ads5.png";
 import notfound from "../assets/notfound.png";
+import googlePlay from "../assets/google-play.png";
+import appStore from "../assets/app-store.png";
 import depliant from "../assets/pdf/depliant.pdf";
 
 const images = {
@@ -61,7 +64,10 @@ const images = {
   ads2,
   ads3,
   ads4,
+  ads5,
   notfound,
+  googlePlay,
+  appStore,
   pProfile:
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
 };

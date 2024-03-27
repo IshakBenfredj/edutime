@@ -1,4 +1,3 @@
-import React from "react";
 import Landing from "./Landing";
 import Categories from "./Categories";
 import About from "./About";
