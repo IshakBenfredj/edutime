@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const dotenv = require("dotenv");
 const User = require("../models/User.js");
-const sendMail = require("../middlewares/nodemailer.js");
+const {sendMail} = require("../middlewares/nodemailer.js");
 dotenv.config();
 
 const generateToken = (_id) => {

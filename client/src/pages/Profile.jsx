@@ -205,7 +205,7 @@ export default function Profile() {
               {user.isCenter && (
                 <div className="bg-white border-2 border-gray-900 rounded-md px-2 py-1 text-center">
                   <p className="font-bold text-xl">{courses.length}</p>
-                  <p className="font-semibold text-sm">دورة</p>
+                  <p className="font-semibold text-sm">دورات</p>
                 </div>
               )}
               <div
@@ -218,7 +218,7 @@ export default function Profile() {
                 className="bg-white cursor-pointer border-2 border-gray-900 rounded-md px-2 py-1 text-center"
               >
                 <p className="font-bold text-xl">{user.followers.length}</p>
-                <p className="font-semibold text-sm">توصية</p>
+                <p className="font-semibold text-sm">توصيات</p>
               </div>
               <div
                 onClick={() =>

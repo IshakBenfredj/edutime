@@ -203,7 +203,7 @@ export default function PostPage() {
                         />
                         <div className="text-color text-xs flex gap-1">
                           <span>
-                            {userPost.isCenter ? "معلم/مركز" : "طالب"}
+                            {userPost.isCenter ? "معلم/مركز" : "متعلم"}
                           </span>{" "}
                           |<span>{time}</span>
                         </div>

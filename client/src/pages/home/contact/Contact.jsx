@@ -50,7 +50,9 @@ const Contact = () => {
       handleError("جميع الحقول مطلوبة");
     } else {
       try {
-        const data = await axiosPostWithoutHeader("/mail/send", {message});
+        console.log(message);
+        console.log({ message });
+        const data = await axiosPostWithoutHeader("/mail/send", { message });
         handleSuccess(data.message);
         setMessage({
           name: "",

@@ -5,8 +5,10 @@ import DropSettings from "../components/DropSettings";
 import { FaUserEdit, FaUserTie, FaMapMarkerAlt, FaPhone } from "react-icons/fa";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { FaHeartCircleCheck } from "react-icons/fa6";
+import { MdOutlineAlternateEmail } from "react-icons/md";
 import {
   axiosDeleteWithHeader,
+  axiosPostWithoutHeader,
   axiosPutWithHeader,
 } from "../functions/axiosFunctions";
 import { handleError, handleSuccess } from "../functions/toastifyFunctions";
@@ -21,10 +23,14 @@ export default function Settings() {
   const [bio, setBio] = useState(user?.bio ?? "");
   const [phone, setPhone] = useState(user?.phone ?? "");
   const [address, setAddress] = useState(user?.address ?? "");
+  const [email, setEmail] = useState(user?.email ?? "");
+  const [responseCode, setResponseCode] = useState(null);
+  const [inputCode, setInputCode] = useState(null);
   const [publicPhone, setPublicPhone] = useState(user && user.public.phone);
   const [publicAddress, setPublicAddress] = useState(
     user && user.public.address
   );
+  const [publicEmail, setPublicEmail] = useState(user && user.public.email);
   const [publicFollowers, setPublicFollowers] = useState(
     user && user.public.followers
   );
@@ -38,6 +44,7 @@ export default function Settings() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState({
     name: false,
+    email: false,
     imageProfile: false,
     bio: false,
     password: false,
@@ -67,6 +74,8 @@ export default function Settings() {
         [loading]: false,
       }));
       handleSuccess("تم التحديث بنجاح");
+      setResponseCode(null);
+      setInputCode(null);
     } catch (error) {
       handleError(error.response.data.error);
       dispatch(logout());
@@ -140,6 +149,38 @@ export default function Settings() {
         handleError(error.response.data.error);
       }
     }
+  };
+
+  const confirmMail = async (e) => {
+    try {
+      const data = await axiosPostWithoutHeader(`/auth/confirmEmail`, {
+        email,
+      });
+      handleSuccess("لقد أرسلنا رمزا في بريدك الإلكتروني");
+      setResponseCode(data.code);
+    } catch (error) {
+      handleError(error.response.data.error);
+    }
+  };
+
+  const handleMail = async (e) => {
+    if (email === user.email) {
+      updateUser("email", email, publicEmail, loading.email);
+      return;
+    }
+    if (!responseCode) {
+      confirmMail();
+    } else if (responseCode !== inputCode) {
+      handleError("الرمز الذي أدخلته خاطئ");
+    } else {
+      updateUser("email", email, publicEmail, loading.email);
+    }
+  };
+
+  const cancel = () => {
+    setEmail(user.email);
+    setResponseCode(null);
+    setInputCode(null);
   };
 
   return (
@@ -256,6 +297,61 @@ export default function Settings() {
           </div>
         </DropSettings>
         {!user.fromGoogle && (
+          <DropSettings
+            title={"البريد الإلكتروني"}
+            Icon={MdOutlineAlternateEmail}
+          >
+            <div className="pt-3 space-y-3">
+              <input
+                type="email"
+                value={email}
+                placeholder="البريد الإلكتروني"
+                disabled={responseCode}
+                name="email"
+                onChange={(e) => setEmail(e.target.value)}
+                className={`bg-bgcolor p-2 w-full text-lg rounded-lg border-[1px] border-gray-200 ${
+                  responseCode && "text-gray-400"
+                }`}
+              />
+              {responseCode && (
+                <>
+                  <p className="text-color">
+                    لقد أرسلنا رمزا في بريدك الإلكتروني
+                  </p>
+                  <input
+                    type="number"
+                    value={inputCode}
+                    placeholder="رمز التأكيد"
+                    name="inputCode"
+                    onChange={(e) => setInputCode(e.target.value)}
+                    className="bg-bgcolor p-2 w-full text-lg rounded-lg border-[1px] border-gray-200"
+                  />
+                </>
+              )}
+              <PrivateOrPublic change={setPublicEmail} state={publicEmail} />
+              <div className="flex items-center gap-2">
+                <Button
+                  text={
+                    ((email !== user.email ||
+                      publicEmail !== user.public.email) &&
+                      !responseCode) ||
+                    (responseCode && inputCode && inputCode.length === 6)
+                  }
+                  handleSubmit={handleMail}
+                />
+                {responseCode && (
+                  <button
+                    onClick={cancel}
+                    className="bg-red-500 cursor-pointer p-2 text-white font-semibold rounded-lg mt-2"
+                  >
+                    إلغاء
+                  </button>
+                )}
+              </div>
+            </div>
+          </DropSettings>
+        )}
+        {!user.fromGoogle && (
           <DropSettings title={"كلمة السر"} Icon={RiLockPasswordFill}>
             <div className="pt-3 space-y-2">
               <input
@@ -344,7 +440,7 @@ export default function Settings() {
           حذف الحساب
         </button>
       </div>
-     <Request /> 
+      <Request />
     </div>
   );
 }

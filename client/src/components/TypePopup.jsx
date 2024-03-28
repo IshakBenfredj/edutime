@@ -64,7 +64,7 @@ export default function TypePopup() {
               className={`${emptyInput && !type && "text-red-500"}`}
               htmlFor="user"
             >
-              طالب
+              متعلم
             </label>
           </div>
           <div className="flex items-center gap-2">

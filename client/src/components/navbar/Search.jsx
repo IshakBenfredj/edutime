@@ -4,18 +4,20 @@ import { useSelector } from "react-redux";
 import User from "../User";
 import { Link } from "react-router-dom";
 import { IoMdArrowDropdown } from "react-icons/io";
+import { axiosGetWithoutHeader } from "../../functions/axiosFunctions";
 
 const Search = ({
   showSearch,
   setShowSearch,
   setOpenNav,
   setPopupMessages,
-  setPopupNot
+  setPopupNot,
 }) => {
   const user = useSelector((s) => s.user);
   const users = useSelector((s) => s.users);
   const courses = useSelector((s) => s.courses);
   const [category, setCategory] = useState("الكل");
+  const [blogs, setBlogs] = useState([]);
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState("");
   const [openDd, setOpenDd] = useState(false);
@@ -24,11 +26,19 @@ const Search = ({
   const showSearchFunc = () => {
     setShowSearch(!showSearch);
     setOpenNav(false);
-    setPopupMessages(false)
-    setPopupNot(false)
+    setPopupMessages(false);
+    setPopupNot(false);
     document.body.classList.toggle("open");
     document.body.classList.remove("nav");
   };
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      const blogs = await axiosGetWithoutHeader("/blogs");
+      setBlogs(blogs);
+    };
+    fetchBlogs();
+  }, []);
 
   useEffect(() => {
     if (showSearch) {
@@ -64,6 +74,12 @@ const Search = ({
         );
         setSearchResult(searchStudents);
         break;
+      case "المدونات":
+        const searchBlogs = blogs.filter((b) =>
+          b?.title.toLowerCase().includes(search.toLowerCase())
+        );
+        setSearchResult(searchBlogs);
+        break;
       default:
         const searchUsersDefault = users.filter((u) =>
           u.name.toLowerCase().includes(search.toLowerCase())
@@ -71,7 +87,7 @@ const Search = ({
         setSearchResult(searchUsersDefault);
         break;
     }
-  }, [search, category, users, courses]);
+  }, [search, category, users, courses, blogs]);
 
   return (
     <>
@@ -132,6 +148,12 @@ const Search = ({
                 >
                   معلمين ومراكز
                 </p>
+                <p
+                  className="px-2 py-1 cursor-pointer hover:text-title transition-all"
+                  onClick={() => setCategory("المدونات")}
+                >
+                  المدونات
+                </p>
               </div>
             )}
           </div>
@@ -153,11 +175,11 @@ const Search = ({
                     <span className="text-center text-xl font-bold text-red-400 block">
                       لايوجد نتائج بحث
                     </span>
-                  ) : category !== "courses" ? (
+                  ) : category !== "الدورات" &&  category !== "المدونات" ? (
                     searchResult.map((s) => (
                       <User key={s._id} id={s._id} setPopup={showSearchFunc} />
                     ))
-                  ) : (
+                  ) : category === "الدورات" ? (
                     searchResult.map((s) => (
                       <Link
                         to={`/course_details/${s._id}`}
@@ -170,6 +192,21 @@ const Search = ({
                           className="w-10 h-10 rounded-full"
                         />
                         <span>{s.name}</span>
+                      </Link>
+                    ))
+                  ) : (
+                    searchResult.map((s) => (
+                      <Link
+                        to={`/blog/${s._id}`}
+                        onClick={showSearchFunc}
+                        className="w-4/5 p-2 flex items-center gap-2 text-primary hover:text-secondary text-lg font-bold"
+                      >
+                        <img
+                          src={s.image}
+                          alt=""
+                          className="w-10 h-10 rounded-full"
+                        />
+                        <span>{s.title}</span>
                       </Link>
                     ))
                   )}

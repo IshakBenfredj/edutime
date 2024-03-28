@@ -55,7 +55,7 @@ app.use("/requests", requestRoutes);
 app.use("/notifications", notificationRoutes);
 app.use("/pubs", pubRoutes);
 
-app.use("/mail/send", async (req, res) => {
+app.post("/mail/send", async (req, res) => {
   try {
     const { message } = req.body;
     sendMailFromUserToTeam(message);

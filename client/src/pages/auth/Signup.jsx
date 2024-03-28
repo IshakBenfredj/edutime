@@ -97,7 +97,7 @@ const SignupForm = () => {
                     }`}
                     htmlFor="user"
                   >
-                    طالب
+                    متعلم
                   </label>
                 </div>
                 <div className="center">

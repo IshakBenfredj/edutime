@@ -12,6 +12,7 @@ import { handleError, handleSuccess } from "../../functions/toastifyFunctions";
 import Loading from "../../components/loading/Loading";
 import Empty from "../../components/Empty";
 import { MdDeleteForever } from "react-icons/md";
+import images from "../../constants/images";
 
 export default function Advertisement() {
   const [index, setindex] = useState(0);
@@ -76,7 +77,7 @@ export default function Advertisement() {
   };
 
   return (
-    <div className="py-8">
+    <div className="md:py-8 py-2">
       <p className="font-bold text-center text-color mb-4">مساحة إشهارية</p>
       {user && user.isAdmin && (
         <div className="lg:w-1/5 md:3/5 w-[95%] mx-auto mb-4 space-y-2">
@@ -89,47 +90,50 @@ export default function Advertisement() {
           />
         </div>
       )}
-      <div className="container md:w-2/3 2xl:w-2/5 w-full relative flex items-center justify-center">
-        {loadingPubs ? (
-          <Loading />
-        ) : !pubs.length ? (
-          <Empty text={"لا يوجد إعلانات حاليا"} />
-        ) : (
-          <div
-            className={`relative w-full flex items-center justify-start overflow-x-hidden`}
-          >
-            {index !== 0 && (
-              <IoIosArrowForward
-                onClick={prev}
-                className="absolute z-10 text-title top-1/2 -translate-y-1/2 right-3 bg-white/70 p-2 w-8 h-8 rounded-full"
-              />
-            )}
-            {pubs.map((pub, i) => (
-              <>
-                {user && user.isAdmin && (
-                  <button
-                    onClick={() => handleDelete(pub._id)}
-                    className="absolute top-3 right-3 p-2 text-3xl bg-red-500 text-white rounded-md z-10 cursor-pointer"
-                  >
-                    <MdDeleteForever />
-                  </button>
-                )}
-                <img
-                  src={pub.image}
-                  alt=""
-                  className="h-fit w-full transition-all object-cover"
-                  style={{ transform: `translateX(${index * 100}%)` }}
+      <div className="container flex justify-center xl:gap-4">
+        <img src={images.eduPub} className="w-96 xl:block hidden" alt="" />
+        <div className="md:w-2/3 2xl:w-2/5 w-full relative">
+          {loadingPubs ? (
+            <Loading />
+          ) : !pubs.length ? (
+            <Empty text={"لا يوجد إعلانات حاليا"} />
+          ) : (
+            <div
+              className={`relative w-full h-fit flex justify-start overflow-x-hidden`}
+            >
+              {index !== 0 && (
+                <IoIosArrowForward
+                  onClick={prev}
+                  className="absolute z-10 text-title top-1/2 -translate-y-1/2 right-3 bg-white/70 p-2 w-8 h-8 rounded-full"
                 />
-              </>
-            ))}
-            {index !== pubs.length - 1 && (
-              <IoIosArrowBack
-                onClick={next}
-                className="absolute z-10 text-title top-1/2 -translate-y-1/2 left-3 bg-white/70 p-2 w-8 h-8 rounded-full"
-              />
-            )}
-          </div>
-        )}
+              )}
+              {pubs.map((pub, i) => (
+                <>
+                  {user && user.isAdmin && (
+                    <button
+                      onClick={() => handleDelete(pub._id)}
+                      className="absolute top-3 right-3 p-2 text-3xl bg-red-500 text-white rounded-md z-10 cursor-pointer"
+                    >
+                      <MdDeleteForever />
+                    </button>
+                  )}
+                  <img
+                    src={pub.image}
+                    alt=""
+                    className="h-fit w-full transition-all object-cover"
+                    style={{ transform: `translateX(${index * 100}%)` }}
+                  />
+                </>
+              ))}
+              {index !== pubs.length - 1 && (
+                <IoIosArrowBack
+                  onClick={next}
+                  className="absolute z-10 text-title top-1/2 -translate-y-1/2 left-3 bg-white/70 p-2 w-8 h-8 rounded-full"
+                />
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

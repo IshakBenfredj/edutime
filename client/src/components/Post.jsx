@@ -181,7 +181,7 @@ export default function Post({ postGet, setPosts, bgGray }) {
                     width={"w-4"}
                   />
                   <div className="text-color text-xs flex gap-1">
-                    <span>{userPost.isCenter ? "معلم/مركز" : "طالب"}</span> |
+                    <span>{userPost.isCenter ? "معلم/مركز" : "متعلم"}</span> |
                     <span>{time}</span>
                   </div>
                 </div>

@@ -18,7 +18,7 @@ const Footer = () => {
         !user) && (
         <footer className={`bg-gray-900 ${user && "lg:mb-0 mb-14"} `}>
           <div className="p-3 text-white font-semibold text-center bg-gray-800 md:text-base text-sm">
-            للإشهار في موقع Edutime نرجو التواصل معنا عبر : البريد الإلكتروني{" "}
+            للإشهار في موقع Edutime يمكنكم التواصل معنا عبر : البريد الإلكتروني{" "}
             <Link className="hover:underline" to={"mailto:edutime19@gmail.com"}>
               edutime19@gmail.com
             </Link>{" "}

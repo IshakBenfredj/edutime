@@ -1,4 +1,3 @@
-const { sendMailPayment } = require("../middlewares/nodemailer.js");
 const Course = require("../models/Course.js");
 const Reservation = require("../models/Reservation.js");
 

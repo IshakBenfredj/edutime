@@ -1,4 +1,3 @@
-import images from "../constants/images";
 import { FaHourglassHalf, FaImage, FaInfo, FaPhone } from "react-icons/fa6";
 import { FaCalendarAlt, FaMapMarkerAlt } from "react-icons/fa";
 import { MdCategory, MdOutlineAttachMoney, MdEditNote } from "react-icons/md";
@@ -10,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { addCourse } from "../toolkit/slices/courses";
 import Input from "../components/Input";
 import Button from "../components/Button";
+import Title from "../components/Title";
 
 export default function AddCourse() {
   const dispatch = useDispatch();
@@ -90,18 +90,10 @@ export default function AddCourse() {
     setLoading(false);
   };
   return (
-    <div className="bg-bgcolor pt-14 min-h-screen flex">
-      <div className="w-5/12 h-screen object-cover relative lg:block hidden before:w-full before:h-full before:absolute before:bg-black/70">
-        <img src={images.addAd} alt="" className="w-full h-full" />
-        <div className="absolute w-full h-full top-0 right-0 p-4 font-bold text-white text-5xl leading-[2]">
-          <img src={images.whiteLogo} alt="" />
-          <p className="w-2/3 mx-auto text-center -mt-14">
-            أضف إعلان دورتك وساهم في نشر معرفتك
-          </p>
-        </div>
-      </div>
+    <div className="bg-bgcolor pt-20 min-h-screen">
+      <Title title={'إضافة إعلان'} />
       <form
-        className="lg:p-6 p-6 pb-20 lg:w-7/12 w-full"
+        className="p-3 pb-20 lg:w-[60%] mx-auto w-full"
         onSubmit={handleSubmit}
       >
         <div className="flex gap-3 lg:flex-row flex-col items-center justify-center">

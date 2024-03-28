@@ -1,8 +1,6 @@
-const { sendMailPayment } = require("../middlewares/nodemailer.js");
 const { uploadImage, deleteImage } = require("../middlewares/uploadImage.js");
 const Course = require("../models/Course.js");
 const Reservation = require("../models/Reservation.js");
-const User = require("../models/User.js");
 
 const addCourse = async (req, res) => {
   try {

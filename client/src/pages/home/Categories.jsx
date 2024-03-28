@@ -12,7 +12,7 @@ const Categories = () => {
           "كافة الدورات التدريبية والتعليمية لتطوير قدراتك العملية والعلمية"
         }
       />
-      <div className="container grid lg:grid-cols-5 grid-cols-3 gap-5">
+      <div className="container grid lg:grid-cols-5 grid-cols-3 lg:gap-5 gap-2">
         {data.map((e, index) => (
           <Link
             to={`/courses/${e.name}`}

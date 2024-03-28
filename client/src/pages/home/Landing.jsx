@@ -1,8 +1,9 @@
 import images from "../../constants/images";
-import { MdClose, MdDownloading, MdOutlineSlowMotionVideo } from "react-icons/md";
+import { MdClose, MdOutlineSlowMotionVideo } from "react-icons/md";
 import landing_video from "../../assets/landing-video.mp4";
 import { useState } from "react";
 import TypePopup from "../../components/TypePopup";
+import { LiaFileDownloadSolid } from "react-icons/lia";
 
 const Landing = () => {
   const [showVideo, setShowVideo] = useState(false);
@@ -25,11 +26,11 @@ const Landing = () => {
           <div className="">
             <h1 className="leading-[2] md:mb-0 -mb-3 md:leading-[2] md:text-4xl text-[28px] text-primary font-bold">
               اهلا بك في{""}
-              <span className="font-black text-secondary"> اودوتايم</span> وجهتك
+              <span className="font-black text-secondary"> ايدوتايم</span> وجهتك
               التعليمية الرائدة في الجزائر
             </h1>
             <p className="mb-6 leading-8 text-xl text-color">
-              <br /> اكتشف افضل الدورات التعليمية ومراكز التدريب لتطوير مهاراتك{" "}
+              <br /> اكتشف افضل الدورات التعليمية ومراكز التكوين لتطوير مهاراتك{" "}
               <br />
               كل ما تحتاجه في مكان واحد
             </p>
@@ -46,8 +47,8 @@ const Landing = () => {
                 download={true}
                 className="flex items-center gap-3 text-secondary hover:underline w-fit"
               >
-                <MdDownloading size={40} />
-                <span className="text-xl font-bold">تحميل مطويتنا</span>
+                <LiaFileDownloadSolid size={40} />
+                <span className="text-xl font-bold">حمل مطويتنا</span>
               </a>
             </div>
           </div>

@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { AiFillPlusCircle, AiOutlinePlusCircle } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import { FaSchoolFlag } from "react-icons/fa6";
-import { SiGoogleclassroom } from "react-icons/si";
+import { FaBook } from "react-icons/fa";
+import { IoEasel } from "react-icons/io5";
 import Unavailable from "./Unavailable";
 
 export default function AddAnnDropdown({ closeAll, setPopupMessages,setPopupNot }) {
@@ -62,14 +62,14 @@ export default function AddAnnDropdown({ closeAll, setPopupMessages,setPopupNot 
               <span className="lg:block hidden">إضافة إعلان</span>
             </button>
             {openDD && user && (
-              <div className="absolute shadow-md lg:left-0 lg:right-auto right-0 bg-white p-2 top-14 rounded-md w-44 space-y-2">
+              <div className="absolute shadow-md lg:left-0 lg:right-auto right-0 bg-white p-2 top-14 rounded-md w-52 space-y-2">
                 <Link
                   onClick={closeDDFunc}
                   to={`/add_announcement`}
                   className="p-2 w-[100%] flex items-center gap-1 rounded-md text-black font-semibold hover:bg-title hover:text-white transition-all"
                 >
-                  <FaSchoolFlag size={22} />
-                  <span>دورة تكوينية</span>
+                  <IoEasel size={22} />
+                  <span>دورات تكوينية</span>
                 </Link>
                 <button
                   onClick={() => {
@@ -78,8 +78,8 @@ export default function AddAnnDropdown({ closeAll, setPopupMessages,setPopupNot 
                   }}
                   className="p-2 w-[100%] flex items-center gap-1 rounded-md text-black font-semibold hover:bg-title hover:text-white transition-all"
                 >
-                  <SiGoogleclassroom size={22} />
-                  <span>دورة خصوصية</span>
+                  <FaBook size={22} />
+                  <span>دروس دعم مدرسية</span>
                 </button>
               </div>
             )}
