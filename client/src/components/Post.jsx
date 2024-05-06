@@ -97,14 +97,14 @@ export default function Post({ postGet, setPosts, bgGray }) {
   const handleLike = async () => {
     if (likes.indexOf(user._id) === -1) {
       setLikes([user._id, ...likes]);
-      // if (post.userId !== user._id) {
-      await createNotification({
-        userTo: post.userId,
-        userFrom: user._id,
-        post: post._id,
-        type: "like",
-      });
-      // }
+      if (post.userId !== user._id) {
+        await createNotification({
+          userTo: post.userId,
+          userFrom: user._id,
+          post: post._id,
+          type: "like",
+        });
+      }
     } else {
       const newLikes = likes.filter((l) => l !== user._id);
       setLikes(newLikes);
@@ -210,7 +210,7 @@ export default function Post({ postGet, setPosts, bgGray }) {
               </div>
             </div>
             <h2 className="md:text-xl text-lg font-bold">{post.title}</h2>
-            <p className=" text-color md:text-base text-sm leading-[1.5]">
+            <p className=" text-color md:text-base text-sm leading-[1.5] break-words">
               {post.text.length <= 300 ? (
                 post.text
               ) : showAllText ? (

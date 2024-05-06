@@ -74,7 +74,7 @@ const Search = ({
         );
         setSearchResult(searchStudents);
         break;
-      case "المدونات":
+      case "المقالات":
         const searchBlogs = blogs.filter((b) =>
           b?.title.toLowerCase().includes(search.toLowerCase())
         );
@@ -150,9 +150,9 @@ const Search = ({
                 </p>
                 <p
                   className="px-2 py-1 cursor-pointer hover:text-title transition-all"
-                  onClick={() => setCategory("المدونات")}
+                  onClick={() => setCategory("المقالات")}
                 >
-                  المدونات
+                  المقالات
                 </p>
               </div>
             )}
@@ -175,7 +175,7 @@ const Search = ({
                     <span className="text-center text-xl font-bold text-red-400 block">
                       لايوجد نتائج بحث
                     </span>
-                  ) : category !== "الدورات" &&  category !== "المدونات" ? (
+                  ) : category !== "الدورات" &&  category !== "المقالات" ? (
                     searchResult.map((s) => (
                       <User key={s._id} id={s._id} setPopup={showSearchFunc} />
                     ))

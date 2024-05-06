@@ -87,7 +87,7 @@ export default function LargeScreen({
                 ) : (
                   <PiStudent size={28} />
                 )}
-                <span>{user.isCenter ? "الحجوزات" : "حجوزاتي"}</span>
+                <span>{user.isCenter ? "طلبات الحجز" : "حجوزاتي"}</span>
               </NavLink>
             ) : (
               <RequestDropdown

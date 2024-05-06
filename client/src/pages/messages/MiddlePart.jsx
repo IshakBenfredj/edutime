@@ -205,8 +205,11 @@ export default function MiddlePart({ user }) {
           <p className="text-color text-2xl leading-10 text-center font-bold">
             إبدأ محادثة جديدة
           </p>
+        ) : !messages.length ? (
+          <p className="text-color leading-8 text-sm">
+            إبدأ المحادثة برسائل جديدة
+          </p>
         ) : (
-          messages.length > 0 &&
           messages.map((m) => (
             <div ref={scrollRef}>
               <Message

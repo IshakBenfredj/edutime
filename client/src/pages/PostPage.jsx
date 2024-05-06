@@ -64,9 +64,9 @@ export default function PostPage() {
         setPost(post);
         setLikes(post.likes);
         calculateTimeDiff(post.createdAt);
-      } catch (error) {}
-      setLoadingPost(false);
-      navigate("/404");
+      } catch (error) {
+        navigate("/404");
+      }
     };
     fetchPost();
   }, [id, navigate]);
@@ -75,6 +75,7 @@ export default function PostPage() {
     const fetchUser = async () => {
       const user = await getUser(post.userId);
       setUserPost(user);
+      setLoadingPost(false);
     };
     if (post) fetchUser();
     const interval = setInterval(() => {
@@ -179,7 +180,7 @@ export default function PostPage() {
       ) : (
         post &&
         userPost && (
-          <div className="pt-14 md:pb-2 pb-16 bg-bgcolor min-h-screen">
+          <div className="pt-14 md:pb-2 pb-16 bg-bgcolor min-h-screen relative">
             <div className="py-7 lg:w-1/2 mx-auto md:w-3/5 w-[95%] space-y-3">
               <div
                 className={`bg-white rounded-md overflow-hidden shadow-md md:space-y-2 space-y-1`}

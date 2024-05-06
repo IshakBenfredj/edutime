@@ -67,14 +67,6 @@ export default function Notifications({
     }
   }, [notifications]);
 
-  useEffect(() => {
-    if (!popup) {
-      notifications.forEach((notification) => {
-        notification.isNewNot = false;
-      });
-    }
-  }, [notifications, popup]);
-
   async function handleNot() {
     if (popup) {
       close();
@@ -93,6 +85,9 @@ export default function Notifications({
 
   function close() {
     setPopup(false);
+    notifications.forEach((notification) => {
+      notification.isNewNot = false;
+    });
   }
 
   return (
@@ -122,7 +117,9 @@ export default function Notifications({
 const NotificationsPopup = ({ loading, notifications }) => {
   return (
     <div className="md:w-[350px] w-[95%] bg-white h-96 fixed md:left-auto left-1/2 md:translate-x-0 overflow-auto -translate-x-1/2 lg:top-16 lg:bottom-auto bottom-16 shadow-xl border-2 border-title">
-      <h3 className="p-2 text-lg font-bold text-primary text-start">الإشعارات :</h3>
+      <h3 className="p-2 text-lg font-bold text-primary text-start">
+        الإشعارات :
+      </h3>
       {loading ? (
         <>
           <NotificationLoading />
