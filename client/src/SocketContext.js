@@ -14,6 +14,7 @@ export default function SocketContextProvider({ children }) {
 
   useEffect(() => {
     // setSocket(io("http://localhost:8900"));
+    // setSocket(io("http://192.168.56.1:8900"));
     setSocket(io("https://socket-i3b1.onrender.com"));
   }, []);
 
@@ -35,9 +36,8 @@ export default function SocketContextProvider({ children }) {
   useEffect(() => {
     socket?.on("getOnlineUsers", (data) => {
       if (friends.length > 0) {
-        const onlineFriendss = friends.filter(
-          (friend) =>
-            data.find((onlineUser) => onlineUser.userId === friend._id)
+        const onlineFriendss = friends.filter((friend) =>
+          data.find((onlineUser) => onlineUser.userId === friend._id)
         );
         const onlineFriendsIds = onlineFriendss.map((f) => f._id);
         setOnlineFriends(onlineFriendsIds);
