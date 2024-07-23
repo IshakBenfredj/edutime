@@ -14,6 +14,7 @@ import Loading from "../components/loading/Loading";
 import Empty from "../components/Empty";
 import Post from "../components/Post";
 import { useSelector } from "react-redux";
+import HelmetHead from "../components/HelmetHead";
 
 export default function Forum() {
   const [fermer, setFermer] = useState(false);
@@ -63,6 +64,7 @@ export default function Forum() {
 
   return (
     <div className="pt-14 md:pb-2 pb-16 bg-bgcolor min-h-screen">
+      <HelmetHead title={'المنتدى | EduTime'} desc={'المنتدى بمنصة Edutime'} />
       <div className="py-7 lg:w-1/2 mx-auto md:w-3/5 w-[95%] space-y-3">
         {user && (
           <div className="bg-white shadow-md rounded-lg p-3 h-fit">
@@ -81,9 +83,8 @@ export default function Forum() {
               )}
             </div>
             <div
-              className={`transition-all duration-500 overflow-hidden ${
-                !fermer ? "h-0" : "min-h-fit"
-              }`}
+              className={`transition-all duration-500 overflow-hidden ${!fermer ? "h-0" : "min-h-fit"
+                }`}
             >
               <form className="space-y-3" onSubmit={handleSubmit}>
                 <UploadImage image={image} setImage={setImage} />

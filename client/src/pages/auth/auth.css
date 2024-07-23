@@ -129,7 +129,16 @@
 .form-content .input-box input:focus {
   border-color: var(--main-color);
 }
-.form-content .input-box svg {
+.form-content .input-box span {
+  position: absolute;
+  color: #666666;
+  font-size: 17px;
+  left: 7px !important;
+  width: 30px;
+  height: 100%;
+  padding: 6px;
+}
+.form-content .input-box > svg {
   position: absolute;
   color: #666666;
   font-size: 17px;

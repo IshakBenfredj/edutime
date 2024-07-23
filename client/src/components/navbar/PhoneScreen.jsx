@@ -40,12 +40,12 @@ export default function PhoneScreen({
   return (
     <div className="px-3 lg:hidden relative flex items-center h-[100%] justify-between">
       <div className="flex items-center gap-3">
-        <div
+        <button
           className="text-gray-500"
           onClick={openNav ? closeAll : openNavFunc}
         >
           {openNav ? <IoClose size={24} /> : <FaBars size={24} />}
-        </div>
+        </button>
         <NavDropdown
           closeAll={closeAll}
           setPopupMessages={setPopupMessages}

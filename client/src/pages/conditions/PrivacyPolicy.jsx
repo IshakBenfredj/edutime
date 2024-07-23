@@ -1,9 +1,11 @@
+import HelmetHead from "../../components/HelmetHead";
 import Title from "../../components/Title";
 import "./styles.css";
 
 const PrivacyPolicy = () => {
   return (
     <div className="conditions container">
+      <HelmetHead title={'سياسة الخصوصية'} desc={'سياسة الخصوصية لمنصة Edutime التعليمية'} />
       <Title title={"سياسة الخصوصية"} />
       <pre className="gray-bg text-color text">
         يرجى قراءة بيان سياسة الخصوصية بشكل جيد ودقيق حتى تفهم ممارستنا. فيا

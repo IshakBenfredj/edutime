@@ -5,6 +5,7 @@ import Title from "../components/Title";
 import CourseCard from "../components/CourseCard";
 import Empty from "../components/Empty";
 import data from "../constants/categories";
+import HelmetHead from "../components/HelmetHead";
 
 export default function CoursesByCategory() {
   const { category } = useParams();
@@ -25,6 +26,7 @@ export default function CoursesByCategory() {
   }, [all_courses, category, navigate]);
   return (
     <div className="pt-20 pb-16 min-h-screen">
+      <HelmetHead title={'الدورات | EduTime'} desc={'الدورات المنشورة بمنصة Edutime'} />
       <div className="container">
         <Title title={category ? `إعلانات في ${category}` : "الدورات"} />
         {courses.length > 0 ? (

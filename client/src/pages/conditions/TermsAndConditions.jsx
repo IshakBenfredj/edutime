@@ -1,10 +1,12 @@
 import './styles.css'
 import Title from '../../components/Title'
 import { Link } from 'react-router-dom'
+import HelmetHead from '../../components/HelmetHead'
 
 const TermsAndConditions = () => {
   return (
     <div className="conditions container">
+      <HelmetHead title={'الشروط والأحكام'} desc={'الشروط والأحكام لمنصة Edutime التعليمية'} />
         <Title title={'الشروط والأحكام'} />
         <pre className="gray-bg text-color text">
         تحتوي هذه الصفحة على الشروط والأحكام التي يمكنك بموجبها استخدام <span>EduTime </span>يرجى قراءة هذه الصفحات بعناية  <br/>.

@@ -22,6 +22,7 @@ import {
 import { handleError, handleSuccess } from "../functions/toastifyFunctions";
 import { deleteCourse } from "../toolkit/slices/courses";
 import { useCreateNotification } from "../functions/newNotification";
+import renderPostText from "../functions/renderPostText";
 
 export default function CourseDetails() {
   const { id } = useParams();
@@ -172,8 +173,8 @@ export default function CourseDetails() {
                       {course.isOpen
                         ? "متاحة دائما ✅"
                         : `${new Date(course.date).getDate()}-${new Date(
-                            course.date
-                          ).getMonth()}-${new Date(course.date).getFullYear()}`}
+                          course.date
+                        ).getMonth()}-${new Date(course.date).getFullYear()}`}
                     </span>
                   </div>
                   <div className="detail_link">
@@ -220,7 +221,7 @@ export default function CourseDetails() {
                   وصف الدورة :
                 </h3>
                 <pre className="text-color md:h-[65vh] md:overflow-y-auto">
-                  {course.description}
+                  {renderPostText(course.description)}
                 </pre>
               </div>
             </div>

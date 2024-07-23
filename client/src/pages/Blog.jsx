@@ -19,6 +19,8 @@ import LoginPopup from "../components/LoginPopup";
 import { FaRegClock } from "react-icons/fa";
 import Name from "../components/Name";
 import { useCreateNotification } from "../functions/newNotification";
+import renderPostText from "../functions/renderPostText";
+import HelmetHead from "../components/HelmetHead";
 
 export default function Blog() {
   const [blog, setBlog] = useState([]);
@@ -64,6 +66,7 @@ export default function Blog() {
       handleError(error.response.data.error);
     }
   };
+
   const disLike = async () => {
     try {
       const data = await axiosPutWithHeader(`/blogs/dislike/${blog._id}`);
@@ -76,7 +79,7 @@ export default function Blog() {
   return (
     <>
       {openPopup && <LoginPopup set={setOpenPopup} />}
-
+      <HelmetHead title={blog.title || 'Loading ...'} desc={blog?.text?.slice(0, 100) || 'Loading...'} />
       <div className="min-h-screen pt-20 pb-16">
         <div className="container md:px-32">
           {loading ? (
@@ -117,7 +120,7 @@ export default function Blog() {
                   </p>
                 </div>
               </div>
-              <pre className="leading-8">{blog.text}</pre>
+              <pre className="leading-8">{renderPostText(blog.text)}</pre>
               <div className="text-center space-y-4 mt-7">
                 {user ? (
                   <>

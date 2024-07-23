@@ -12,6 +12,8 @@ import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { MdDeleteForever } from "react-icons/md";
 
+import renderPostText from "../functions/renderPostText.js";
+
 export default function Comments({ id, comments, setComments }) {
   const [loading, setLoading] = useState(true);
   const path = useLocation().pathname;
@@ -117,7 +119,7 @@ const Comment = ({ comment, setComments }) => {
               </span>
             )}
           </div>
-          <p className="text-color mt-2">{comment.comment}</p>
+          <p className="text-color mt-2">{renderPostText(comment.comment)}</p>
         </div>
       )}
     </>

@@ -2,10 +2,12 @@ import "./auth.css";
 import images from "../../constants/images";
 import Signup from "./Signup";
 import Login from "./Login";
+import HelmetHead from "../../components/HelmetHead";
 
 const Auth = () => {
   return (
     <div className="min-h-screen bg-bgcolor">
+      <HelmetHead desc={'تسجيل الدخول أو إنشاء حساب على منصة Edutime التعليمية'} title={'تسجيل الدخول'} />
       <div className="auth mt-0 center z-30">
         <div className="container relative box-shadow">
           <input type="checkbox" id="flip" />

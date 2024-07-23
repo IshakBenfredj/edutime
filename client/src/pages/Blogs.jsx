@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import { handleError, handleSuccess } from "../functions/toastifyFunctions";
 import { useSelector } from "react-redux";
+import HelmetHead from "../components/HelmetHead";
 
 export default function Blogs() {
   const [blogs, setBlogs] = useState([]);
@@ -43,6 +44,7 @@ export default function Blogs() {
 
   return (
     <div className="min-h-screen pt-20 pb-16">
+      <HelmetHead title={'المدونة | EduTime'} desc={'المدونة بمنصة Edutime'} />
       <div className="container">
         <Title title={"المدونة"} minTitle={"إكتشف آخر الأخبار والمقالات"} />
         {loading ? (

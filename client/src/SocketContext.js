@@ -13,9 +13,9 @@ export default function SocketContextProvider({ children }) {
   const user = useSelector((s) => s.user);
 
   useEffect(() => {
-    // setSocket(io("http://localhost:8900"));
+    setSocket(io("http://localhost:8900"));
     // setSocket(io("http://192.168.56.1:8900"));
-    setSocket(io("https://socket-i3b1.onrender.com"));
+    // setSocket(io("https://socket-i3b1.onrender.com"));
   }, []);
 
   useEffect(() => {

@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
 import Title from "../../components/Title";
 import "./styles.css";
+import HelmetHead from "../../components/HelmetHead";
 
 const PlatformWork = () => {
 
   return (
     <div className="conditions container">
+      <HelmetHead title={'كيف تعمل منصتنا ؟'} desc={'كيف تعمل منصتنا Edutime التعليمية'} />
       <Title title={"كيف تعمل منصتنا ؟"} />
       <pre className="gray-bg text-color text">
         تهدف هذه الصفحة إلى تقديم إجابات عن الأسئلة الأكثر شيوعًا حول{" "}

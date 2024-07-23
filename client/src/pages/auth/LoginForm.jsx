@@ -1,5 +1,6 @@
 import { HiMail } from "react-icons/hi";
 import { AiFillLock } from "react-icons/ai";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -12,6 +13,7 @@ import { auth, provider } from "../../firebase";
 
 const LoginForm = ({ setLoginStep }) => {
   const [emptyInput, setEmptyInput] = useState(false);
+  const [seeMp, setSeeMp] = useState(false);
   const [loginUser, setLoginUser] = useState({
     email: "",
     password: "",
@@ -83,7 +85,7 @@ const LoginForm = ({ setLoginStep }) => {
           <div className="input-box">
             <AiFillLock />
             <input
-              type="password"
+              type={seeMp ? "text" : "password"}
               onChange={handleChangeUser}
               name="password"
               className={`input ${
@@ -93,6 +95,13 @@ const LoginForm = ({ setLoginStep }) => {
               }`}
               placeholder="كلمة السر"
             />
+            <span className="center cursor-pointer">
+              {seeMp ? (
+                <FaEyeSlash onClick={() => setSeeMp(false)} />
+              ) : (
+                <FaEye onClick={() => setSeeMp(true)} />
+              )}
+            </span>
           </div>
           <div className="text">
             <Link

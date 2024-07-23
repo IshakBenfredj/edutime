@@ -18,6 +18,7 @@ import { MdDeleteForever } from "react-icons/md";
 import LoginPopup from "./LoginPopup";
 import Name from "./Name";
 import { useCreateNotification } from "../functions/newNotification";
+import renderPostText from "../functions/renderPostText";
 
 export default function Post({ postGet, setPosts, bgGray }) {
   const [userPost, setUserPost] = useState();
@@ -94,6 +95,7 @@ export default function Post({ postGet, setPosts, bgGray }) {
       handleError(error.response.data.error);
     }
   };
+
   const handleLike = async () => {
     if (likes.indexOf(user._id) === -1) {
       setLikes([user._id, ...likes]);
@@ -116,6 +118,7 @@ export default function Post({ postGet, setPosts, bgGray }) {
       handleError(error.response.data.error);
     }
   };
+
   const handleDelete = async () => {
     // eslint-disable-next-line no-restricted-globals
     const confirmDelete = confirm("هل ترغب فعلا في حذف هذه المناقشة ؟");
@@ -130,10 +133,12 @@ export default function Post({ postGet, setPosts, bgGray }) {
       }
     }
   };
+
   const handleOpen = () => {
     setOpenDetails(true);
     document.body.classList.add("overflow-hidden");
   };
+
 
   return (
     <>
@@ -159,9 +164,8 @@ export default function Post({ postGet, setPosts, bgGray }) {
       />
       {post && userPost && (
         <div
-          className={`${
-            bgGray ? "bg-bgcolor" : "bg-white"
-          } rounded-md overflow-hidden shadow-md md:space-y-2 space-y-1`}
+          className={`${bgGray ? "bg-bgcolor" : "bg-white"
+            } rounded-md overflow-hidden shadow-md md:space-y-2 space-y-1`}
         >
           <div className="px-3 pt-3 md:space-y-3 space-y-1">
             <div className="flex justify-between items-center">
@@ -212,10 +216,10 @@ export default function Post({ postGet, setPosts, bgGray }) {
             <h2 className="md:text-xl text-lg font-bold">{post.title}</h2>
             <p className=" text-color md:text-base text-sm leading-[1.5] break-words">
               {post.text.length <= 300 ? (
-                post.text
+                renderPostText(post.text)
               ) : showAllText ? (
                 <>
-                  {post.text}
+                  {renderPostText(post.text)}
                   <p
                     className="font-bold text-black mt-1 cursor-pointer"
                     onClick={() => setShowAllText(false)}
@@ -225,7 +229,7 @@ export default function Post({ postGet, setPosts, bgGray }) {
                 </>
               ) : (
                 <>
-                  {post.text.slice(0, 300)} ...
+                  {renderPostText(post.text.slice(0, 300))} ...
                   <p
                     className="font-bold text-black mt-1 cursor-pointer"
                     onClick={() => setShowAllText(true)}

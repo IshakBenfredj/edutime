@@ -10,6 +10,7 @@ import { addCourse } from "../toolkit/slices/courses";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import Title from "../components/Title";
+import HelmetHead from "../components/HelmetHead";
 
 export default function AddCourse() {
   const dispatch = useDispatch();
@@ -89,9 +90,11 @@ export default function AddCourse() {
     }
     setLoading(false);
   };
+
   return (
     <div className="bg-bgcolor pt-20 min-h-screen">
       <Title title={'إضافة إعلان'} />
+      <HelmetHead title={'إضافة إعلان'} desc={'إضافة إعلان بمنصة Edutime'} />
       <form
         className="p-3 pb-20 lg:w-[60%] mx-auto w-full"
         onSubmit={handleSubmit}

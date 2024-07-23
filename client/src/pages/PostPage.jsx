@@ -18,6 +18,8 @@ import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 import { BiCommentDetail } from "react-icons/bi";
 import Loading from "../components/loading/Loading";
 import { useCreateNotification } from "../functions/newNotification";
+import renderPostText from "../functions/renderPostText";
+import HelmetHead from "../components/HelmetHead";
 
 export default function PostPage() {
   const [userPost, setUserPost] = useState();
@@ -153,6 +155,7 @@ export default function PostPage() {
 
   return (
     <>
+      <HelmetHead title={post?.title || 'Loading ...'} desc={post?.text || 'Loading ...'} />
       {openLikes && (
         <UsersPopup
           usersLikesId={likes}
@@ -234,12 +237,12 @@ export default function PostPage() {
                     </div>
                   </div>
                   <h2 className="md:text-xl text-lg font-bold">{post.title}</h2>
-                  <p className=" text-color md:text-base text-sm leading-[1.5]">
+                  <p className=" text-color md:text-base text-sm leading-[1.5] break-words">
                     {post.text.length <= 300 ? (
-                      post.text
+                      renderPostText(post.text)
                     ) : showAllText ? (
                       <>
-                        {post.text}
+                        {renderPostText(post.text)}
                         <p
                           className="font-bold text-black mt-1 cursor-pointer"
                           onClick={() => setShowAllText(false)}
@@ -249,7 +252,7 @@ export default function PostPage() {
                       </>
                     ) : (
                       <>
-                        {post.text.slice(0, 300)} ...
+                        {renderPostText(post.text.slice(0, 300))} ...
                         <p
                           className="font-bold text-black mt-1 cursor-pointer"
                           onClick={() => setShowAllText(true)}

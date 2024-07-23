@@ -112,6 +112,7 @@ export default function Advertisement() {
                   {user && user.isAdmin && (
                     <button
                       onClick={() => handleDelete(pub._id)}
+                      key={i}
                       className="absolute top-3 right-3 p-2 text-3xl bg-red-500 text-white rounded-md z-10 cursor-pointer"
                     >
                       <MdDeleteForever />

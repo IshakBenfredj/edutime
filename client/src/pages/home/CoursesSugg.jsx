@@ -17,6 +17,10 @@ const CoursesSugg = () => {
 
   useEffect(() => {
     const generateNumbers = (interval) => {
+      if (interval <= 6) {
+        setSuggCourses(Array.from({ length: interval }, (_, index) => index));
+        return
+      }
       const numbers = new Set();
       const maxNumbers = Math.min(interval, 6);
 
@@ -29,7 +33,7 @@ const CoursesSugg = () => {
     };
 
     generateNumbers(courses.length);
-  }, [courses.length]);
+  }, [courses]);
 
   return (
     <section className="py-12">
@@ -37,7 +41,7 @@ const CoursesSugg = () => {
       {courses.length > 0 && suggCourses.length ? (
         <div className="container grid lg:grid-cols-4 grid-cols-2 lg:gap-9 gap-3">
           {suggCourses.map((num) => (
-            <CourseCard key={courses[num]._id} data={courses[num]} />
+            <CourseCard key={courses[num]?._id} data={courses[num]} />
           ))}
         </div>
       ) : (

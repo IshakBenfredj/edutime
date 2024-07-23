@@ -9,8 +9,6 @@ export default function Messages({ popup, setPopup, closeAll, setPopupNot }) {
   const path = useLocation().pathname;
   const [newConvLength, setNewConvLength] = useState(0);
   const user = useSelector((s) => s.user);
-
-  console.log(path.startsWith("/messages"));
   const handle = () => {
     closeAll();
     setPopup(!popup);

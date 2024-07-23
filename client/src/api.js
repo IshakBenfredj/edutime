@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const Axios = axios.create({
-  baseURL: "https://edutimeserver.onrender.com",
-  // baseURL: "http://localhost:8800",
+  // baseURL: "https://edutimeserver.onrender.com",
+  baseURL: "http://localhost:8800",
   // baseURL: "http://192.168.56.1:8800",
 });
 

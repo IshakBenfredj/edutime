@@ -15,7 +15,7 @@ export default function CourseCard({ data }) {
   const users = useSelector((state) => state.users);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const userCourse = users.find((user) => data.userId === user._id);
+  const userCourse = users?.find((user) => data?.userId === user?._id);
   const [date, setDate] = useState("");
   const [myCourse, setMyCourse] = useState("");
   const [reservation, setReservation] = useState(false);
@@ -30,20 +30,20 @@ export default function CourseCard({ data }) {
 
   const handleDelete = async () => {
     // eslint-disable-next-line no-restricted-globals
-    if (confirm(`هل فعلا ترغب في حذف دورة ${data.name}`)) {
-      const dataR = await axiosDeleteWithHeader(`/courses/delete/${data._id}`);
+    if (confirm(`هل فعلا ترغب في حذف دورة ${data?.name}`)) {
+      const dataR = await axiosDeleteWithHeader(`/courses/delete/${data?._id}`);
       handleSuccess(dataR.message);
-      dispatch(deleteCourse(data._id));
+      dispatch(deleteCourse(data?._id));
     }
   };
 
   useEffect(() => {
-    if (!data.isOpen) {
-      const formattedDate = new Date(data.date);
+    if (!data?.isOpen) {
+      const formattedDate = new Date(data?.date);
       const formatDate = `${formattedDate.getDate()}-${formattedDate.getMonth()}-${formattedDate.getFullYear()}`;
       setDate(formatDate);
     }
-  }, [data.date, data.isOpen]);
+  }, [data]);
 
   return (
     <>
@@ -58,7 +58,7 @@ export default function CourseCard({ data }) {
 
       {userCourse && (
         <div className="bg-bgcolor shadow rounded-xl p-2 relative overflow-hidden">
-          {data.certificate && (
+          {data?.certificate && (
             <span className="absolute flex items-center top-4 lg:-left-12 -left-14 text-gray-800 -rotate-45 justify-center gap-2 lg:text-sm text-xs z-20 bg-[#FFD700] w-40 font-bold">
               <PiCertificateFill />
               شهادة
@@ -67,24 +67,24 @@ export default function CourseCard({ data }) {
           {/* Image of course & state & address & price DA */}
           <div className="lg:h-32 h-24 w-[100%] rounded-xl bg-blue-500 relative">
             <img
-              src={data.image}
+              src={data?.image}
               className="w-[100%] h-full object-cover"
-              alt={data.name}
+              alt={data?.name}
             />
             <div className="absolute top-2 right-2 flex items-center gap-1 w-full">
               <span className="bg-green-700 text-white p-1 rounded-md lg:text-xs text-[9px]">
-                {data.isOnline ? "عن بعد" : "حضوري"}
+                {data?.isOnline ? "عن بعد" : "حضوري"}
               </span>
               <span className="bg-green-700 text-white p-1 rounded-md lg:text-xs text-[9px]">
-                {data.place}
+                {data?.place}
               </span>
             </div>
             <span className="absolute flex items-center justify-center overflow-hidden bg-red-700 lg:h-12 h-8 lg:w-12 w-8 text-white lg:p-2 p-1 text-center rounded-full lg:-bottom-6 -bottom-4 left-2 lg:text-xs text-[9px]">
-              {data.isFree ? (
+              {data?.isFree ? (
                 "مجانية"
               ) : (
                 <>
-                  {data.price} <br />
+                  {data?.price} <br />
                   DA
                 </>
               )}
@@ -101,27 +101,31 @@ export default function CourseCard({ data }) {
               alt=""
             />
             <span className="lg:text-sm text-xs font-bold">
-              <Name name={userCourse.name} checkmark={userCourse.checkmark} width={"w-3"} />
+              <Name
+                name={userCourse.name}
+                checkmark={userCourse.checkmark}
+                width={"w-3"}
+              />
             </span>
           </Link>
           {/* Title of course */}
           <h1 className="lg:my-3 my-2 font-bold lg:text-lg text-xs text-primary">
-            {data.name.length >= 22
-              ? `${data.name.slice(0, 22)} ...`
-              : data.name}
+            {data?.name.length >= 22
+              ? `${data?.name.slice(0, 22)} ...`
+              : data?.name}
           </h1>
           {/* Date of Course & number of hours */}
           <div className="flex items-center justify-between lg:mt-3">
             <div className="flex items-center lg:gap-2 gap-1 text-color">
               <FaCalendarDays className="lg:text-base text-xs" />
               <span className="lg:text-sm text-[10px] font-bold">
-                {data.isOpen ? "متاحة دائما" : date}
+                {data?.isOpen ? "متاحة دائما" : date}
               </span>
             </div>
             <div className="flex items-center lg:gap-2 gap-1 text-color">
               <FaRegClock className="lg:text-base text-xs" />
               <span className="lg:text-sm text-[10px] font-bold">
-                {data.hours} ساعة
+                {data?.hours} ساعة
               </span>
             </div>
           </div>
@@ -132,10 +136,12 @@ export default function CourseCard({ data }) {
               <MdOutlineMessage />
             </div>
             <Link
-              to={`tel:${data.phone}`}
+              to={`tel:${data?.phone}`}
               className="flex items-center lg:gap-2 gap-1 text-primary"
             >
-              <span className="lg:text-sm text-xs font-bold">{data.phone}</span>
+              <span className="lg:text-sm text-xs font-bold">
+                {data?.phone}
+              </span>
               <FaPhone className="lg:text-base text-xs" />
             </Link>
           </div>
@@ -154,7 +160,7 @@ export default function CourseCard({ data }) {
               myCourse && (
                 <>
                   <Link
-                    to={`/edit_course/${data._id}`}
+                    to={`/edit_course/${data?._id}`}
                     className="p-1 lg:w-1/3 w-1/4 lg:text-2xl text-lg flex justify-center hover:text-white text-title hover:bg-title transition-all border-title border-2 rounded-md"
                   >
                     <MdEdit />
@@ -179,7 +185,7 @@ export default function CourseCard({ data }) {
               </button>
             )}
             <Link
-              to={`/course_details/${data._id}`}
+              to={`/course_details/${data?._id}`}
               className="p-1 text-center lg:text-base text-xs md:w-1/3 w-1/2 border-secondary transition-all hover:bg-secondary hover:text-white border-2 text-secondary rounded-md"
             >
               التفاصيل
