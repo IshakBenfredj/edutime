@@ -230,7 +230,7 @@ export default function CourseDetails() {
             <h1 className="font-bold text-title text-3xl mb-5">
               التعليقات : {comments.length}
             </h1>
-            {user && (
+            {user ? (
               <form onSubmit={handleComment} className="mb-4">
                 <Input
                   set={setComment}
@@ -245,7 +245,7 @@ export default function CourseDetails() {
                   <Button text={"تعليق"} />
                 </div>
               </form>
-            )}
+            ) : <h1 className="font-bold text-xl text-gray-800">قم <Link to='/auth' className="text-blue-400">بتسجيل الدخول</Link> من أجل إمكانية التعليق</h1>}
             <Comments
               id={course._id}
               comments={comments}
