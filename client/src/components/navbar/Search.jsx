@@ -47,45 +47,47 @@ const Search = ({
   }, [showSearch]);
 
   useEffect(() => {
-    switch (category) {
-      case "الكل":
-        const searchUsers = users.filter((u) =>
-          u.name.toLowerCase().includes(search.toLowerCase())
-        );
-        setSearchResult(searchUsers);
-        break;
-      case "الدورات":
-        const searchCourses = courses.filter((c) =>
-          c.name.toLowerCase().includes(search.toLowerCase())
-        );
-        setSearchResult(searchCourses);
-        break;
-      case "المعلمين":
-        const teachers = users.filter((u) => u.isCenter);
-        const searchTeachers = teachers.filter((t) =>
-          t.name.toLowerCase().includes(search.toLowerCase())
-        );
-        setSearchResult(searchTeachers);
-        break;
-      case "الطلبة":
-        const students = users.filter((u) => !u.isCenter);
-        const searchStudents = students.filter((s) =>
-          s.name.toLowerCase().includes(search.toLowerCase())
-        );
-        setSearchResult(searchStudents);
-        break;
-      case "المقالات":
-        const searchBlogs = blogs.filter((b) =>
-          b?.title.toLowerCase().includes(search.toLowerCase())
-        );
-        setSearchResult(searchBlogs);
-        break;
-      default:
-        const searchUsersDefault = users.filter((u) =>
-          u.name.toLowerCase().includes(search.toLowerCase())
-        );
-        setSearchResult(searchUsersDefault);
-        break;
+    if (search) {
+      switch (category) {
+        case "الكل":
+          const searchUsers = users?.filter((u) =>
+            u.name.toLowerCase().includes(search.toLowerCase())
+          );
+          setSearchResult(searchUsers);
+          break;
+        case "الدورات":
+          const searchCourses = courses?.filter((c) =>
+            c.name.toLowerCase().includes(search.toLowerCase())
+          );
+          setSearchResult(searchCourses);
+          break;
+        case "المعلمين":
+          const teachers = users?.filter((u) => u.isCenter);
+          const searchTeachers = teachers?.filter((t) =>
+            t.name.toLowerCase().includes(search.toLowerCase())
+          );
+          setSearchResult(searchTeachers);
+          break;
+        case "الطلبة":
+          const students = users?.filter((u) => !u.isCenter);
+          const searchStudents = students?.filter((s) =>
+            s.name.toLowerCase().includes(search.toLowerCase())
+          );
+          setSearchResult(searchStudents);
+          break;
+        case "المقالات":
+          const searchBlogs = blogs?.filter((b) =>
+            b?.title.toLowerCase().includes(search.toLowerCase())
+          );
+          setSearchResult(searchBlogs);
+          break;
+        default:
+          const searchUsersDefault = users?.filter((u) =>
+            u.name.toLowerCase().includes(search.toLowerCase())
+          );
+          setSearchResult(searchUsersDefault);
+          break;
+      }
     }
   }, [search, category, users, courses, blogs]);
 
@@ -99,18 +101,15 @@ const Search = ({
         {showSearch ? <IoClose /> : <IoSearch />}
       </button>
       <div
-        className={`lg:w-1/3 md:w-2/3 z-40 ${
-          showSearch
-            ? `absolute w-11/12 lg:top-20 ${
-                user ? "top-[-75vh]" : "top-20"
-              }  -translate-x-1/2 left-1/2`
+        className={`lg:w-1/3 md:w-2/3 z-40 ${showSearch
+            ? `absolute w-11/12 lg:top-20 ${user ? "top-[-75vh]" : "top-20"
+            }  -translate-x-1/2 left-1/2`
             : "hidden"
-        }`}
+          }`}
       >
         <div
-          className={`lg:h-10 rounded-lg w-full border-title border-[1px] flex ${
-            showSearch && `h-12`
-          }`}
+          className={`lg:h-10 rounded-lg w-full border-title border-[1px] flex ${showSearch && `h-12`
+            }`}
         >
           <div
             className="w-20 relative rounded-tr-lg rounded-br-lg overflow-hidden"
@@ -175,7 +174,7 @@ const Search = ({
                     <span className="text-center text-xl font-bold text-red-400 block">
                       لايوجد نتائج بحث
                     </span>
-                  ) : category !== "الدورات" &&  category !== "المقالات" ? (
+                  ) : category !== "الدورات" && category !== "المقالات" ? (
                     searchResult.map((s) => (
                       <User key={s._id} id={s._id} setPopup={showSearchFunc} />
                     ))

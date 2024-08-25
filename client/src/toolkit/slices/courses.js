@@ -4,7 +4,11 @@ import Axios from "../../api";
 export const getCourses = createAsyncThunk(
   "coursesSlice/getCourses",
   async () => {
-    const { data } = await Axios.get("/courses");
+    const { data } = await Axios.get("/courses", {
+    headers: {
+      "x-custom-header": "secretValueForEdutimeWebsiteEducationAliHani",
+    },
+  });
     return data;
   }
 );

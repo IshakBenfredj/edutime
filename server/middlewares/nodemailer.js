@@ -5,8 +5,8 @@ dotenv.config();
 const transporter = nodemailer.createTransport({
   service: "Gmail",
   auth: {
-    user: process.env.EMAIL,
-    pass: process.env.EMAILPASS,
+    user: "edutime19@gmail.com",
+    pass: "pfdowuwwxrlwkmre",
   },
 });
 
@@ -14,7 +14,7 @@ const transporter = nodemailer.createTransport({
 const sendMail = (email, code, title, message) => {
   transporter.sendMail(
     {
-      from: process.env.EMAIL,
+      from: "edutime19@gmail.com",
       to: `${email}`,
       subject: `${title}`,
       html: `
@@ -38,7 +38,7 @@ const sendMailFromUserToTeam = (message) => {
   transporter.sendMail(
     {
       from: message.email,
-      to: process.env.EMAIL,
+      to: "edutime19@gmail.com",
       subject: `رسالة من ${message.name}`,
       html: `
             <div style="border: 1px solid #ccc; direction: rtl ; padding: 20px; border-radius: 5px; width:fit-content; margin: auto; background: #f1f5f9;">
@@ -61,7 +61,7 @@ const sendMailFromUserToTeam = (message) => {
 const sendMailPayment = (email, title, message) => {
   transporter.sendMail(
     {
-      from: process.env.EMAIL,
+      from: "edutime19@gmail.com",
       to: `${email}`,
       subject: `${title}`,
       html: `

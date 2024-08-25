@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { FaMapMarkerAlt, FaPhone, FaRegHeart } from "react-icons/fa";
@@ -9,7 +9,6 @@ import { IoCloseSharp } from "react-icons/io5";
 
 import {
   axiosDeleteWithHeader,
-  axiosPostWithHeader,
   axiosPutWithHeader,
 } from "../functions/axiosFunctions";
 import { handleError, handleSuccess } from "../functions/toastifyFunctions";
@@ -19,6 +18,8 @@ import Loading from "../components/loading/Loading";
 import ProfileLeftPart from "../components/ProfileLeftPart";
 import Name from "../components/Name";
 import { useCreateNotification } from "../functions/newNotification";
+import MessagePopup from "../components/MessagePopup";
+import { SocketContext } from "../SocketContext";
 
 export default function Profile() {
   const { id } = useParams();
@@ -33,12 +34,11 @@ export default function Profile() {
   const users = useSelector((state) => state.users);
   const [popup, setPopup] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [loadingMessage, setLoadingMessage] = useState(false);
-  const [messageText, setMessageText] = useState("");
   const [messagePopup, setMessagePopup] = useState(false);
   const navigate = useNavigate();
   const isMyprofile = userToolkit._id === id;
   const createNotification = useCreateNotification();
+  const { onlineFriends } = useContext(SocketContext);
 
   useEffect(() => {
     const getUserProfile = async () => {
@@ -69,7 +69,7 @@ export default function Profile() {
       setLoading(false);
     };
     if (user) getCoursesFunc();
-  }, [id, navigate,user]);
+  }, [id, navigate, user]);
 
   useEffect(() => {
     const getFollowing = async () => {
@@ -115,26 +115,6 @@ export default function Profile() {
     }
   };
 
-  const sendMessage = async () => {
-    if (!messageText) {
-      handleError("الرسالة مطلوبة");
-      return;
-    }
-    setLoadingMessage(true);
-    try {
-      await axiosPostWithHeader(`/messages/fromProfile`, {
-        id: user._id,
-        text: messageText,
-      });
-
-      handleSuccess("تم إرسال الرسالة");
-      setMessagePopup(false);
-    } catch (error) {
-      handleError(error.response.data.error);
-    }
-    setLoadingMessage(false);
-  };
-
   return (
     <>
       {seePhotoProfile && (
@@ -162,42 +142,26 @@ export default function Profile() {
         />
       )}
       {messagePopup && (
-        <div className="fixed top-0 right-0 w-screen h-screen bg-black/70 z-50 flex items-center justify-center">
-          <div className="lg:w-2/5 md:w-3/5 w-[95%] p-2 bg-white space-y-2 rounded-md">
-            <h1 className="font-semibold text-lg">الرسالة :</h1>
-            <textarea
-              className="bg-bgcolor resize-y outline-none p-2 w-full min-h-28 border-[1px] border-gray-300 rounded-md"
-              placeholder="رسالتك"
-              onChange={(e) => setMessageText(e.target.value)}
-            ></textarea>
-            <div className="flex items-center gap-4">
-              <button
-                onClick={sendMessage}
-                className="bg-title text-white p-2 rounded-md"
-              >
-                {loadingMessage ? "جاري الإرسال ..." : "إرسال"}
-              </button>
-              <button
-                onClick={() => setMessagePopup(false)}
-                className="bg-red-500 text-white p-2 rounded-md"
-              >
-                خروج
-              </button>
-            </div>
-          </div>
-        </div>
+        <MessagePopup setMessagePopup={setMessagePopup} user={user} />
       )}
       {!user ? (
         <Loading />
       ) : (
         <div className="pt-14 md:pb-0 pb-16 grid md:grid-cols-4 grid-cols-1 md:h-screen">
           <div className="col-span-1 bg-bgcolor h-fit md:h-auto p-4 shadow-md">
-            <img
+            <div
+              className="md:w-44 md:h-44 w-48 h-48 mx-auto rounded-full cursor-pointer relative"
               onClick={() => setSeePhotoProfile(true)}
-              src={user.image}
-              alt=""
-              className="md:w-44 md:h-44 w-48 h-48 mx-auto rounded-full cursor-pointer"
-            />
+            >
+              <img
+                src={user.image}
+                alt=""
+                className="w-full h-full rounded-full"
+              />
+              {onlineFriends.includes(user._id) && (
+                <span className="w-[16px] h-[16px] rounded-full bg-green-500 absolute left-3 bottom-6"></span>
+              )}
+            </div>
             <h1 className="my-3 flex justify-center text-2xl text-gray-900 font-bold">
               <Name name={user.name} checkmark={user.checkmark} width={"w-4"} />
             </h1>

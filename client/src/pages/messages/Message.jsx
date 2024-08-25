@@ -11,6 +11,7 @@ export default function Message({
   message,
   messages,
   setMessages,
+  lastMessage
 }) {
   const formattedTimestamp = moment(message.createdAt).calendar(null, {
     sameDay: "HH:mm",
@@ -37,26 +38,34 @@ export default function Message({
   return (
     <>
       {message.sender === user._id ? (
-        <div className="w-2/3 flex gap-2">
-          <div
-            className="mb-3 w-fit bg-blue-500 text-white p-1 rounded-md"
-            onClick={() => setShowDeleteBtn(!showDeleteBtn)}
-          >
-            <p>{message.text}</p>
-            <span className="text-xs text-slate-100 mt-1">
-              {formattedTimestamp}
-            </span>
+        <div className="w-2/3 mb-1">
+          <div className="flex gap-2">
+            <div
+              className="w-fit bg-blue-500 text-white p-1 rounded-md"
+              onClick={() => setShowDeleteBtn(!showDeleteBtn)}
+            >
+              <p>{message.text}</p>
+              <span className="text-xs text-slate-100 mt-1">
+                {formattedTimestamp}
+              </span>
+            </div>
+            {showDeleteBtn && (
+              <MdDeleteForever
+                className="text-xl text-color cursor-pointer"
+                onClick={deleteMessage}
+              />
+            )}
           </div>
-          {showDeleteBtn && (
-            <MdDeleteForever
-              className="text-xl text-color cursor-pointer"
-              onClick={deleteMessage}
-            />
-          )}
+          {
+            !message.isNewMessage && lastMessage &&
+            (
+              <img src={userContact.image} alt="" className="w-4 h-4 rounded-full mt-1" />
+            )
+          }
         </div>
       ) : (
         <div className="flex items-start justify-end gap-2 w-2/3 mr-auto">
-          <div className="mb-3 w-fit bg-slate-400 text-white p-1 rounded-md">
+          <div className="mb-1 w-fit bg-slate-400 text-white p-1 rounded-md">
             <p>{message.text}</p>
             <span className="text-xs text-slate-100 mt-1">
               {formattedTimestamp}
@@ -72,3 +81,4 @@ export default function Message({
     </>
   );
 }
+

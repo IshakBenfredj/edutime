@@ -18,7 +18,7 @@ export default function MainPage() {
     const getConversations = async () => {
       try {
         const data = await axiosGetWithHeader(`/conversations/${user._id}`);
-        setConversations(data);
+        setConversations(data.reverse());
       } catch (err) {
         console.log(err);
       }

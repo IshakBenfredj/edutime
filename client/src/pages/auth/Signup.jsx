@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../toolkit/slices/user";
 import { handleError, handleSuccess } from "../../functions/toastifyFunctions";
+import validatePhoneNumber from "../../functions/phoneCheck";
 
 const SignupForm = () => {
   const [signupStep, setSignupStep] = useState("signup");
@@ -43,10 +44,22 @@ const SignupForm = () => {
       setEmptyInput(true);
       handleError("جميع الحقول مطلوبة");
     } else {
+      // Validate phone number
+      if (!validatePhoneNumber(signupInfo.phone)) {
+        return;
+      }
       try {
-        const response = await Axios.post(`/auth/confirmEmail`, {
-          email: signupInfo.email,
-        });
+        const response = await Axios.post(
+          `/auth/confirmEmail`,
+          {
+            email: signupInfo.email,
+          },
+          {
+            headers: {
+              "x-custom-header": "secretValueForEdutimeWebsiteEducationAliHani",
+            },
+          }
+        );
         setSignupStep("confirmEmail");
         handleSuccess(response.data.message);
         setResponseCode(response.data.code);
@@ -62,7 +75,11 @@ const SignupForm = () => {
       handleError("الرمز الذي أدخلته خاطئ");
     } else {
       try {
-        const { data } = await Axios.post("/auth/signup", { ...signupInfo });
+        const { data } = await Axios.post("/auth/signup", signupInfo, {
+          headers: {
+            "x-custom-header": "secretValueForEdutimeWebsiteEducationAliHani",
+          },
+        });
         dispatch(login(data.user));
         localStorage.setItem("token", data.token);
         navigate("/");
@@ -82,13 +99,16 @@ const SignupForm = () => {
           <form onSubmit={confirmMail}>
             <div className="input-boxes">
               <div className="user-type center">
-                <div className="center">
+                <div
+                  className="center"
+                  onClick={() =>
+                    setSignupInfo({ ...signupInfo, isCenter: false })
+                  }
+                >
                   <input
                     type="radio"
-                    checked={signupInfo.isCenter === "user"}
-                    onChange={handleSignupInfo}
+                    checked={!signupInfo.isCenter}
                     name="isCenter"
-                    value={"user"}
                     id="user"
                   />
                   <label
@@ -100,13 +120,16 @@ const SignupForm = () => {
                     متعلم
                   </label>
                 </div>
-                <div className="center">
+                <div
+                  className="center"
+                  onClick={() =>
+                    setSignupInfo({ ...signupInfo, isCenter: true })
+                  }
+                >
                   <input
                     type="radio"
-                    checked={signupInfo.isCenter === "center"}
-                    onChange={handleSignupInfo}
+                    checked={signupInfo.isCenter}
                     name="isCenter"
-                    value={"center"}
                     id="center"
                   />
                   <label

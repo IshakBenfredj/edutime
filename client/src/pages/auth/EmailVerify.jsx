@@ -26,7 +26,11 @@ const EmailVerify = ({ setLoginStep, setUserReset, setResponseCode }) => {
       try {
         const response = await Axios.post(`/auth/emailVerify`, {
           email: loginUser.email,
-        });
+        }, {
+    headers: {
+      "x-custom-header": "secretValueForEdutimeWebsiteEducationAliHani",
+    },
+  });
         setLoginStep("confirmEmail");
         setResponseCode(response.data.code);
         setUserReset(response.data.user);

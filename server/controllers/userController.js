@@ -13,7 +13,7 @@ const getUser = async (req, res) => {
     if (!user) {
       return res.json(null);
     }
-
+    delete user.password
     res.status(200).json(user);
   } catch (error) {
     res.status(400).json({ error: "Server Error" });
@@ -22,7 +22,7 @@ const getUser = async (req, res) => {
 
 const getUsers = async (req, res) => {
   try {
-    const users = await User.find().sort({ createdAt: -1 });
+    const users = await User.find().sort({ createdAt: -1 }).select('_id name image followers checkmark');
 
     res.status(200).json(users);
   } catch (error) {
@@ -41,6 +41,7 @@ const like = async (req, res) => {
     } else {
       user.followers.splice(userIndex, 1);
     }
+    delete user.password
     await user.save();
 
     res.status(201).json(user);

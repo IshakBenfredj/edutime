@@ -6,7 +6,7 @@ const {sendMail} = require("../middlewares/nodemailer.js");
 dotenv.config();
 
 const generateToken = (_id) => {
-  return jwt.sign({ _id }, process.env.SECRET);
+  return jwt.sign({ _id }, "HITHEREINYOURSPECIALACCOUNTINEDUTIMEWEBSITE?!");
 };
 
 const signup = async (req, res) => {
@@ -16,7 +16,6 @@ const signup = async (req, res) => {
     const hash = await bcrypt.hash(req.body.password, salt);
     const newUser = new User({
       ...req.body,
-      isCenter: req.body === "center",
       isAdmin: req.body.email === "edutime19@gmail.com",
       password: hash,
     });
@@ -36,6 +35,12 @@ const login = async (req, res, next) => {
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
       return res.status(400).json({ error: "مستخدم غير موجود" });
+    }
+
+    if (!user.password && user.fromGoogle) {
+      return res
+        .status(400)
+        .json({ error: "عليك تسجيل الدخول باستعمال جوجل" });
     }
 
     const match = await bcrypt.compare(req.body.password, user.password);
@@ -88,7 +93,7 @@ const getAuthUser = async (req, res) => {
   try {
     const { token } = req.params;
 
-    const decodedToken = jwt.verify(token, process.env.SECRET);
+    const decodedToken = jwt.verify(token, "HITHEREINYOURSPECIALACCOUNTINEDUTIMEWEBSITE?!");
 
     if (!decodedToken || !decodedToken._id) {
       return res.json({ success: false });

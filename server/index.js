@@ -5,6 +5,7 @@ const morgan = require("morgan");
 const mongoose = require("mongoose");
 const helmet = require("helmet");
 const bodyParser = require("body-parser");
+const path = require('path');
 
 // Import Routes
 const authRoutes = require("./routes/auth-routes.js");
@@ -41,19 +42,40 @@ app.use(
 );
 app.use(bodyParser.text({ limit: "200mb" }));
 
+const allowedOrigins = ['https://edutime.click', 'https://www.edutime.click'];
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+};
+
+app.use((req,res,next)=>{
+const customerHeader = req.headers['x-custom-header'];
+if (!customerHeader || customerHeader !== "secretValueForEdutimeWebsiteEducationAliHani" ){
+res.status(403).send('Access impossible');
+} else {
+next();
+}
+});
+
 // Routes
-app.use("/auth", authRoutes);
-app.use("/courses", courseRoutes);
-app.use("/users", userRoutes);
-app.use("/reservations", reservationRoutes);
-app.use("/posts", postRoutes);
-app.use("/blogs", blogRoutes);
-app.use("/comments", commentRoutes);
-app.use("/conversations", conversationRoutes);
-app.use("/messages", messageRoutes);
-app.use("/requests", requestRoutes);
-app.use("/notifications", notificationRoutes);
-app.use("/pubs", pubRoutes);
+app.use("/auth", cors(corsOptions), authRoutes);
+app.use("/courses", cors(corsOptions), courseRoutes);
+app.use("/users", cors(corsOptions), userRoutes);
+app.use("/reservations", cors(corsOptions), reservationRoutes);
+app.use("/posts", cors(corsOptions), postRoutes);
+app.use("/blogs", cors(corsOptions), blogRoutes);
+app.use("/comments", cors(corsOptions), commentRoutes);
+app.use("/conversations", cors(corsOptions), conversationRoutes);
+app.use("/messages", cors(corsOptions), messageRoutes);
+app.use("/requests", cors(corsOptions), requestRoutes);
+app.use("/notifications", cors(corsOptions), notificationRoutes);
+app.use("/pubs", cors(corsOptions), pubRoutes);
 
 app.post("/mail/send", async (req, res) => {
   try {
@@ -66,7 +88,7 @@ app.post("/mail/send", async (req, res) => {
 });
 
 mongoose
-  .connect(process.env.MONGODB_URL, {
+  .connect("mongodb+srv://edutime19:edutime19@cluster0.arou16u.mongodb.net/edutime?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

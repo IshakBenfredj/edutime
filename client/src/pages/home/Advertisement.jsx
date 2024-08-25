@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useSelector } from "react-redux";
 import UploadImage from "../../components/UploadImage";
@@ -24,22 +24,25 @@ export default function Advertisement() {
   const user = useSelector((s) => s.user);
 
   useEffect(() => {
-    const fetchPubs = async () => {
-      try {
-        const data = await axiosGetWithoutHeader("/pubs");
-        setPubs(data);
-      } catch (error) {
-        handleError(error.response.data.error);
-      }
-      setLoadingPubs(false);
-    };
-    fetchPubs();
-  }, []);
+  const fetchPubs = async () => {
+    try {
+      const data = await axiosGetWithoutHeader("/pubs");
+      // Shuffle the array to show pubs in a random order
+      const shuffledPubs = data.sort(() => Math.random() - 0.5);
+
+      setPubs(shuffledPubs);
+    } catch (error) {
+      handleError(error.response.data.error);
+    }
+    setLoadingPubs(false);
+  };
+  fetchPubs();
+}, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setindex(index === pubs.length - 1 ? 0 : index + 1);
-    }, 3000);
+    }, 6000);
     return () => clearInterval(interval);
   }, [pubs.length, index]);
 

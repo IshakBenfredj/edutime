@@ -1,7 +1,8 @@
 import { createContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
-import { axiosGetWithoutHeader } from "./functions/axiosFunctions";
+// import { axiosGetWithoutHeader } from "./functions/axiosFunctions";
 import { useSelector } from "react-redux";
+import { axiosGetWithoutHeader } from "./functions/axiosFunctions";
 
 export const SocketContext = createContext();
 
@@ -15,7 +16,7 @@ export default function SocketContextProvider({ children }) {
   useEffect(() => {
     // setSocket(io("http://localhost:8900"));
     // setSocket(io("http://192.168.56.1:8900"));
-    setSocket(io("https://socket-i3b1.onrender.com"));
+    setSocket(io("https://socket.edutime.click"));
   }, []);
 
   useEffect(() => {
@@ -35,15 +36,11 @@ export default function SocketContextProvider({ children }) {
 
   useEffect(() => {
     socket?.on("getOnlineUsers", (data) => {
-      if (friends.length > 0) {
-        const onlineFriendss = friends.filter((friend) =>
-          data.find((onlineUser) => onlineUser.userId === friend._id)
-        );
-        const onlineFriendsIds = onlineFriendss.map((f) => f._id);
-        setOnlineFriends(onlineFriendsIds);
-      }
+      console.log(data);      
+      const onlineUsers = data.map((f) => f.userId);
+      setOnlineFriends(onlineUsers);
     });
-  }, [socket, friends]);
+  }, [socket]);
 
   return (
     <SocketContext.Provider

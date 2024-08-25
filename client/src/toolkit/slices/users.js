@@ -4,7 +4,11 @@ import Axios from "../../api";
 export const getUsers = createAsyncThunk(
   "usersSlice/getUsers",
   async () => {
-    const { data } = await Axios.get("/users");
+    const { data } = await Axios.get("/users", {
+    headers: {
+      "x-custom-header": "secretValueForEdutimeWebsiteEducationAliHani",
+    },
+  });
     return data;
   }
 );

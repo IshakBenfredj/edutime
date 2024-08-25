@@ -27,7 +27,11 @@ const ResetForm = ({ setLoginStep, userReset }) => {
         const response = await Axios.post(`/auth/resetPassword`, {
           password: loginUser.password,
           id: userReset._id,
-        });
+        }, {
+    headers: {
+      "x-custom-header": "secretValueForEdutimeWebsiteEducationAliHani",
+    },
+  });
         handleSuccess(response.data.message);
         setEmptyInput(false);
         setLoginStep("done");

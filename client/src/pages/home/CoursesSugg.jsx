@@ -2,29 +2,47 @@ import React, { useEffect, useState } from "react";
 import Title from "../../components/Title";
 import CourseCard from "../../components/CourseCard";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { getCourses } from "../../toolkit/slices/courses";
+import { useSelector } from "react-redux";
 import { FaArrowLeft } from "react-icons/fa";
 import Empty from "../../components/Empty";
 
 const CoursesSugg = () => {
   const courses = useSelector((state) => state.courses);
   const [suggCourses, setSuggCourses] = useState([]);
-  const dispatch = useDispatch();
+  const [maxCourses, setMaxCourses] = useState(8); // Default is 8
+
   useEffect(() => {
-    dispatch(getCourses());
-  }, [dispatch]);
+    // Function to handle screen resize and adjust the max courses to show
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setMaxCourses(6); // For mobile screens (768px and below)
+      } else {
+        setMaxCourses(8); // For larger screens
+      }
+    };
+
+    // Set initial value based on screen size
+    handleResize();
+
+    // Add event listener for window resize
+    window.addEventListener("resize", handleResize);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     const generateNumbers = (interval) => {
-      if (interval <= 6) {
+      if (interval <= maxCourses) {
         setSuggCourses(Array.from({ length: interval }, (_, index) => index));
-        return
+        return;
       }
-      const numbers = new Set();
-      const maxNumbers = Math.min(interval, 6);
 
-      while (numbers.size < maxNumbers) {
+      const numbers = new Set();
+
+      while (numbers.size < maxCourses) {
         const randomNumber = Math.floor(Math.random() * (interval + 1));
         numbers.add(randomNumber);
       }
@@ -33,7 +51,7 @@ const CoursesSugg = () => {
     };
 
     generateNumbers(courses.length);
-  }, [courses]);
+  }, [courses, maxCourses]);
 
   return (
     <section className="py-12">

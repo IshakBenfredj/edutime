@@ -1,6 +1,6 @@
 const io = require("socket.io")(8900, {
   cors: {
-    origin: "https://edutimee.vercel.app",
+    origin: ["https://edutime.click","https://www.edutime.click"]
     // origin: "http://localhost:3000",
     // origin: "http://192.168.56.1:3000",
   },

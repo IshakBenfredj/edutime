@@ -43,6 +43,7 @@ import MessagesContextProvider from "./pages/messages/MessagesContext.js";
 import PostPage from "./pages/PostPage.jsx";
 import SocketContextProvider from "./SocketContext.js";
 import NotFound from "./pages/NotFound.jsx";
+import { getCourses } from "./toolkit/slices/courses.js";
 
 export const setTitle = (newTitle) => {
   document.title = newTitle;
@@ -52,6 +53,10 @@ function App() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+
+  useEffect(() => {
+    dispatch(getCourses());
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(getUsers());

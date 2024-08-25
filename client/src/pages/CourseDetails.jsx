@@ -29,6 +29,7 @@ export default function CourseDetails() {
   const [course, setCourse] = useState();
   const [userCourse, setUserCourse] = useState();
   const [seePhotoCourse, setSeePhotoCourse] = useState(false);
+  const [shouldLogin, setShouldLogin] = useState(false);
   const [reservation, setReservation] = useState(false);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
@@ -56,15 +57,18 @@ export default function CourseDetails() {
   }, [id, navigate]);
 
   useEffect(() => {
-    if (course) {
+    if (course && users.length > 0) {
       const user = users.find((u) => u._id === course.userId);
       setUserCourse(user);
     }
   }, [course, users]);
 
   const handleComment = async (e) => {
+    e.preventDefault();
+    if (!user) {
+      return setShouldLogin(true);
+    }
     try {
-      e.preventDefault();
       const data = await axiosPostWithHeader("/comments/add", {
         comment,
         postId: course._id,
@@ -92,6 +96,7 @@ export default function CourseDetails() {
         `/courses/delete/${course._id}`
       );
       handleSuccess(courseR.message);
+      navigate("/");
       dispatch(deleteCourse(course._id));
     }
   };
@@ -123,6 +128,7 @@ export default function CourseDetails() {
         ) : (
           <LoginPopup set={setReservation} />
         ))}
+      {shouldLogin && <LoginPopup set={setShouldLogin} />}
       {!course || !userCourse ? (
         <Loading />
       ) : (
@@ -172,9 +178,9 @@ export default function CourseDetails() {
                     <span>
                       {course.isOpen
                         ? "متاحة دائما ✅"
-                        : `${new Date(course.date).getDate()}-${new Date(
-                          course.date
-                        ).getMonth()}-${new Date(course.date).getFullYear()}`}
+                        : `${new Date(course.date).getDate()}-${
+                            new Date(course.date).getMonth() + 1
+                          }-${new Date(course.date).getFullYear()}`}
                     </span>
                   </div>
                   <div className="detail_link">
@@ -190,10 +196,13 @@ export default function CourseDetails() {
                 </div>
               </div>
               <div>
-                {user && user._id !== userCourse._id && !user.isAdmin && (
+                {(!user ||
+                  (user && user._id !== userCourse._id && !user.isAdmin)) && (
                   <>
                     <button
-                      onClick={() => setReservation(true)}
+                      onClick={() =>
+                        user ? setReservation(true) : setShouldLogin(true)
+                      }
                       className="bg-title py-1 px-2 w-1/2 mt-4 mx-auto text-white text-lg text-center rounded-md block"
                     >
                       أحجز الآن
@@ -230,22 +239,20 @@ export default function CourseDetails() {
             <h1 className="font-bold text-title text-3xl mb-5">
               التعليقات : {comments.length}
             </h1>
-            {user ? (
-              <form onSubmit={handleComment} className="mb-4">
-                <Input
-                  set={setComment}
-                  state={comment}
-                  label={"إضافة تعليق"}
-                  name={"comment"}
-                  Icon={MdAddComment}
-                  textarea
-                  placeholder={"مارأيك في هذا الإعلان أو الدورة ؟"}
-                />
-                <div className="w-fit mt-3">
-                  <Button text={"تعليق"} />
-                </div>
-              </form>
-            ) : <h1 className="font-bold text-xl text-gray-800">قم <Link to='/auth' className="text-blue-400">بتسجيل الدخول</Link> من أجل إمكانية التعليق</h1>}
+            <form onSubmit={handleComment} className="mb-4">
+              <Input
+                set={setComment}
+                state={comment}
+                label={"إضافة تعليق"}
+                name={"comment"}
+                Icon={MdAddComment}
+                textarea
+                placeholder={"مارأيك في هذا الإعلان أو الدورة ؟"}
+              />
+              <div className="w-fit mt-3">
+                <Button text={"تعليق"} />
+              </div>
+            </form>
             <Comments
               id={course._id}
               comments={comments}

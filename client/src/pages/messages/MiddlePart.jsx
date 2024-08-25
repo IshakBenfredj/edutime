@@ -31,6 +31,7 @@ export default function MiddlePart({ user }) {
   const [newMessage, setNewMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const scrollRef = useRef();
+  const textareaRef = useRef(); // Ref for textarea
   const { socket, onlineFriends } = useContext(SocketContext);
 
   useEffect(() => {
@@ -59,7 +60,7 @@ export default function MiddlePart({ user }) {
         await axiosPutWithHeader(
           `/messages/${conversation._id}/${userFriend._id}`
         );
-      } catch (error) {}
+      } catch (error) { }
     };
     markAsLu();
   }, [conversation, userFriend, messages]);
@@ -91,7 +92,8 @@ export default function MiddlePart({ user }) {
       const dataM = await axiosPostWithHeader("/messages", message);
       setMessages([...messages, dataM]);
       setNewMessage("");
-    } catch (error) {}
+      textareaRef.current?.focus();
+    } catch (error) { }
   };
 
   const sendMessageNewConv = async () => {
@@ -110,6 +112,8 @@ export default function MiddlePart({ user }) {
         text: newMessage,
       });
       setNewMessage("");
+
+      textareaRef.current?.focus();
     } catch (error) {
       handleError(error.response.data.error);
     }
@@ -150,10 +154,12 @@ export default function MiddlePart({ user }) {
     getMessages();
   }, [conversation]);
 
-  useEffect(() => {
-    console.log(messages);
-    console.log(conversation);
-  }, [messages, conversation]);
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSubmit();
+    }
+  };
 
   return (
     <div className="flex flex-col justify-between h-full">
@@ -210,7 +216,7 @@ export default function MiddlePart({ user }) {
             إبدأ المحادثة برسائل جديدة
           </p>
         ) : (
-          messages.map((m) => (
+          messages.map((m,index) => (
             <div ref={scrollRef}>
               <Message
                 user={user}
@@ -219,6 +225,7 @@ export default function MiddlePart({ user }) {
                 key={m._id}
                 messages={messages}
                 setMessages={setMessages}
+                lastMessage={messages.length -1 === index}
               />
             </div>
           ))
@@ -234,9 +241,11 @@ export default function MiddlePart({ user }) {
               <IoSend />
             </span>
             <textarea
-              className="min-h-full w-full bg-slate-200 outline-none pt-2"
+              ref={textareaRef}
+              className="min-h-full w-full bg-slate-200 outline-none pt-3"
               placeholder="أكتب رسالتك..."
               onChange={(e) => setNewMessage(e.target.value)}
+              onKeyDown={handleKeyDown}
               value={newMessage}
             />
           </div>

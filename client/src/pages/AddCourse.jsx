@@ -5,14 +5,17 @@ import { useEffect, useState } from "react";
 import UploadImage from "../components/UploadImage";
 import { handleError, handleSuccess } from "../functions/toastifyFunctions";
 import { axiosPostWithHeader } from "../functions/axiosFunctions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addCourse } from "../toolkit/slices/courses";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import Title from "../components/Title";
 import HelmetHead from "../components/HelmetHead";
+import { useNavigate } from "react-router-dom";
+import validatePhoneNumber from "../functions/phoneCheck";
 
 export default function AddCourse() {
+  const user = useSelector((s) => s.user);
   const dispatch = useDispatch();
   const [image, setImage] = useState();
   const [name, setName] = useState();
@@ -29,6 +32,7 @@ export default function AddCourse() {
   const [loading, setLoading] = useState(false);
   const [empty, setEmpty] = useState();
   const [hours, setHours] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (
@@ -66,6 +70,10 @@ export default function AddCourse() {
     if (empty) {
       handleError("جميع الحقول مطلوبة");
     } else {
+      if (!validatePhoneNumber(phone)) {
+        setLoading(false);
+        return;
+      }
       try {
         const data = await axiosPostWithHeader("/courses/add", {
           image,
@@ -84,6 +92,7 @@ export default function AddCourse() {
         });
         dispatch(addCourse(data));
         handleSuccess("تم نشر الإعلان بنجاح");
+        navigate(`/profile/${user._id}`);
       } catch (error) {
         handleError(error.response.data.error);
       }
@@ -93,8 +102,8 @@ export default function AddCourse() {
 
   return (
     <div className="bg-bgcolor pt-20 min-h-screen">
-      <Title title={'إضافة إعلان'} />
-      <HelmetHead title={'إضافة إعلان'} desc={'إضافة إعلان بمنصة Edutime'} />
+      <Title title={"إضافة إعلان"} />
+      <HelmetHead title={"إضافة إعلان"} desc={"إضافة إعلان بمنصة Edutime"} />
       <form
         className="p-3 pb-20 lg:w-[60%] mx-auto w-full"
         onSubmit={handleSubmit}

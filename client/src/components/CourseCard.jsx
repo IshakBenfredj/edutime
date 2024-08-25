@@ -10,6 +10,7 @@ import { deleteCourse } from "../toolkit/slices/courses";
 import ReservationPopup from "./ReservationPopup";
 import LoginPopup from "./LoginPopup";
 import Name from "./Name";
+import MessagePopup from "./MessagePopup";
 
 export default function CourseCard({ data }) {
   const users = useSelector((state) => state.users);
@@ -19,6 +20,7 @@ export default function CourseCard({ data }) {
   const [date, setDate] = useState("");
   const [myCourse, setMyCourse] = useState("");
   const [reservation, setReservation] = useState(false);
+  const [messagePopup, setMessagePopup] = useState(false);
 
   useEffect(() => {
     if (user && userCourse && user._id === userCourse._id) {
@@ -40,13 +42,22 @@ export default function CourseCard({ data }) {
   useEffect(() => {
     if (!data?.isOpen) {
       const formattedDate = new Date(data?.date);
-      const formatDate = `${formattedDate.getDate()}-${formattedDate.getMonth()}-${formattedDate.getFullYear()}`;
+      const formatDate = `${formattedDate.getDate()}-${
+        formattedDate.getMonth() + 1
+      }-${formattedDate.getFullYear()}`;
       setDate(formatDate);
     }
   }, [data]);
 
   return (
     <>
+      {messagePopup && !user ? (
+        <LoginPopup set={setMessagePopup} />
+      ) : (
+        messagePopup && (
+          <MessagePopup setMessagePopup={setMessagePopup} user={userCourse} />
+        )
+      )}
       {reservation &&
         (user ? (
           !user.isCenter && (
@@ -132,7 +143,10 @@ export default function CourseCard({ data }) {
           <span className="w-full h-[1px] bg-primary block my-2 opacity-70"></span>
           {/* Contact Informations */}
           <div className="flex items-center justify-between">
-            <div className="lg:text-xl cursor-pointer text-primary">
+            <div
+              className="lg:text-xl cursor-pointer text-primary"
+              onClick={() => setMessagePopup(true)}
+            >
               <MdOutlineMessage />
             </div>
             <Link

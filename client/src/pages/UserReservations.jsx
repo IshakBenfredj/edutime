@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Title from "../components/Title";
 import ReservationsTable from "../components/ReservationsTable";
+import { getCoursesByUserId } from "../functions/getFunctions";
 
 export default function UserReservations() {
   const user = useSelector((s) => s.user);
@@ -11,8 +12,11 @@ export default function UserReservations() {
   const [myCourses, setMyCourses] = useState([]);
 
   useEffect(() => {
-    const myCourses = courses.filter((c) => c.userId === user._id);
-    setMyCourses(myCourses);
+    const getInfo = async () => {
+      const myCourses = await getCoursesByUserId(user._id);
+      setMyCourses(myCourses);
+    }
+    getInfo()
   }, [courses, user]);
 
   return (
@@ -22,17 +26,15 @@ export default function UserReservations() {
         <div className="flex items-center justify-center gap-3">
           <button
             onClick={() => setIsWait(true)}
-            className={`border-2 border-secondary text-secondary p-2 rounded-md font-bold ${
-              isWait && "bg-secondary text-white"
-            }`}
+            className={`border-2 border-secondary text-secondary p-2 rounded-md font-bold ${isWait && "bg-secondary text-white"
+              }`}
           >
             قيد الإنتظار
           </button>
           <button
             onClick={() => setIsWait(false)}
-            className={`border-2 border-secondary text-secondary p-2 rounded-md font-bold ${
-              !isWait && "bg-secondary text-white"
-            }`}
+            className={`border-2 border-secondary text-secondary p-2 rounded-md font-bold ${!isWait && "bg-secondary text-white"
+              }`}
           >
             المقبولة
           </button>

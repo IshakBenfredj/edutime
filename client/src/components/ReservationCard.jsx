@@ -6,6 +6,8 @@ import { axiosDeleteWithHeader } from "../functions/axiosFunctions";
 import { deleteReservation } from "../toolkit/slices/reservations";
 import { handleSuccess } from "../functions/toastifyFunctions";
 import Name from "./Name";
+import { getCourse, getUser } from "../functions/getFunctions";
+import Loading from "./loading/Loading";
 
 export default function ReservationCard({ data }) {
   const users = useSelector((s) => s.users);
@@ -16,13 +18,19 @@ export default function ReservationCard({ data }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (courses && users && data) {
-      const course = courses.find((c) => c._id === data.courseId);
-      const user = users.find((u) => u._id === data.userId);
+    // if (courses.length && users.length && data) {
+    //   const course = courses?.find((c) => c._id === data.courseId);
+    //   const user = users?.find((u) => u._id === data.userId);
+    // }
+    const getInfo = async () => {
+      const user = await getUser(data.userId)
+      const course = await getCourse(data.courseId)
       setCourse(course);
       setUser(user);
     }
+    getInfo()
   }, [courses, data, users]);
+
   const handleDelete = async () => {
     setLoading(true);
     try {
@@ -37,7 +45,7 @@ export default function ReservationCard({ data }) {
 
   return (
     <>
-      {course && user && (
+      {course && user ? (
         <div className="bg-white shadow-md rounded-md overflow-hidden">
           <div className="w-full h-32">
             <img
@@ -82,7 +90,7 @@ export default function ReservationCard({ data }) {
             />
           </div>
         </div>
-      )}
+      ) : <Loading />}
     </>
   );
 }

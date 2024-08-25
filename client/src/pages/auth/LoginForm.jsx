@@ -38,7 +38,11 @@ const LoginForm = ({ setLoginStep }) => {
       try {
         const { data } = await Axios.post("/auth/login", {
           ...loginUser,
-        });
+        }, {
+    headers: {
+      "x-custom-header": "secretValueForEdutimeWebsiteEducationAliHani",
+    },
+  });
         dispatch(login(data.user));
         localStorage.setItem("token", data.token);
         navigate("/");
@@ -54,7 +58,11 @@ const LoginForm = ({ setLoginStep }) => {
       .then((result) => {
         Axios.post("/auth/google", {
           googleUser: result.user,
-        }).then((res) => {
+        }, {
+    headers: {
+      "x-custom-header": "secretValueForEdutimeWebsiteEducationAliHani",
+    },
+  }).then((res) => {
           dispatch(login(res.data.user));
           localStorage.setItem("token", res.data.token);
           navigate("/");
