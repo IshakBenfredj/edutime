@@ -44,6 +44,7 @@ import PostPage from "./pages/PostPage.jsx";
 import SocketContextProvider from "./SocketContext.js";
 import NotFound from "./pages/NotFound.jsx";
 import { getCourses } from "./toolkit/slices/courses.js";
+import HelmetHead from "./components/HelmetHead";
 
 export const setTitle = (newTitle) => {
   document.title = newTitle;
@@ -112,6 +113,7 @@ function App() {
 
   return (
     <>
+      <HelmetHead title={"EduTime"} desc={"المنصة Edutime التعليمية"} />
       <SocketContextProvider>
         <MessagesContextProvider>
           <ToastContainer />
