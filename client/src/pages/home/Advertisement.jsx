@@ -95,9 +95,9 @@ export default function Advertisement() {
       )}
       <div className="container flex justify-center xl:gap-4">
         <img src={images.eduPub} className="w-96 xl:block hidden" alt="" />
-        <div className="md:w-2/3 2xl:w-2/5 w-full relative">
+        <div className="flex-1 w-full relative">
           {loadingPubs ? (
-            <Loading />
+            <div className="h-96"><Loading /></div>
           ) : !pubs.length ? (
             <Empty text={"لا يوجد إعلانات حاليا"} />
           ) : (
