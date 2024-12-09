@@ -57,7 +57,7 @@ const CoursesSugg = () => {
     <section className="py-12">
       <Title title={"دورات مقترحة"} />
       {courses.length > 0 && suggCourses.length ? (
-        <div className="container grid lg:grid-cols-4 grid-cols-2 lg:gap-9 gap-3">
+        <div className="container grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 lg:gap-6 gap-3">
           {suggCourses.map((num) => (
             <CourseCard key={courses[num]?._id} data={courses[num]} />
           ))}
