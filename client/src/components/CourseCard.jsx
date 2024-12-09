@@ -68,7 +68,8 @@ export default function CourseCard({ data }) {
         ))}
 
       {userCourse && (
-        <div className="bg-bgcolor shadow rounded-xl p-2 relative overflow-hidden">
+        <div className="shadow-200 border-[2px] border-black p-2 relative overflow-hidden">
+          {/* hi v0, redisign content of this card with display those main info, this is react js, use react-icons library, do not use next js or shadcn or lucid */}
           {data?.certificate && (
             <span className="absolute flex items-center top-4 lg:-left-12 -left-14 text-gray-800 -rotate-45 justify-center gap-2 lg:text-sm text-xs z-20 bg-[#FFD700] w-40 font-bold">
               <PiCertificateFill />
@@ -108,7 +109,7 @@ export default function CourseCard({ data }) {
           >
             <img
               src={userCourse.image}
-              className="lg:w-8 w-6 lg:h-8 h-6 border-[1px] border-primary rounded-full"
+              className="lg:w-6 w-5 lg:h-6 h-5 border-[1px] border-primary rounded-full"
               alt=""
             />
             <span className="lg:text-sm text-xs font-bold">
