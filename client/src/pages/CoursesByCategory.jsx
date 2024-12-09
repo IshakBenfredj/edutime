@@ -45,7 +45,7 @@ export default function CoursesByCategory() {
         {loading ? (
           <Loading />
         ) : courses.length > 0 ? (
-          <div className="container grid lg:grid-cols-4 grid-cols-2 lg:gap-9 gap-3">
+          <div className="container grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 lg:gap-6 gap-3">
             {courses.map((course) => (
               <CourseCard key={course._id} data={course} />
             ))}
